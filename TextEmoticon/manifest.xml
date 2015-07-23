@@ -20,15 +20,15 @@
     <Form xsi:type="ItemEdit">
       <DesktopSettings>
         <SourceLocation DefaultValue=
-          "https://gscales.github.io/EmoticonSubject/index.html" />
+          "https://gscales.github.io/TextEmoticon/index.html" />
       </DesktopSettings>
       <TabletSettings>
         <SourceLocation DefaultValue=
-          "https://gscales.github.io/EmoticonSubject/index.html" />
+          "https://gscales.github.io/TextEmoticon/index.html" />
       </TabletSettings>
       <PhoneSettings>
         <SourceLocation DefaultValue=
-          "https://gscales.github.io/EmoticonSubject/index.html" />
+          "https://gscales.github.io/TextEmoticon/index.html" />
       </PhoneSettings>
     </Form>
   </FormSettings>
