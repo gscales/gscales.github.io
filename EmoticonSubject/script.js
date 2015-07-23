@@ -6,7 +6,7 @@ Office.initialize = function (reason) {
 }; 
 
 function addEmoticon(Emoticon) {
-    AddEmoticonToSubject(Emoticon);
+    AddEmoticonToBody(Emoticon);
 }
 function AddEmoticonToSubject(Emoticon) {
     var item = Office.context.mailbox.item;
@@ -17,6 +17,19 @@ function AddEmoticonToSubject(Emoticon) {
         }
         else {
             item.subject.setAsync(asyncResult.value + Emoticon);
+        }
+    });
+
+}
+function AddEmoticonToBody(Emoticon) {
+    var item = Office.context.mailbox.item;
+    item.body.getAsync(
+    function (asyncResult) {
+        if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+            //write(asyncResult.error.message);
+        }
+        else {
+            item.body.setAsync(asyncResult.value + Emoticon);
         }
     });
 
