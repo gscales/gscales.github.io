@@ -6,8 +6,8 @@
   <Version>1.0.0.1</Version>
   <ProviderName>Glen Scales</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Text Emoticon Subject App (Compose)" />
-  <Description DefaultValue="Use to add Text Emoticon to a Subject of a Message" />
+  <DisplayName DefaultValue="Text Emoticon App (Compose)" />
+  <Description DefaultValue="Use to add Text Emoticon to a Message" />
   <Hosts>
     <Host Name="Mailbox" />
   </Hosts>
