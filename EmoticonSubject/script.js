@@ -2,6 +2,7 @@
 Office.initialize = function (reason) { 
 	$(document).ready(function () {
 	    BuildEmoticonTable();
+	    $("#radio").buttonset();
 	});
 }; 
 
