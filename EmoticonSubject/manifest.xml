@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:type="MailApp">
+  <Id>99429EF8-BE83-4CE2-BA79-F4471F89F674</Id>
+  <Version>1.0.0.1</Version>
+  <ProviderName>Glen Scales</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="Text Emoticon Subject App (Compose)" />
+  <Description DefaultValue="Use to add Text Emoticon to a Subject of a Message" />
+  <Hosts>
+    <Host Name="Mailbox" />
+  </Hosts>
+  <Requirements>
+    <Sets DefaultMinVersion="1.1">
+      <Set MinVersion="1.1" Name="Mailbox"></Set>
+    </Sets>
+  </Requirements>
+ <FormSettings>
+    <Form xsi:type="ItemEdit">
+      <DesktopSettings>
+        <SourceLocation DefaultValue=
+          "https://gscales.github.io/EmoticonSubject/index.html" />
+      </DesktopSettings>
+      <TabletSettings>
+        <SourceLocation DefaultValue=
+          "https://gscales.github.io/EmoticonSubject/index.html" />
+      </TabletSettings>
+      <PhoneSettings>
+        <SourceLocation DefaultValue=
+          "https://gscales.github.io/EmoticonSubject/index.html" />
+      </PhoneSettings>
+    </Form>
+  </FormSettings>
+  <Permissions>ReadWriteItem</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
+  </Rule>
+</OfficeApp>
