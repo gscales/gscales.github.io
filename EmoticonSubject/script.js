@@ -2,12 +2,17 @@
 Office.initialize = function (reason) { 
 	$(document).ready(function () {
 	    BuildEmoticonTable();
-	    $("#radio").buttonset();
 	});
 }; 
 
 function addEmoticon(Emoticon) {
-    AddEmoticonToBody(Emoticon);
+    if ($('#BodyRadio').is(':checked')) {
+        AddEmoticonToBody(Emoticon);
+    }
+    else {
+        AddEmoticonToSubject(Emoticon);
+    }
+    
 }
 function AddEmoticonToSubject(Emoticon) {
     var item = Office.context.mailbox.item;
