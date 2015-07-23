@@ -8,6 +8,7 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Text Emoticon App (Compose)" />
   <Description DefaultValue="Use to add Text Emoticon to a Message" />
+  <IconUrl DefaultValue="https://gscales.github.io/TextEmoticon/te.png"></IconUrl>
   <Hosts>
     <Host Name="Mailbox" />
   </Hosts>
