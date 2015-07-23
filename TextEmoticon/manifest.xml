@@ -4,7 +4,7 @@
   xsi:type="MailApp">
   <Id>99429EF8-BE83-4CE2-BA79-F4471F89F674</Id>
   <Version>1.0.0.1</Version>
-  <ProviderName>Glen Scales</ProviderName>
+  <ProviderName>DataRumble</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Text Emoticon App (Compose)" />
   <Description DefaultValue="Use to add Text Emoticon to a Message" />
