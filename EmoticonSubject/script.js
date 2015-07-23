@@ -1,6 +1,7 @@
 ﻿// This function is called when Office.js is ready to start your Add-in
 Office.initialize = function (reason) { 
-	$(document).ready(function () {
+    $(document).ready(function () {
+        $("#radio").buttonset();
 	    BuildEmoticonTable();
 	});
 }; 
