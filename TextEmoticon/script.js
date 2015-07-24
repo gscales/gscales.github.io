@@ -42,8 +42,11 @@ function AddEmoticonToBody(Emoticon) {
                      // Body is of HTML type.
                      // Specify HTML in the coercionType parameter
                      // of setSelectedDataAsync.
+                     //********************* 
+                     //Note CoercionType has been set to Text as a workaround
+                     //********************
                      item.body.setSelectedDataAsync(
-                         "[̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]",
+                        Emoticon,
                          { coercionType: Office.CoercionType.Text, 
                              asyncContext: { var3: 1, var4: 2 } },
                          function (asyncResult) {
