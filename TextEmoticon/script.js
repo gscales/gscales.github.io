@@ -44,7 +44,7 @@ function AddEmoticonToBody(Emoticon) {
                      // of setSelectedDataAsync.
                      item.body.setSelectedDataAsync(
                          "[̲̅$̲̅(̲̅ιοο̲̅)̲̅$̲̅]",
-                         { coercionType: Office.CoercionType.AddEmoticonToBody, 
+                         { coercionType: Office.CoercionType.Text, 
                              asyncContext: { var3: 1, var4: 2 } },
                          function (asyncResult) {
                              if (asyncResult.status == 
