@@ -43,7 +43,7 @@ function AddEmoticonToBody(Emoticon) {
                      // Specify HTML in the coercionType parameter
                      // of setSelectedDataAsync.
                      item.body.setSelectedDataAsync(
-                         "<Span>" + Emoticon + "</Span>",
+                         "<span style='mso-fareast-font-family:\"Times New Roman\"'>" + Emoticon + "</Span>",
                          { coercionType: Office.CoercionType.Html, 
                              asyncContext: { var3: 1, var4: 2 } },
                          function (asyncResult) {
