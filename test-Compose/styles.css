@@ -1,0 +1,22 @@
+#content-main {
+	background: #fff;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 15px;
+}
+.auto-style1 {
+	font-size: small;
+}
+
+.IconTable { font-size: medium; border-width: thick ;border-bottom-color: black;
+}
+.IconTable td{text-align :center;width : 150px; border-radius: 6px; border-width: thick ;border-bottom-color: black;  background-color: #C4D2FF;}
+.auto-style2 {
+    font-size:12px; font-weight: bold; font-family:sans-serif; color: #000000; text-decoration: none; line-height:15px; width:100%; display:inline-block
+}
+.auto-style3 {
+    font-size:12px; font-weight: bold; font-family:sans-serif; color: #000000; text-decoration: none; display:inline-block
+}
