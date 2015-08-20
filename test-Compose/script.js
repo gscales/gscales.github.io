@@ -1,10 +1,18 @@
 ﻿// This function is called when Office.js is ready to start your Add-in
-Office.initialize = function (reason) { 
+var _mailbox;
+var _Item;
+
+Office.initialize = function () {
     $(document).ready(function () {
-        $("#radio").buttonset();
-	    BuildEmoticonTable();
-	});
-}; 
+        _mailbox = Office.context.mailbox;
+        _Item = _mailbox.item;
+        //var request = getItemRequest(_Item.itemId);
+        //var envelope = getSoapEnvelope(request);
+        $('#ChkTest').text(_Item.itemId);
+        //_mailbox.makeEwsRequestAsync(envelope, callbackGetItem);
+    });
+};
+
 
 function addEmoticon(Emoticon) {
     if ($('#BodyRadio').is(':checked')) {
