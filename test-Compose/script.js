@@ -4,11 +4,19 @@ var _Item;
 
 Office.initialize = function () {
     $(document).ready(function () {
-        _mailbox = Office.context.mailbox;
-        _Item = _mailbox.item;
+    var item = Office.context.mailbox.item;
+    item.subject.getAsync(
+    function (asyncResult) {
+        if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+            //write(asyncResult.error.message);
+        }
+        else {
+            $('#ChkTest').text(asyncResult.value);
+        }
+    });
         //var request = getItemRequest(_Item.itemId);
         //var envelope = getSoapEnvelope(request);
-        $('#ChkTest').text(_Item.itemId);
+        
         //_mailbox.makeEwsRequestAsync(envelope, callbackGetItem);
     });
 };
