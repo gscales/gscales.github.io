@@ -8,7 +8,7 @@ Office.initialize = function () {
         _Item = _mailbox.item;
         //var request = getItemRequest(_Item.itemId);
         //var envelope = getSoapEnvelope(request);
-        $('#ChkTest').text(_Item.itemId);
+        $('#ChkTest').text("test");
         //_mailbox.makeEwsRequestAsync(envelope, callbackGetItem);
     });
 };
