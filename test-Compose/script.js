@@ -61,7 +61,7 @@ function getSoapEnvelope(request) {
 
     return result;
 }
-function FindItemRequest(ItemGuid) {
+function FindItemRequest() {
     // Return a GetItem operation request for the subject of the specified item. 
     var result =
  '   <m:FindItem Traversal="Shallow">' +
@@ -76,7 +76,7 @@ function FindItemRequest(ItemGuid) {
  '          <t:IsEqualTo>' +
  '              <t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName="cecp-' + _AppGuid + '" PropertyType="String" />' +
  '              <t:FieldURIOrConstant>' +
- '                 <t:Constant Value="{&quot;nssplugIn&quot;:&quot;' + ItemGuid + '&quot;}" />' +
+ '                 <t:Constant Value="{&quot;nssplugIn&quot;:&quot;' + _ItemGuid + '&quot;}" />' +
  '              </t:FieldURIOrConstant>' +
  '           </t:IsEqualTo>' +
  '       </m:Restriction>' +
