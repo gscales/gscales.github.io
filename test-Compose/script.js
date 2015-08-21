@@ -5,7 +5,7 @@ var _Item;
 Office.initialize = function () {
     $(document).ready(function () {
     var item = Office.context.mailbox.item;
-    item.subject.getAsync(
+    item.itemId.getAsync(
     function (asyncResult) {
         if (asyncResult.status == Office.AsyncResultStatus.Failed) {
             //write(asyncResult.error.message);
