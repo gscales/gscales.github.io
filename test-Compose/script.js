@@ -7,8 +7,9 @@ var _ItemGuid = "";
 Office.initialize = function () {
     $(document).ready(function () {
         _ItemGuid = guid();
-        item.loadCustomPropertiesAsync(customPropsCallback);
         var item = Office.context.mailbox.item;
+        item.loadCustomPropertiesAsync(customPropsCallback);
+        
         var request = FindItemRequest();
         var envelope = getSoapEnvelope(request);
         $('#ChkTest').text(request);
