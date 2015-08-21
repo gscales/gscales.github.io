@@ -10,10 +10,7 @@ Office.initialize = function () {
         var item = Office.context.mailbox.item;
         item.loadCustomPropertiesAsync(customPropsCallback);
         
-        var request = FindItemRequest();
-        var envelope = getSoapEnvelope(request);
-        $('#ChkTest').text(request);
-        Office.context.mailbox.makeEwsRequestAsync(envelope, callbackFindItems);
+
         //var request = getItemRequest(_Item.itemId);
         //var envelope = getSoapEnvelope(request);
         
@@ -21,6 +18,10 @@ Office.initialize = function () {
     });
 };
 function saveCallback(asyncResult) {
+    var request = FindItemRequest();
+    var envelope = getSoapEnvelope(request);
+    $('#ChkTest').text(request);
+    Office.context.mailbox.makeEwsRequestAsync(envelope, callbackFindItems);
 }
 
 function guid() {
@@ -36,7 +37,7 @@ function guid() {
 function callbackFindItems(asyncResult) {
     var result = asyncResult.value;
     var context = asyncResult.context;
-    $('#ChkTest').text(result);
+   // $('#ChkTest').text(result);
 }
 function getSoapEnvelope(request) {
     // Wrap an Exchange Web Services request in a SOAP envelope.
