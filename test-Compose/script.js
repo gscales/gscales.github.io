@@ -41,7 +41,20 @@ function guid() {
 function callbackFindItems(asyncResult) {
     var result = asyncResult.value;
     var context = asyncResult.context;
-    $('#ChkTest').text(result);
+    var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+    if (is_chrome) {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(result, "text/xml");
+        var values = doc.getElementsByTagName("ItemId ");
+        $('#ChkTest').text(values.getAttribute('Id'));
+
+    }
+    else {
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(result, "text/xml");
+        var values = doc.getElementsByTagName("t:ItemId ");        
+        $('#ChkTest').text(values.getAttribute('Id'));
+    }
 }
 function getSoapEnvelope(request) {
     // Wrap an Exchange Web Services request in a SOAP envelope.
