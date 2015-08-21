@@ -18,7 +18,7 @@
     </Sets>
   </Requirements>
  <FormSettings>
-    <Form xsi:type="ItemEdit">
+    <Form xsi:type="ReadWriteMailbox">
       <DesktopSettings>
         <SourceLocation DefaultValue=
           "https://gscales.github.io/test-Compose/index.html" />
