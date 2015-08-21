@@ -46,14 +46,14 @@ function callbackFindItems(asyncResult) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result, "text/xml");
         var values = doc.getElementsByTagName("ItemId ");
-        $('#ChkTest').text(values.getAttribute('Id'));
+        $('#ChkTest').text(values[0].getAttribute('Id'));
 
     }
     else {
         var parser = new DOMParser();
         var doc = parser.parseFromString(result, "text/xml");
         var values = doc.getElementsByTagName("t:ItemId ");        
-        $('#ChkTest').text(values.getAttribute('Id'));
+        $('#ChkTest').text(values[0].getAttribute('Id'));
     }
 }
 function getSoapEnvelope(request) {
