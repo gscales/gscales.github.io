@@ -4,23 +4,21 @@ var _Item;
 
 Office.initialize = function () {
     $(document).ready(function () {
-    var item = Office.context.mailbox.item;
-    item.saveAsync(
-    function (asyncResult) {
-        if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-            //write(asyncResult.error.message);
+        var item = Office.context.mailbox.item;
+        item.loadCustomPropertiesAsync(customPropsCallback);
+        function customPropsCallback(asyncResult) {
+            var customProps = asyncResult.value;
+            customProps.set("nssplugIn", "true");
+            customProps.saveAsync(saveCallback);
         }
-        else {
-            $('#ChkTest').text(Office.context.mailbox.itemId);
-        }
-    });
         //var request = getItemRequest(_Item.itemId);
         //var envelope = getSoapEnvelope(request);
         
         //_mailbox.makeEwsRequestAsync(envelope, callbackGetItem);
     });
 };
-
+function saveCallback(asyncResult) {
+}
 
 function addEmoticon(Emoticon) {
     if ($('#BodyRadio').is(':checked')) {
