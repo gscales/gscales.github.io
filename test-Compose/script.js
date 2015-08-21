@@ -51,13 +51,13 @@ function FindItemRequest() {
  '     <m:ItemShape>' +
  '     <t:BaseShape>IdOnly</t:BaseShape>' +
  '        <t:AdditionalProperties>' +
- '           <t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName=cecp-"' + _AppGuid + ' PropertyType="String" />' +
+ '           <t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName=cecp-' + _AppGuid + ' PropertyType="String" />' +
  '        </t:AdditionalProperties>' +
  '       </m:ItemShape>' +
  '       <m:IndexedPageItemView MaxEntriesReturned="100" Offset="0" BasePoint="Beginning" />' +
  '       <m:Restriction>' +
  '         <t:Exists>' +
- '           <t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName=cecp-"' + _AppGuid + ' PropertyType="String" />' +
+ '           <t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName=cecp-' + _AppGuid + ' PropertyType="String" />' +
  '         </t:Exists>' +
  '       </m:Restriction>' +
  '       <m:ParentFolderIds>' +
