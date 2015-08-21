@@ -8,7 +8,7 @@ Office.initialize = function () {
         var item = Office.context.mailbox.item;
         var request = FindItemRequest();
         var envelope = getSoapEnvelope(request);
-        _mailbox.makeEwsRequestAsync(envelope, callbackFindItems);
+        Office.context.mailbox.makeEwsRequestAsync(envelope, callbackFindItems);
         //var request = getItemRequest(_Item.itemId);
         //var envelope = getSoapEnvelope(request);
         
