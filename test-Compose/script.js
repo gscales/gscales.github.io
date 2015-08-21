@@ -5,7 +5,15 @@ var _Item;
 Office.initialize = function () {
     $(document).ready(function () {
     var item = Office.context.mailbox.item;
-    $('#ChkTest').text(item.itemId);
+    item.saveAsync(
+    function (asyncResult) {
+        if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+            //write(asyncResult.error.message);
+        }
+        else {
+            $('#ChkTest').text(Office.context.mailbox.itemId);
+        }
+    });
         //var request = getItemRequest(_Item.itemId);
         //var envelope = getSoapEnvelope(request);
         
