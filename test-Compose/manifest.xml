@@ -18,7 +18,7 @@
     </Sets>
   </Requirements>
  <FormSettings>
-    <Form xsi:type="ReadWriteMailbox">
+    <Form xsi:type="ItemEdit">
       <DesktopSettings>
         <SourceLocation DefaultValue=
           "https://gscales.github.io/test-Compose/index.html" />
@@ -33,7 +33,7 @@
       </PhoneSettings>
     </Form>
   </FormSettings>
-  <Permissions>ReadWriteItem</Permissions>
+  <Permissions>ReadWriteMailbox</Permissions>
   <Rule xsi:type="RuleCollection" Mode="Or">
     <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
   </Rule>
