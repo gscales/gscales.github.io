@@ -8,7 +8,8 @@ Office.initialize = function () {
     $(document).ready(function () {
         _ItemGuid = guid();
         var item = Office.context.mailbox.item;
-        item.loadCustomPropertiesAsync(customPropsCallback);
+        _Item = item;
+        _Item.loadCustomPropertiesAsync(customPropsCallback);
         
 
         //var request = getItemRequest(_Item.itemId);
@@ -18,12 +19,15 @@ Office.initialize = function () {
     });
 };
 function saveCallback(asyncResult) {
+    _Item.saveAsync(saveItemCallBack);
+}
+
+function saveItemCallBack(asyncResult) {
     var request = FindItemRequest();
     var envelope = getSoapEnvelope(request);
     $('#ChkTest').text(request);
     Office.context.mailbox.makeEwsRequestAsync(envelope, callbackFindItems);
 }
-
 function guid() {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
@@ -91,4 +95,5 @@ function customPropsCallback(asyncResult) {
     var customProps = asyncResult.value;
     customProps.set("nssplugIn", _ItemGuid);
     customProps.saveAsync(saveCallback);
+
 }
