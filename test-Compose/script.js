@@ -37,7 +37,7 @@ function guid() {
 function callbackFindItems(asyncResult) {
     var result = asyncResult.value;
     var context = asyncResult.context;
-   // $('#ChkTest').text(result);
+    $('#ChkTest').text(result);
 }
 function getSoapEnvelope(request) {
     // Wrap an Exchange Web Services request in a SOAP envelope.
