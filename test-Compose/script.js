@@ -57,8 +57,8 @@ function callbackFindItems(asyncResult) {
         // var values = doc.getElementsByTagName("t:ItemId ");        
         var xml = $.parseXML(asyncResult.value),
         $xml = $(xml),
-        values = $xml.find('t:ItemId');
-        $('#ChkTest').text(asyncResult.value);
+        values = $xml.find('ItemId');
+        $('#ChkTest').text(values.attr('Id'));
     }
 }
 function getSoapEnvelope(request) {
