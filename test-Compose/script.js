@@ -58,7 +58,7 @@ function callbackFindItems(asyncResult) {
         var xml = $.parseXML(asyncResult.value),
         $xml = $(xml),
         values = $xml.find('t:ItemId');
-        $('#ChkTest').text(values.length);
+        $('#ChkTest').text(asyncResult.value);
     }
 }
 function getSoapEnvelope(request) {
