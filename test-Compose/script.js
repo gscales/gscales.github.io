@@ -52,9 +52,12 @@ function callbackFindItems(asyncResult) {
 
     }
     else {
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(result, "text/xml");
-        var values = doc.getElementsByTagName("t:ItemId ");        
+       // var parser = new DOMParser();
+       // var doc = parser.parseFromString(result, "text/xml");
+        // var values = doc.getElementsByTagName("t:ItemId ");        
+        var xml = $.parseXML(asyncResult.value),
+        $xml = $(xml),
+        values = $xml.find('ItemId');
         $('#ChkTest').text(values.length);
     }
 }
