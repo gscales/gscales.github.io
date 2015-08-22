@@ -52,13 +52,10 @@ function callbackFindItems(asyncResult) {
 
     }
     else {
-       // var parser = new DOMParser();
-       // var doc = parser.parseFromString(result, "text/xml");
-        // var values = doc.getElementsByTagName("t:ItemId ");        
-        var xml = $.parseXML(asyncResult.value),
-        $xml = $(xml),
-        values = $xml.find('ItemId');
-        $('#ChkTest').text(values.attr('Id'));
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(asyncResult.value, "text/xml");
+        var values = doc.childNodes[0].getElementsByTagName("t:ItemId");
+        $('#ChkTest').text(values.length);
     }
 }
 function getSoapEnvelope(request) {
