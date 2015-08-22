@@ -55,7 +55,7 @@ function callbackFindItems(asyncResult) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
         var values = doc.childNodes[0].getElementsByTagName("t:ItemId");
-        $('#ChkTest').text(values.length);
+        $('#ChkTest').text(values.attributes['Id']);
     }
 }
 function getSoapEnvelope(request) {
