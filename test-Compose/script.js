@@ -48,7 +48,7 @@ function callbackFindItems(asyncResult) {
         values = $xml.find('ItemId');
        // var values = doc.getElementsByTagName("ItemId ");
       //  values = doc.find('ItemId');
-        $('#ChkTest').text(values.length);
+        $('#ChkTest').text(values.attr('Id'));
 
     }
     else {
