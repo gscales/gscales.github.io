@@ -57,7 +57,7 @@ function callbackFindItems(asyncResult) {
         // var values = doc.getElementsByTagName("t:ItemId ");        
         var xml = $.parseXML(asyncResult.value),
         $xml = $(xml),
-        values = $xml.find('ItemId');
+        values = $xml.find('t:ItemId');
         $('#ChkTest').text(values.length);
     }
 }
