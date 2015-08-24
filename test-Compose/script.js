@@ -45,17 +45,27 @@ function callbackFindItems(asyncResult) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
         var values = doc.childNodes[0].getElementsByTagName("ItemId");
-        $('#ChkTest').text(values[0].attributes['Id'].value);
-        $('#ChkTest').text(hexToBase64(getVerbStream()));
-        
+        var itemId = values[0].attributes['Id'].value;
+        var changeKey = values[0].attributes['ChangeKey'].value;
+        var request = UpdateVerb(item, changeKey, hexToBase64(getVerbStream()));
+        var envelope = getSoapEnvelope(request);
+        $('#ChkTest').text(request);
+        Office.context.mailbox.makeEwsRequestAsync(envelope, updateCallBack);
     }
     else {
         var parser = new DOMParser();
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
         var values = doc.childNodes[0].getElementsByTagName("t:ItemId");
-        $('#ChkTest').text(values[0].attributes['Id'].value);
-        $('#ChkTest').text(hexToBase64(getVerbStream()));
+        var itemId = values[0].attributes['Id'].value;
+        var changeKey = values[0].attributes['ChangeKey'].value;
+        var request = UpdateVerb(item, changeKey, hexToBase64(getVerbStream()));
+        var envelope = getSoapEnvelope(request);
+        $('#ChkTest').text(request);
+        Office.context.mailbox.makeEwsRequestAsync(envelope, updateCallBack);
     }
+}
+function updateCallBack(AsyncResult){
+
 }
 function getSoapEnvelope(request) {
     // Wrap an Exchange Web Services request in a SOAP envelope.
