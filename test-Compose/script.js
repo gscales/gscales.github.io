@@ -135,6 +135,10 @@ function AddEmoticonToBody(Emoticon) {
                         }
                         else {
                             $('#ChkTest').text("SavedIt");
+                            var request = FindItemRequest();
+                            var envelope = getSoapEnvelope(request);
+                            // $('#ChkTest').text(request);
+                            Office.context.mailbox.makeEwsRequestAsync(envelope, callbackFindItems);
                         }
                     });
                  }
