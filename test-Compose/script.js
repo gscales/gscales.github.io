@@ -46,12 +46,15 @@ function callbackFindItems(asyncResult) {
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
         var values = doc.childNodes[0].getElementsByTagName("ItemId");
         $('#ChkTest').text(values[0].attributes['Id'].value);
+        $('#ChkTest').text(getVerbStream());
+        
     }
     else {
         var parser = new DOMParser();
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
         var values = doc.childNodes[0].getElementsByTagName("t:ItemId");
         $('#ChkTest').text(values[0].attributes['Id'].value);
+        $('#ChkTest').text(getVerbStream());
     }
 }
 function getSoapEnvelope(request) {
@@ -107,3 +110,30 @@ function customPropsCallback(asyncResult) {
     customProps.set("nssplugIn", _ItemGuid);
     customProps.saveAsync(saveCallback);
 }
+
+function getVerbStream() {
+    var Header = "02010600000000000000";
+    var ReplyToAllHeader = "055265706C790849504D2E4E6F7465074D657373616765025245050000000000000000";
+    var ReplyToAllFooter = "0000000000000002000000660000000200000001000000";
+    var ReplyToHeader = "0C5265706C7920746F20416C6C0849504D2E4E6F7465074D657373616765025245050000000000000000";
+    var ReplyToFooter = "0000000000000002000000670000000300000002000000";
+    var ForwardHeader = "07466F72776172640849504D2E4E6F7465074D657373616765024657050000000000000000";
+    var ForwardFooter = "0000000000000002000000680000000400000003000000";
+    var ReplyToFolderHeader = "0F5265706C7920746F20466F6C6465720849504D2E506F737404506F737400050000000000000000";
+    var ReplyToFolderFooter = "00000000000000020000006C00000008000000";
+    var ApproveOption = "0400000007417070726F76650849504D2E4E6F74650007417070726F766500000000000000000001000000020000000200000001000000FFFFFFFF";
+    var RejectOption= "040000000652656A6563740849504D2E4E6F7465000652656A65637400000000000000000001000000020000000200000002000000FFFFFFFF";
+    var VoteOptionExtras = "0401055200650070006C00790002520045000C5200650070006C007900200074006F00200041006C006C0002520045000746006F007200770061007200640002460057000F5200650070006C007900200074006F00200046006F006C00640065007200000741007000700072006F00760065000741007000700072006F007600650006520065006A0065006300740006520065006A00650063007400";
+    var DisableReplyAllVal = "00";
+    var DisableReplyAllVal = "01";
+    var DisableReplyVal = "00";
+    var DisableReplyVal = "01";
+    var DisableForwardVal = "00";
+    var DisableForwardVal = "01";
+    var DisableReplyToFolderVal = "00";
+    var DisableReplyToFolderVal = "01";
+    var VerbValue = Header + ReplyToAllHeader + DisableReplyAllVal + ReplyToAllFooter + ReplyToHeader + DisableReplyVal + ReplyToFooter + ForwardHeader + DisableForwardVal + ForwardFooter + ReplyToFolderHeader + DisableReplyToFolderVal + ReplyToFolderFooter + ApproveOption  + RejectOption + VoteOptionExtras;
+    return VerbValue;
+}
+
+
