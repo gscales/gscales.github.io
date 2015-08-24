@@ -106,6 +106,7 @@ function FindItemRequest() {
 }
 
 function customPropsCallback(asyncResult) {
+    $('#ChkTest').text("PropCallBack");
     var customProps = asyncResult.value;
     customProps.set("nssplugIn", _ItemGuid);
     customProps.saveAsync(saveCallback);
