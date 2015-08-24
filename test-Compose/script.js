@@ -17,7 +17,6 @@ Office.initialize = function () {
 };
 function saveCallback(asyncResult) {
     _Item.saveAsync(saveItemCallBack);
-   ;
 }
 
 function saveItemCallBack(asyncResult) {
