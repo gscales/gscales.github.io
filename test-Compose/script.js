@@ -47,7 +47,7 @@ function callbackFindItems(asyncResult) {
         var values = doc.childNodes[0].getElementsByTagName("ItemId");
         var itemId = values[0].attributes['Id'].value;
         var changeKey = values[0].attributes['ChangeKey'].value;
-        var request = UpdateVerb(item, changeKey, hexToBase64(getVerbStream()));
+        var request = UpdateVerb(itemId, changeKey, hexToBase64(getVerbStream()));
         var envelope = getSoapEnvelope(request);
         $('#ChkTest').text(request);
         Office.context.mailbox.makeEwsRequestAsync(envelope, updateCallBack);
@@ -58,7 +58,7 @@ function callbackFindItems(asyncResult) {
         var values = doc.childNodes[0].getElementsByTagName("t:ItemId");
         var itemId = values[0].attributes['Id'].value;
         var changeKey = values[0].attributes['ChangeKey'].value;
-        var request = UpdateVerb(item, changeKey, hexToBase64(getVerbStream()));
+        var request = UpdateVerb(itemId, changeKey, hexToBase64(getVerbStream()));
         var envelope = getSoapEnvelope(request);
         $('#ChkTest').text(request);
         Office.context.mailbox.makeEwsRequestAsync(envelope, updateCallBack);
