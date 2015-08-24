@@ -26,7 +26,7 @@ function saveItemCallBack(asyncResult) {
     $('#ChkTest').text("SaveItem");
     var request = FindItemRequest();
     var envelope = getSoapEnvelope(request);
-    $('#ChkTest').text(request);
+   // $('#ChkTest').text(request);
     Office.context.mailbox.makeEwsRequestAsync(envelope, callbackFindItems);
 }
 function guid() {
@@ -48,13 +48,13 @@ function callbackFindItems(asyncResult) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
         var values = doc.childNodes[0].getElementsByTagName("ItemId");
-        $('#ChkTest').text(values[0].attributes['Id'].value);
+       // $('#ChkTest').text(values[0].attributes['Id'].value);
     }
     else {
         var parser = new DOMParser();
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
         var values = doc.childNodes[0].getElementsByTagName("t:ItemId");
-        $('#ChkTest').text(values[0].attributes['Id'].value);
+       // $('#ChkTest').text(values[0].attributes['Id'].value);
     }
 }
 function getSoapEnvelope(request) {
