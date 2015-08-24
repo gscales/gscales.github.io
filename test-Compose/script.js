@@ -42,7 +42,7 @@ function guid() {
 }
 
 function callbackFindItems(asyncResult) {
-    $('#ChkTest').text("Fir");
+    $('#ChkTest').text(asyncResult.value);
     var result = asyncResult.value;
     var context = asyncResult.context;
     var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
