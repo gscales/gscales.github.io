@@ -45,7 +45,7 @@ function callbackFindItems(asyncResult) {
     if (is_chrome) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
-        var values = doc.childNodes[0].getElementsByTagName("t:ItemId");
+        var values = doc.childNodes[0].getElementsByTagName("ItemId");
         $('#ChkTest').text(values[0].attributes['Id']);
       //  var xml = $.parseXML(asyncResult.value),
       //  $xml = $(xml),
