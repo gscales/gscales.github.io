@@ -11,24 +11,19 @@ Office.initialize = function () {
         var item = Office.context.mailbox.item;
         _Item = item;
         _Item.loadCustomPropertiesAsync(customPropsCallback);
-        
+    
 
-        //var request = getItemRequest(_Item.itemId);
-        //var envelope = getSoapEnvelope(request);
-        
-        //_mailbox.makeEwsRequestAsync(envelope, callbackGetItem);
     });
 };
 function saveCallback(asyncResult) {
-   // _Item.saveAsync(saveItemCallBack);
-    AddEmoticonToSubject(" ");
+    _Item.saveAsync(saveItemCallBack);
+   ;
 }
 
 function saveItemCallBack(asyncResult) {
-    $('#ChkTest').text("SaveItem");
     var request = FindItemRequest();
     var envelope = getSoapEnvelope(request);
-   // $('#ChkTest').text(request);
+    $('#ChkTest').text(request);
     Office.context.mailbox.makeEwsRequestAsync(envelope, callbackFindItems);
 }
 function guid() {
@@ -50,13 +45,13 @@ function callbackFindItems(asyncResult) {
         var parser = new DOMParser();
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
         var values = doc.childNodes[0].getElementsByTagName("ItemId");
-       // $('#ChkTest').text(values[0].attributes['Id'].value);
+        $('#ChkTest').text(values[0].attributes['Id'].value);
     }
     else {
         var parser = new DOMParser();
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
         var values = doc.childNodes[0].getElementsByTagName("t:ItemId");
-       // $('#ChkTest').text(values[0].attributes['Id'].value);
+        $('#ChkTest').text(values[0].attributes['Id'].value);
     }
 }
 function getSoapEnvelope(request) {
@@ -108,58 +103,7 @@ function FindItemRequest() {
 }
 
 function customPropsCallback(asyncResult) {
-    $('#ChkTest').text("PropCallBack");
     var customProps = asyncResult.value;
     customProps.set("nssplugIn", _ItemGuid);
     customProps.saveAsync(saveCallback);
-}
-function AddEmoticonToSubject(Emoticon) {
-    var item = Office.context.mailbox.item;
-    item.subject.getAsync(
-    function (asyncResult) {
-        if (asyncResult.status == Office.AsyncResultStatus.Failed) {
-            //write(asyncResult.error.message);
-        }
-        else {
-            $('#ChkTest').text("SavedIt2");
-            var request = FindItemRequest();
-            var envelope = getSoapEnvelope(request);
-            // $('#ChkTest').text(request);
-            Office.context.mailbox.makeEwsRequestAsync(envelope, callbackFindItems);
-        }
-    });
-
-}
-
-
-function AddEmoticonToBody(Emoticon) {
-    var item = Office.context.mailbox.item;
-    item.body.getTypeAsync(
-         function (result) {
-             if (result.status == Office.AsyncResultStatus.Failed) {
-                 write(result.error.message);
-             }
-             else {
-                 item.body.setSelectedDataAsync(
-                   Emoticon,
-                    {
-                        coercionType: Office.CoercionType.Text,
-                        asyncContext: { var3: 1, var4: 2 }
-                    },
-                    function (asyncResult) {
-                        if (asyncResult.status ==
-                            Office.AsyncResultStatus.Failed) {
-                            write(asyncResult.error.message);
-                        }
-                        else {
-                            $('#ChkTest').text("SavedIt");
-                            var request = FindItemRequest();
-                            var envelope = getSoapEnvelope(request);
-                            // $('#ChkTest').text(request);
-                            Office.context.mailbox.makeEwsRequestAsync(envelope, callbackFindItems);
-                        }
-                    });
-                 }
-             
-         });
 }
