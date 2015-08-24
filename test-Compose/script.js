@@ -122,53 +122,22 @@ function AddEmoticonToBody(Emoticon) {
                  write(result.error.message);
              }
              else {
-                 // Successfully got the type of item body.
-                 // Set data of the appropriate type in body.
-                 if (result.value == Office.MailboxEnums.BodyType.Html) {
-                     // Body is of HTML type.
-                     // Specify HTML in the coercionType parameter
-                     // of setSelectedDataAsync.
-                     //********************* 
-                     //Note CoercionType has been set to Text as a workaround
-                     //********************
-                     item.body.setSelectedDataAsync(
-                        Emoticon,
-                         {
-                             coercionType: Office.CoercionType.Text,
-                             asyncContext: { var3: 1, var4: 2 }
-                         },
-                         function (asyncResult) {
-                             if (asyncResult.status ==
-                                 Office.AsyncResultStatus.Failed) {
-                                 write(asyncResult.error.message);
-                             }
-                             else {
-                                 // Successfully set data in item body.
-                                 // Do whatever appropriate for your scenario,
-                                 // using the arguments var3 and var4 as applicable.
-                             }
-                         });
+                 item.body.setSelectedDataAsync(
+                   Emoticon,
+                    {
+                        coercionType: Office.CoercionType.Text,
+                        asyncContext: { var3: 1, var4: 2 }
+                    },
+                    function (asyncResult) {
+                        if (asyncResult.status ==
+                            Office.AsyncResultStatus.Failed) {
+                            write(asyncResult.error.message);
+                        }
+                        else {
+                            $('#ChkTest').text("SavedIt");
+                        }
+                    });
                  }
-                 else {
-                     // Body is of text type. 
-                     item.body.setSelectedDataAsync(
-                         Emoticon,
-                         {
-                             coercionType: Office.CoercionType.Text,
-                             asyncContext: { var3: 1, var4: 2 }
-                         },
-                         function (asyncResult) {
-                             if (asyncResult.status ==
-                                 Office.AsyncResultStatus.Failed) {
-                                 write(asyncResult.error.message);
-                             }
-                             else {
-                                 // Successfully set data in item body.
-                                 // Do whatever appropriate for your scenario,
-                                 // using the arguments var3 and var4 as applicable.
-                             }
-                         });
-                 }
-             }
+             
          });
 }
