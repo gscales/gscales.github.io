@@ -155,10 +155,10 @@ function UpdateVerb(Id, ChangeKey, Value) {
    '            <t:ItemId Id="' + Id + '" ChangeKey="' + ChangeKey + '" />' +
    '             <t:Updates>' +
    '               <t:SetItemField>' +
-   '                 <t:ExtendedFieldURI DistinguishedPropertySetId="Common" PropertyId="34080" PropertyType="Integer" />' +
+   '                 <t:ExtendedFieldURI DistinguishedPropertySetId="Common" PropertyId="34080" PropertyType="Binary" />' +
    '                 <t:Message>' +
    '                   <t:ExtendedProperty>' +
-   '                   <t:ExtendedFieldURI DistinguishedPropertySetId="Common" PropertyId="34080" PropertyType="Integer" />' +
+   '                   <t:ExtendedFieldURI DistinguishedPropertySetId="Common" PropertyId="34080" PropertyType="Binary" />' +
    '                   <t:Value>' + Value + '</t:Value>' +
    '                  </t:ExtendedProperty>' +
    '                 </t:Message>' +
