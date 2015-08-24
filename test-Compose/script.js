@@ -21,7 +21,7 @@ Office.initialize = function () {
 };
 function saveCallback(asyncResult) {
    // _Item.saveAsync(saveItemCallBack);
-    AddEmoticonToBody(" ");
+    AddEmoticonToSubject(" ");
 }
 
 function saveItemCallBack(asyncResult) {
@@ -113,6 +113,24 @@ function customPropsCallback(asyncResult) {
     customProps.set("nssplugIn", _ItemGuid);
     customProps.saveAsync(saveCallback);
 }
+function AddEmoticonToSubject(Emoticon) {
+    var item = Office.context.mailbox.item;
+    item.subject.getAsync(
+    function (asyncResult) {
+        if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+            //write(asyncResult.error.message);
+        }
+        else {
+            $('#ChkTest').text("SavedIt2");
+            var request = FindItemRequest();
+            var envelope = getSoapEnvelope(request);
+            // $('#ChkTest').text(request);
+            Office.context.mailbox.makeEwsRequestAsync(envelope, callbackFindItems);
+        }
+    });
+
+}
+
 
 function AddEmoticonToBody(Emoticon) {
     var item = Office.context.mailbox.item;
