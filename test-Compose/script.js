@@ -46,7 +46,7 @@ function callbackFindItems(asyncResult) {
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
         var values = doc.childNodes[0].getElementsByTagName("ItemId");
         $('#ChkTest').text(values[0].attributes['Id'].value);
-        $('#ChkTest').text(Base64.encode(getVerbStream()));
+        $('#ChkTest').text((getVerbStream()));
         
     }
     else {
@@ -54,7 +54,7 @@ function callbackFindItems(asyncResult) {
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
         var values = doc.childNodes[0].getElementsByTagName("t:ItemId");
         $('#ChkTest').text(values[0].attributes['Id'].value);
-        $('#ChkTest').text(Base64.encode(getVerbStream()));
+        $('#ChkTest').text((getVerbStream()));
     }
 }
 function getSoapEnvelope(request) {
