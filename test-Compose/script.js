@@ -6,6 +6,7 @@ var _ItemGuid = "";
 
 Office.initialize = function () {
     $(document).ready(function () {
+        $('#ChkTest').text("Start");
         _ItemGuid = guid();
         var item = Office.context.mailbox.item;
         _Item = item;
