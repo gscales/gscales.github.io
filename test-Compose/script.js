@@ -46,7 +46,7 @@ function callbackFindItems(asyncResult) {
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
         var values = doc.childNodes[0].getElementsByTagName("ItemId");
         $('#ChkTest').text(values[0].attributes['Id'].value);
-        $('#ChkTest').text((getVerbStream()));
+        $('#ChkTest').text(hexToBase64(getVerbStream()));
         
     }
     else {
@@ -54,7 +54,7 @@ function callbackFindItems(asyncResult) {
         var doc = parser.parseFromString(asyncResult.value, "text/xml");
         var values = doc.childNodes[0].getElementsByTagName("t:ItemId");
         $('#ChkTest').text(values[0].attributes['Id'].value);
-        $('#ChkTest').text((getVerbStream()));
+        $('#ChkTest').text(hexToBase64(getVerbStream()));
     }
 }
 function getSoapEnvelope(request) {
@@ -160,4 +160,41 @@ function UpdateVerb(Id, ChangeKey, Value) {
     return results;
 }
 
-(function (global) { "use strict"; var _Base64 = global.Base64; var version = "2.1.9"; var buffer; if (typeof module !== "undefined" && module.exports) { try { buffer = require("buffer").Buffer } catch (err) { } } var b64chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"; var b64tab = function (bin) { var t = {}; for (var i = 0, l = bin.length; i < l; i++) t[bin.charAt(i)] = i; return t }(b64chars); var fromCharCode = String.fromCharCode; var cb_utob = function (c) { if (c.length < 2) { var cc = c.charCodeAt(0); return cc < 128 ? c : cc < 2048 ? fromCharCode(192 | cc >>> 6) + fromCharCode(128 | cc & 63) : fromCharCode(224 | cc >>> 12 & 15) + fromCharCode(128 | cc >>> 6 & 63) + fromCharCode(128 | cc & 63) } else { var cc = 65536 + (c.charCodeAt(0) - 55296) * 1024 + (c.charCodeAt(1) - 56320); return fromCharCode(240 | cc >>> 18 & 7) + fromCharCode(128 | cc >>> 12 & 63) + fromCharCode(128 | cc >>> 6 & 63) + fromCharCode(128 | cc & 63) } }; var re_utob = /[\uD800-\uDBFF][\uDC00-\uDFFFF]|[^\x00-\x7F]/g; var utob = function (u) { return u.replace(re_utob, cb_utob) }; var cb_encode = function (ccc) { var padlen = [0, 2, 1][ccc.length % 3], ord = ccc.charCodeAt(0) << 16 | (ccc.length > 1 ? ccc.charCodeAt(1) : 0) << 8 | (ccc.length > 2 ? ccc.charCodeAt(2) : 0), chars = [b64chars.charAt(ord >>> 18), b64chars.charAt(ord >>> 12 & 63), padlen >= 2 ? "=" : b64chars.charAt(ord >>> 6 & 63), padlen >= 1 ? "=" : b64chars.charAt(ord & 63)]; return chars.join("") }; var btoa = global.btoa ? function (b) { return global.btoa(b) } : function (b) { return b.replace(/[\s\S]{1,3}/g, cb_encode) }; var _encode = buffer ? function (u) { return (u.constructor === buffer.constructor ? u : new buffer(u)).toString("base64") } : function (u) { return btoa(utob(u)) }; var encode = function (u, urisafe) { return !urisafe ? _encode(String(u)) : _encode(String(u)).replace(/[+\/]/g, function (m0) { return m0 == "+" ? "-" : "_" }).replace(/=/g, "") }; var encodeURI = function (u) { return encode(u, true) }; var re_btou = new RegExp(["[À-ß][-¿]", "[à-ï][-¿]{2}", "[ð-÷][-¿]{3}"].join("|"), "g"); var cb_btou = function (cccc) { switch (cccc.length) { case 4: var cp = (7 & cccc.charCodeAt(0)) << 18 | (63 & cccc.charCodeAt(1)) << 12 | (63 & cccc.charCodeAt(2)) << 6 | 63 & cccc.charCodeAt(3), offset = cp - 65536; return fromCharCode((offset >>> 10) + 55296) + fromCharCode((offset & 1023) + 56320); case 3: return fromCharCode((15 & cccc.charCodeAt(0)) << 12 | (63 & cccc.charCodeAt(1)) << 6 | 63 & cccc.charCodeAt(2)); default: return fromCharCode((31 & cccc.charCodeAt(0)) << 6 | 63 & cccc.charCodeAt(1)) } }; var btou = function (b) { return b.replace(re_btou, cb_btou) }; var cb_decode = function (cccc) { var len = cccc.length, padlen = len % 4, n = (len > 0 ? b64tab[cccc.charAt(0)] << 18 : 0) | (len > 1 ? b64tab[cccc.charAt(1)] << 12 : 0) | (len > 2 ? b64tab[cccc.charAt(2)] << 6 : 0) | (len > 3 ? b64tab[cccc.charAt(3)] : 0), chars = [fromCharCode(n >>> 16), fromCharCode(n >>> 8 & 255), fromCharCode(n & 255)]; chars.length -= [0, 0, 2, 1][padlen]; return chars.join("") }; var atob = global.atob ? function (a) { return global.atob(a) } : function (a) { return a.replace(/[\s\S]{1,4}/g, cb_decode) }; var _decode = buffer ? function (a) { return (a.constructor === buffer.constructor ? a : new buffer(a, "base64")).toString() } : function (a) { return btou(atob(a)) }; var decode = function (a) { return _decode(String(a).replace(/[-_]/g, function (m0) { return m0 == "-" ? "+" : "/" }).replace(/[^A-Za-z0-9\+\/]/g, "")) }; var noConflict = function () { var Base64 = global.Base64; global.Base64 = _Base64; return Base64 }; global.Base64 = { VERSION: version, atob: atob, btoa: btoa, fromBase64: decode, toBase64: encode, utob: utob, encode: encode, encodeURI: encodeURI, btou: btou, decode: decode, noConflict: noConflict }; if (typeof Object.defineProperty === "function") { var noEnum = function (v) { return { value: v, enumerable: false, writable: true, configurable: true } }; global.Base64.extendString = function () { Object.defineProperty(String.prototype, "fromBase64", noEnum(function () { return decode(this) })); Object.defineProperty(String.prototype, "toBase64", noEnum(function (urisafe) { return encode(this, urisafe) })); Object.defineProperty(String.prototype, "toBase64URI", noEnum(function () { return encode(this, true) })) } } if (global["Meteor"]) { Base64 = global.Base64 } })(this);
+if (!window.atob) {
+    var tableStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    var table = tableStr.split("");
+
+    window.atob = function (base64) {
+        if (/(=[^=]+|={3,})$/.test(base64)) throw new Error("String contains an invalid character");
+        base64 = base64.replace(/=/g, "");
+        var n = base64.length & 3;
+        if (n === 1) throw new Error("String contains an invalid character");
+        for (var i = 0, j = 0, len = base64.length / 4, bin = []; i < len; ++i) {
+            var a = tableStr.indexOf(base64[j++] || "A"), b = tableStr.indexOf(base64[j++] || "A");
+            var c = tableStr.indexOf(base64[j++] || "A"), d = tableStr.indexOf(base64[j++] || "A");
+            if ((a | b | c | d) < 0) throw new Error("String contains an invalid character");
+            bin[bin.length] = ((a << 2) | (b >> 4)) & 255;
+            bin[bin.length] = ((b << 4) | (c >> 2)) & 255;
+            bin[bin.length] = ((c << 6) | d) & 255;
+        };
+        return String.fromCharCode.apply(null, bin).substr(0, bin.length + n - 4);
+    };
+
+    window.btoa = function (bin) {
+        for (var i = 0, j = 0, len = bin.length / 3, base64 = []; i < len; ++i) {
+            var a = bin.charCodeAt(j++), b = bin.charCodeAt(j++), c = bin.charCodeAt(j++);
+            if ((a | b | c) > 255) throw new Error("String contains an invalid character");
+            base64[base64.length] = table[a >> 2] + table[((a << 4) & 63) | (b >> 4)] +
+                                    (isNaN(b) ? "=" : table[((b << 2) & 63) | (c >> 6)]) +
+                                    (isNaN(b + c) ? "=" : table[c & 63]);
+        }
+        return base64.join("");
+    };
+
+}
+
+function hexToBase64(str) {
+    return btoa(String.fromCharCode.apply(null,
+      str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" "))
+    );
+}
