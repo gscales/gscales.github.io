@@ -5,7 +5,8 @@ var _AppGuid = "99429ef8-be83-4ce2-ba79-f4471f89f674";
 var _ItemGuid = "";
 
 Office.initialize = function () {
-    $(document).ready(function () {        
+    $(document).ready(function () {
+        app.initialize();
         _ItemGuid = guid();
         var item = Office.context.mailbox.item;
         _Item = item;
