@@ -5,8 +5,7 @@ var _AppGuid = "99429ef8-be83-4ce2-ba79-f4471f89f674";
 var _ItemGuid = "";
 
 Office.initialize = function () {
-    $(document).ready(function () {
-        $('#ChkTest').text("Start");
+    $(document).ready(function () {        
         _ItemGuid = guid();
         var item = Office.context.mailbox.item;
         _Item = item;
@@ -24,6 +23,7 @@ function saveCallback(asyncResult) {
 }
 
 function saveItemCallBack(asyncResult) {
+    $('#ChkTest').text("SaveItem");
     var request = FindItemRequest();
     var envelope = getSoapEnvelope(request);
     $('#ChkTest').text(request);
@@ -40,6 +40,7 @@ function guid() {
 }
 
 function callbackFindItems(asyncResult) {
+    $('#ChkTest').text("Fir");
     var result = asyncResult.value;
     var context = asyncResult.context;
     var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
@@ -108,5 +109,4 @@ function customPropsCallback(asyncResult) {
     var customProps = asyncResult.value;
     customProps.set("nssplugIn", _ItemGuid);
     customProps.saveAsync(saveCallback);
-
 }
