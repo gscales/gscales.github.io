@@ -16,6 +16,8 @@ function SetVotingButton() {
     var item = Office.context.mailbox.item;
     _Item = item;
     _Item.loadCustomPropertiesAsync(customPropsCallback);
+    $('#SaveStatus').text("Saved");
+    $('#SaveStatus').removeClass('auto-style1').addClass('auto-style2');
 }
 
 function saveItemCallBack(asyncResult) {
