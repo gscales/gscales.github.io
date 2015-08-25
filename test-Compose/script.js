@@ -18,6 +18,8 @@ function SetVotingButton() {
     _Item.loadCustomPropertiesAsync(customPropsCallback);
     $('#SaveStatus').text("Saved");
     $('#SaveStatus').removeClass('auto-style1').addClass('auto-style2');
+    $('#SaveButton').prop('disabled ', true);
+
 }
 
 function saveItemCallBack(asyncResult) {
