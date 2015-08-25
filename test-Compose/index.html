@@ -14,18 +14,18 @@
   });
   function enableTextboxs()
 {
-    if (getElementByID("radio4").checked == true)
+    if (document.getElementByID("radio4").checked == true)
     {
-        getElementByID("Choice1").enabled;
-        getElementByID("Choice2").enabled;
-		getElementByID("Choice3").enabled;
+        document.getElementByID("Choice1").enabled;
+        document.getElementByID("Choice2").enabled;
+		document.getElementByID("Choice3").enabled;
 
     }
     else
     {
-        getElementByID("Choice1").disabled;
-        getElementByID("Choice2").disabled;
-        getElementByID("Choice3").disabled;
+        document.getElementByID("Choice1").disabled;
+        document.getElementByID("Choice2").disabled;
+        document.getElementByID("Choice3").disabled;
 
     }
 }
