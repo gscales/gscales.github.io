@@ -7,7 +7,9 @@ var _VerOptions = "";
 
 Office.initialize = function () {
     $(document).ready(function () {     
-        _ItemGuid = guid();       
+        _ItemGuid = guid();
+        var item = Office.context.mailbox.item;
+        _Item = item;
     });
 };
 function saveCallback(asyncResult) {
