@@ -16,17 +16,16 @@
 {
     if (document.getElementById("radio4").checked == true)
     {
-        document.getElementById("Choice1").enabled;
-        document.getElementById("Choice2").enabled;
-		document.getElementById("Choice3").enabled;
+        document.getElementById("Choice1").disabled = false;
+        document.getElementById("Choice2").disabled = false;
+		document.getElementById("Choice3").disabled = false;
 
     }
     else
     {
-        document.getElementById("Choice1").disabled;
-        document.getElementById("Choice2").disabled;
-        document.getElementById("Choice3").disabled;
-
+        document.getElementById("Choice1").disabled = true;
+        document.getElementById("Choice2").disabled = true;
+        document.getElementById("Choice3").disabled = true;
     }
 }
   </script>
