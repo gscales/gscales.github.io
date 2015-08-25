@@ -7,22 +7,23 @@ var _ItemGuid = "";
 Office.initialize = function () {
     $(document).ready(function () {
      
-        _ItemGuid = guid();
-        var item = Office.context.mailbox.item;
-        _Item = item;
-        _Item.loadCustomPropertiesAsync(customPropsCallback);
-    
+        _ItemGuid = guid();    
 
     });
 };
 function saveCallback(asyncResult) {
     _Item.saveAsync(saveItemCallBack);
 }
+function SetVotingButton() {
+    var item = Office.context.mailbox.item;
+    _Item = item;
+    _Item.loadCustomPropertiesAsync(customPropsCallback);
+}
 
 function saveItemCallBack(asyncResult) {
     var request = FindItemRequest();
     var envelope = getSoapEnvelope(request);
-    $('#ChkTest').text(request);
+    //$('#ChkTest').text(request);
     Office.context.mailbox.makeEwsRequestAsync(envelope, callbackFindItems);
 }
 function guid() {
@@ -36,7 +37,7 @@ function guid() {
 }
 
 function callbackFindItems(asyncResult) {
-    $('#ChkTest').text(asyncResult.value);
+    //$('#ChkTest').text(asyncResult.value);
     var result = asyncResult.value;
     var context = asyncResult.context;
     var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
@@ -48,7 +49,7 @@ function callbackFindItems(asyncResult) {
         var changeKey = values[0].attributes['ChangeKey'].value;
         var request = UpdateVerb(itemId, changeKey, hexToBase64(getVerbStream()));
         var envelope = getSoapEnvelope(request);
-        $('#ChkTest').text(request);
+       // $('#ChkTest').text(request);
         Office.context.mailbox.makeEwsRequestAsync(envelope, updateCallBack);
     }
     else {
@@ -59,7 +60,7 @@ function callbackFindItems(asyncResult) {
         var changeKey = values[0].attributes['ChangeKey'].value;
         var request = UpdateVerb(itemId, changeKey, hexToBase64(getVerbStream()));
         var envelope = getSoapEnvelope(request);
-        $('#ChkTest').text(request);
+        //$('#ChkTest').text(request);
         Office.context.mailbox.makeEwsRequestAsync(envelope, updateCallBack);
     }
 }
