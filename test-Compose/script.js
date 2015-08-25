@@ -6,20 +6,17 @@ var _ItemGuid = "";
 
 Office.initialize = function () {
     $(document).ready(function () {     
-        _ItemGuid = guid();
-        $('#SaveStatus').text("Ready");
+        _ItemGuid = guid();       
     });
 };
 function saveCallback(asyncResult) {
     _Item.saveAsync(saveItemCallBack);
 }
 function SetVotingButton() {
+    $('#SaveStatus').text("Saving");
     var item = Office.context.mailbox.item;
     _Item = item;
     _Item.loadCustomPropertiesAsync(customPropsCallback);
-    $('#SaveStatus').text("Saved");
-    $('#SaveStatus').removeClass('auto-style1').addClass('auto-style2');
-    $('#SaveButton').prop('disabled ', true);
 
 }
 
@@ -68,7 +65,7 @@ function callbackFindItems(asyncResult) {
     }
 }
 function updateCallBack(AsyncResult){
-
+    $('#SaveStatus').text("Saved");
 }
 function getSoapEnvelope(request) {
     // Wrap an Exchange Web Services request in a SOAP envelope.
