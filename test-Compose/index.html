@@ -26,37 +26,46 @@
      	 $('#checkbox2').prop('checked', false);
 		 $('#checkbox3').prop('checked', false);
     }
-    else
-    {
+    else{
+    	DisableTextboxs();
+    }
+}
+function DisableTextboxs(){
         document.getElementById("Choice1").disabled = true;
         document.getElementById("Choice2").disabled = true;
         document.getElementById("Choice3").disabled = true;
         document.getElementById("Choice1").visable = false;
         document.getElementById("Choice2").visable = false;
 		document.getElementById("Choice3").visable = false;
-    }
+ }
+ function check3Click(){
     if (document.getElementById("checkbox3").checked == true)
     {
     	 $('#checkbox1').prop('checked', false);
      	 $('#checkbox2').prop('checked', false);
 		 $('#checkbox4').prop('checked', false);
+		DisableTextboxs();
 
     }
+}
+ function check2Click(){
     if (document.getElementById("checkbox2").checked == true)
     {
          $('#checkbox1').prop('checked', false);
      	 $('#checkbox3').prop('checked', false);
 		 $('#checkbox4').prop('checked', false);
+		DisableTextboxs();
 
     }
+ }
+function check1Click(){
     if (document.getElementById("checkbox1").checked == true)
     {
       	 $('#checkbox3').prop('checked', false);
      	 $('#checkbox2').prop('checked', false);
 		 $('#checkbox4').prop('checked', false);
-
+   		DisableTextboxs();
     }
-
 }
   </script>
   <style>
@@ -67,9 +76,9 @@
  
 <form>
   <div id="checkbox">
-    <input type="checkbox" id="checkbox1" name="checkbox1" onclick="enableTextboxs()"><label for="checkbox1">Approve/Reject</label><br><br>
-    <input type="checkbox" id="checkbox2" name="checkbox2" onclick="enableTextboxs()"><label for="checkbox2">Yes/No</label><br><br>
-    <input type="checkbox" id="checkbox3" name="checkbox3" onclick="enableTextboxs()"><label for="checkbox3">Yes/No/Maybe</label><br><br>
+    <input type="checkbox" id="checkbox1" name="checkbox1" onclick="check1Click()"><label for="checkbox1">Approve/Reject</label><br><br>
+    <input type="checkbox" id="checkbox2" name="checkbox2" onclick="check2Click()"><label for="checkbox2">Yes/No</label><br><br>
+    <input type="checkbox" id="checkbox3" name="checkbox3" onclick="check3Click()"><label for="checkbox3">Yes/No/Maybe</label><br><br>
     <input type="checkbox" id="checkbox4" name="checkbox4" onclick="enableTextboxs()"><label for="checkbox4">Custom</label><br><br>
     Choice 1 : <input type="text" visible="false" disabled="disabled" id="Choice1" name="Choice1" value="Yes"><br>
     Choice 2 : <input type="text" visible="false" disabled="disabled" id="Choice2" name="Choice2" value="No"><br>
