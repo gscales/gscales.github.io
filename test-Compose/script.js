@@ -13,11 +13,28 @@ function saveCallback(asyncResult) {
     _Item.saveAsync(saveItemCallBack);
 }
 function SetVotingButton() {
-    $('#SaveStatus').text("Saving");
-    var item = Office.context.mailbox.item;
-    _Item = item;
-    _Item.loadCustomPropertiesAsync(customPropsCallback);
-
+    var runOkay = false;
+    if ($('#checkbox4').prop('checked')) {
+        runOkay = true;
+    }
+    if ($('#checkbox3').prop('checked')) {
+        runOkay = true;
+    }
+    if ($('#checkbox2').prop('checked')) {
+        runOkay = true;
+    }
+    if ($('#checkbox1').prop('checked')) {
+        runOkay = true;
+    }
+    if (runOkay) {
+        $('#SaveStatus').text("Saving");
+        var item = Office.context.mailbox.item;
+        _Item = item;
+        _Item.loadCustomPropertiesAsync(customPropsCallback);
+    }
+    else {
+        $('#SaveStatus').text("Error no Option Selected");
+    }
 }
 
 function saveItemCallBack(asyncResult) {
