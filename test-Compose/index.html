@@ -10,7 +10,7 @@
   <script src="script.js" type="text/javascript"></script>
   <script>
   $(function() {
-    // $("#checkbox").buttonset();
+     $("#checkbox").buttonset();
   });
   function enableTextboxs()
 {
@@ -25,6 +25,7 @@
     	 $('#checkbox1').prop('checked', false);
      	 $('#checkbox2').prop('checked', false);
 		 $('#checkbox3').prop('checked', false);
+		 $("#checkbox").buttonset();
     }
     else{
     	DisableTextboxs();
@@ -45,6 +46,8 @@ function DisableTextboxs(){
      	 $('#checkbox2').prop('checked', false);
 		 $('#checkbox4').prop('checked', false);
 		DisableTextboxs();
+		$("#checkbox").buttonset();
+
 
     }
 }
@@ -55,6 +58,8 @@ function DisableTextboxs(){
      	 $('#checkbox3').prop('checked', false);
 		 $('#checkbox4').prop('checked', false);
 		DisableTextboxs();
+		$("#checkbox").buttonset();
+
 
     }
  }
@@ -65,6 +70,8 @@ function check1Click(){
      	 $('#checkbox2').prop('checked', false);
 		 $('#checkbox4').prop('checked', false);
    		DisableTextboxs();
+   		$("#checkbox").buttonset();
+
     }
 }
   </script>
