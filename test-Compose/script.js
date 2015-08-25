@@ -21,22 +21,22 @@ function SetVotingButton() {
     if ($('#checkbox4').prop('checked')) {
         runOkay = true;
         var VoteButtons = new Array("Approve", "Reject");
-        _VerOptions = (getVerbStream(VoteButtons), _Item.MessageClass);
+        _VerOptions = (getVerbStream(VoteButtons), _Item.itemClass);
     }
     if ($('#checkbox3').prop('checked')) {
         runOkay = true;
         var VoteButtons = new Array("Approve", "Reject");
-        _VerOptions = (getVerbStream(VoteButtons), _Item.MessageClass);
+        _VerOptions = (getVerbStream(VoteButtons), _Item.itemClass);
     }
     if ($('#checkbox2').prop('checked')) {
         runOkay = true;
         var VoteButtons = new Array("Yes", "No");
-        _VerOptions = (getVerbStream(VoteButtons), _Item.MessageClass);
+        _VerOptions = (getVerbStream(VoteButtons), _Item.itemClass);
     }
     if ($('#checkbox1').prop('checked')) {
         runOkay = true;
         var VoteButtons = new Array("Approve", "Reject");
-        _VerOptions = (getVerbStream(VoteButtons), _Item.MessageClass);
+        _VerOptions = (getVerbStream(VoteButtons), _Item.itemClass);
     }
     if (runOkay) {
         $('#SaveStatus').text("Saving" + _VerOptions);
