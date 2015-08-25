@@ -3,6 +3,7 @@ var _mailbox;
 var _Item;
 var _AppGuid = "99429ef8-be83-4ce2-ba79-f4471f89f674";
 var _ItemGuid = "";
+var _VerOptions = "";
 
 Office.initialize = function () {
     $(document).ready(function () {     
@@ -14,20 +15,29 @@ function saveCallback(asyncResult) {
 }
 function SetVotingButton() {
     var runOkay = false;
+    var VerbOptions = "";
     if ($('#checkbox4').prop('checked')) {
         runOkay = true;
+        var VoteButtons = new Array("Approve", "Reject");
+        _VerOptions = (getVerbStream(VoteButtons), _Item.MessageClass);
     }
     if ($('#checkbox3').prop('checked')) {
         runOkay = true;
+        var VoteButtons = new Array("Approve", "Reject");
+        _VerOptions = (getVerbStream(VoteButtons), _Item.MessageClass);
     }
     if ($('#checkbox2').prop('checked')) {
         runOkay = true;
+        var VoteButtons = new Array("Yes", "No");
+        _VerOptions = (getVerbStream(VoteButtons), _Item.MessageClass);
     }
     if ($('#checkbox1').prop('checked')) {
         runOkay = true;
+        var VoteButtons = new Array("Approve", "Reject");
+        _VerOptions = (getVerbStream(VoteButtons), _Item.MessageClass);
     }
     if (runOkay) {
-        $('#SaveStatus').text("Saving");
+        $('#SaveStatus').text("Saving" + _VerOptions);
         var item = Office.context.mailbox.item;
         _Item = item;
         _Item.loadCustomPropertiesAsync(customPropsCallback);
@@ -64,7 +74,7 @@ function callbackFindItems(asyncResult) {
         var values = doc.childNodes[0].getElementsByTagName("ItemId");
         var itemId = values[0].attributes['Id'].value;
         var changeKey = values[0].attributes['ChangeKey'].value;
-        var request = UpdateVerb(itemId, changeKey, hexToBase64(getVerbStream()));
+        var request = UpdateVerb(itemId, changeKey, hexToBase64(_VerOptions));
         var envelope = getSoapEnvelope(request);
        // $('#ChkTest').text(request);
         Office.context.mailbox.makeEwsRequestAsync(envelope, updateCallBack);
@@ -75,7 +85,7 @@ function callbackFindItems(asyncResult) {
         var values = doc.childNodes[0].getElementsByTagName("t:ItemId");
         var itemId = values[0].attributes['Id'].value;
         var changeKey = values[0].attributes['ChangeKey'].value;
-        var request = UpdateVerb(itemId, changeKey, hexToBase64(getVerbStream()));
+        var request = UpdateVerb(itemId, changeKey, hexToBase64(_VerOptions));
         var envelope = getSoapEnvelope(request);
         //$('#ChkTest').text(request);
         Office.context.mailbox.makeEwsRequestAsync(envelope, updateCallBack);
@@ -141,7 +151,28 @@ function customPropsCallback(asyncResult) {
     customProps.saveAsync(saveCallback);
 }
 
-function getVerbStream() {
+function n(n) {
+    return n > 9 ? "" + n : "0" + n;
+}
+function GetWordVerb(Word, Postion, MessageClass) {
+    var verbstart = "04000000";
+    var length = n(Word.length);
+    var HexString = convertToHex(Word);
+    var mclength = n(MessageClass.length);
+    var mcHexString = convertToHex(MessageClass);
+    var Option1 = "000000000000000000010000000200000002000000";
+    var Option2 = "000000FFFFFFFF";
+    return (verbstart + length + HexString + mclength + mcHexString + "00" + length + HexString + Option1 + n(Postion) + Option2);
+}
+
+function convertToHex(str) {
+    var hex = '';
+    for (var i = 0; i < str.length; i++) {
+        hex += '' + str.charCodeAt(i).toString(16);
+    }
+    return hex;
+}
+function getVerbStream(VerbArray,MessageClass) {
     var Header = "02010600000000000000";
     var ReplyToAllHeader = "055265706C790849504D2E4E6F7465074D657373616765025245050000000000000000";
     var ReplyToAllFooter = "0000000000000002000000660000000200000001000000";
@@ -151,9 +182,9 @@ function getVerbStream() {
     var ForwardFooter = "0000000000000002000000680000000400000003000000";
     var ReplyToFolderHeader = "0F5265706C7920746F20466F6C6465720849504D2E506F737404506F737400050000000000000000";
     var ReplyToFolderFooter = "00000000000000020000006C00000008000000";
-    var ApproveOption = "0400000007417070726F76650849504D2E4E6F74650007417070726F766500000000000000000001000000020000000200000001000000FFFFFFFF";
-    var RejectOption= "040000000652656A6563740849504D2E4E6F7465000652656A65637400000000000000000001000000020000000200000002000000FFFFFFFF";
     var VoteOptionExtras = "0401055200650070006C00790002520045000C5200650070006C007900200074006F00200041006C006C0002520045000746006F007200770061007200640002460057000F5200650070006C007900200074006F00200046006F006C00640065007200000741007000700072006F00760065000741007000700072006F007600650006520065006A0065006300740006520065006A00650063007400";
+    var ApproveOption = "0400000007417070726F76650849504D2E4E6F74650007417070726F766500000000000000000001000000020000000200000001000000FFFFFFFF";
+    var RejectOption = "040000000652656A6563740849504D2E4E6F7465000652656A65637400000000000000000001000000020000000200000002000000FFFFFFFF";
     var DisableReplyAllVal = "00";
     var DisableReplyAllVal = "01";
     var DisableReplyVal = "00";
@@ -162,7 +193,11 @@ function getVerbStream() {
     var DisableForwardVal = "01";
     var DisableReplyToFolderVal = "00";
     var DisableReplyToFolderVal = "01";
-    var VerbValue = Header + ReplyToAllHeader + DisableReplyAllVal + ReplyToAllFooter + ReplyToHeader + DisableReplyVal + ReplyToFooter + ForwardHeader + DisableForwardVal + ForwardFooter + ReplyToFolderHeader + DisableReplyToFolderVal + ReplyToFolderFooter + ApproveOption  + RejectOption + VoteOptionExtras;
+    var VerbValue = Header + ReplyToAllHeader + DisableReplyAllVal + ReplyToAllFooter + ReplyToHeader + DisableReplyVal + ReplyToFooter + ForwardHeader + DisableForwardVal + ForwardFooter + ReplyToFolderHeader + DisableReplyToFolderVal + ReplyToFolderFooter;
+    for (index = 0; index < VerbArray.length; index++) {
+        VerbValue += GetWordVerb(VerbArray[index], (index + 1), MessageClass);
+    }
+    VerbValue += VoteOptionExtras;
     return VerbValue;
 }
 
