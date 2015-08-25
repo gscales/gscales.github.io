@@ -66,6 +66,9 @@ function callbackFindItems(asyncResult) {
 }
 function updateCallBack(AsyncResult){
     $('#SaveStatus').text("Saved");
+    $('#SaveStatus').removeClass('auto-style1').addClass('auto-style2');
+    $('#SaveButton').prop('disabled ', true);
+
 }
 function getSoapEnvelope(request) {
     // Wrap an Exchange Web Services request in a SOAP envelope.
