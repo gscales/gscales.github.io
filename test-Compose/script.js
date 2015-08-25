@@ -6,7 +6,8 @@ var _ItemGuid = "";
 
 Office.initialize = function () {
     $(document).ready(function () {     
-        _ItemGuid = guid();    
+        _ItemGuid = guid();
+        $('#SaveStatus').text("Ready");
     });
 };
 function saveCallback(asyncResult) {
