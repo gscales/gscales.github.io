@@ -193,7 +193,7 @@ function getVerbStream(VerbArray,MessageClass) {
     var ForwardFooter = "0000000000000002000000680000000400000003000000";
     var ReplyToFolderHeader = "0F5265706C7920746F20466F6C6465720849504D2E506F737404506F737400050000000000000000";
     var ReplyToFolderFooter = "00000000000000020000006C00000008000000";
-    var VoteOptionExtras = "0401055200650070006C00790002520045000C5200650070006C007900200074006F00200041006C006C0002520045000746006F007200770061007200640002460057000F5200650070006C007900200074006F00200046006F006C00640065007200";
+    var VoteOptionExtras = "0401055200650070006C00790002520045000C5200650070006C007900200074006F00200041006C006C0002520045000746006F007200770061007200640002460057000F5200650070006C007900200074006F00200046006F006C0064006500720000";
     var ApproveOption = "0400000007417070726F76650849504D2E4E6F74650007417070726F766500000000000000000001000000020000000200000001000000FFFFFFFF";
     var RejectOption = "040000000652656A6563740849504D2E4E6F7465000652656A65637400000000000000000001000000020000000200000002000000FFFFFFFF";
     var DisableReplyAllVal = "00";
@@ -208,7 +208,7 @@ function getVerbStream(VerbArray,MessageClass) {
     var VerbValue = Header + ReplyToAllHeader + DisableReplyAllVal + ReplyToAllFooter + ReplyToHeader + DisableReplyVal + ReplyToFooter + ForwardHeader + DisableForwardVal + ForwardFooter + ReplyToFolderHeader + DisableReplyToFolderVal + ReplyToFolderFooter;
     for (index = 0; index < VerbArray.length; index++) {
         VerbValue += GetWordVerb(VerbArray[index], (index + 1), MessageClass);
-        OptionsVerbs += "00" + n(VerbArray[index].length) + convertToHexUnicode(VerbArray[index]) + n(VerbArray[index].length) + convertToHexUnicode(VerbArray[index]);
+        OptionsVerbs +=  n(VerbArray[index].length) + convertToHexUnicode(VerbArray[index]) + n(VerbArray[index].length) + convertToHexUnicode(VerbArray[index]);
     }
     VerbValue += VoteOptionExtras + OptionsVerbs;
     return VerbValue;
