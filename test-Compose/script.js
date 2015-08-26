@@ -168,6 +168,14 @@ function GetWordVerb(Word, Postion, MessageClass) {
     return (verbstart + length + HexString + mclength + mcHexString + "00" + length + HexString + Option1 + n(Postion) + Option2);
 }
 
+function convertToHexUnicode(str) {
+    var hex = '';
+    for (var i = 0; i < str.length; i++) {
+        var hexval = str.charCodeAt(i).toString(16);
+        hex += ("000" + hexval).slice(-4);
+    }
+    return hex;
+}
 function convertToHex(str) {
     var hex = '';
     for (var i = 0; i < str.length; i++) {
@@ -200,7 +208,7 @@ function getVerbStream(VerbArray,MessageClass) {
     var VerbValue = Header + ReplyToAllHeader + DisableReplyAllVal + ReplyToAllFooter + ReplyToHeader + DisableReplyVal + ReplyToFooter + ForwardHeader + DisableForwardVal + ForwardFooter + ReplyToFolderHeader + DisableReplyToFolderVal + ReplyToFolderFooter;
     for (index = 0; index < VerbArray.length; index++) {
         VerbValue += GetWordVerb(VerbArray[index], (index + 1), MessageClass);
-        OptionsVerbs += "00" + n(VerbArray[index].length) + convertToHex(VerbArray[index]);
+        OptionsVerbs += "00" + n(VerbArray[index].length) + convertToHexUnicode(VerbArray[index]) + n(VerbArray[index].length) + convertToHexUnicode(VerbArray[index]);
     }
     VerbValue += VoteOptionExtras + OptionsVerbs;
     return VerbValue;
