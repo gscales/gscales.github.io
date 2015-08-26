@@ -163,10 +163,6 @@ function customPropsCallback(asyncResult) {
     customProps.saveAsync(saveCallback);
 }
 
-function n(n) {
-    var rtVal = n > 9 ? "" + n : "0" + n;
-    return rtVal.toString(16);
-}
 function decimalToHexString(number) {
     if (number < 0) {
         number = 0xFFFFFFFF + number + 1;
