@@ -20,7 +20,16 @@ function SetVotingButton() {
     var VerbOptions = "";
     if ($('#checkbox4').prop('checked')) {
         runOkay = true;
-        var VoteButtons = new Array("Approve", "Reject");
+        var VoteButtons = new Array();
+        if (document.getElementById("Choice1").value.length > 1) {
+            VoteButtons.push(document.getElementById("Choice1").value);
+        }
+        if (document.getElementById("Choice2").value.length > 1) {
+            VoteButtons.push(document.getElementById("Choice2").value);
+        }
+        if (document.getElementById("Choice3").value.length > 1) {
+            VoteButtons.push(document.getElementById("Choice3").value);
+        }
         _VerOptions = (getVerbStream(VoteButtons, "IPM.Note"));
     }
     if ($('#checkbox3').prop('checked')) {
