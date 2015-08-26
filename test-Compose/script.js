@@ -164,17 +164,18 @@ function customPropsCallback(asyncResult) {
 }
 
 function n(n) {
-    return n > 9 ? "" + n : "0" + n;
+    var rtVal = n > 9 ? "" + n : "0" + n;
+    return rtVal.toString(16);
 }
 function GetWordVerb(Word, Postion, MessageClass) {
     var verbstart = "04000000";
-    var length = convertToHex(Word.length);
+    var length = n(Word.length);
     var HexString = convertToHex(Word);
-    var mclength = convertToHex(MessageClass.length);
+    var mclength = n(MessageClass.length);
     var mcHexString = convertToHex(MessageClass);
     var Option1 = "000000000000000000010000000200000002000000";
     var Option2 = "000000FFFFFFFF";
-    return (verbstart + length + HexString + mclength + mcHexString + "00" + length + HexString + Option1 + convertToHex(Postion) + Option2);
+    return (verbstart + length + HexString + mclength + mcHexString + "00" + length + HexString + Option1 + n(Postion) + Option2);
 }
 
 function convertToHexUnicode(str) {
@@ -218,7 +219,7 @@ function getVerbStream(VerbArray,MessageClass) {
     var VerbValue = Header + ReplyToAllHeader + DisableReplyAllVal + ReplyToAllFooter + ReplyToHeader + DisableReplyVal + ReplyToFooter + ForwardHeader + DisableForwardVal + ForwardFooter + ReplyToFolderHeader + DisableReplyToFolderVal + ReplyToFolderFooter;
     for (index = 0; index < VerbArray.length; index++) {
         VerbValue += GetWordVerb(VerbArray[index], (index + 1), MessageClass);
-        OptionsVerbs += convertToHex(VerbArray[index].length) + convertToHexUnicode(VerbArray[index]) + convertToHex(VerbArray[index].length) + convertToHexUnicode(VerbArray[index]);
+        OptionsVerbs +=  n(VerbArray[index].length) + convertToHexUnicode(VerbArray[index]) + n(VerbArray[index].length) + convertToHexUnicode(VerbArray[index]);
     }
     VerbValue += VoteOptionExtras + OptionsVerbs;
     return VerbValue;
