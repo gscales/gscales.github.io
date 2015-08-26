@@ -48,7 +48,7 @@ function SetVotingButton() {
         _VerOptions = (getVerbStream(VoteButtons, "IPM.Note"));
     }
     if (runOkay) {
-        $('#SaveStatus').text("Saving" + _VerOptions);
+        $('#SaveStatus').text("Saving");
         var item = Office.context.mailbox.item;
         _Item = item;
         _Item.loadCustomPropertiesAsync(customPropsCallback);
