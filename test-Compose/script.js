@@ -184,7 +184,8 @@ function convertToHex(str) {
     return hex;
 }
 function getVerbStream(VerbArray,MessageClass) {
-    var Header = "02010600000000000000";
+    var vCount = (VerbArray.length + 4);
+    var Header = "02010" + vCount + "00000000000000";
     var ReplyToAllHeader = "055265706C790849504D2E4E6F7465074D657373616765025245050000000000000000";
     var ReplyToAllFooter = "0000000000000002000000660000000200000001000000";
     var ReplyToHeader = "0C5265706C7920746F20416C6C0849504D2E4E6F7465074D657373616765025245050000000000000000";
