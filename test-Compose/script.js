@@ -172,7 +172,7 @@ function convertToHexUnicode(str) {
     var hex = '';
     for (var i = 0; i < str.length; i++) {
         var hexval = str.charCodeAt(i).toString(16);
-        hex += (hexval + "000").slice(-4);
+        hex += hexval + "00";
     }
     return hex;
 }
