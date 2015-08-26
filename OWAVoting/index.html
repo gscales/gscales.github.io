@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Voting Buttons </title>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js" type="text/javascript"></script>
+	<script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="script.js" type="text/javascript"></script>
+  <script>
+  $(function() {
+     $("#checkbox").buttonset();
+  });
+  function enableTextboxs()
+{
+    if (document.getElementById("checkbox4").checked == true)
+    {
+        document.getElementById("Choice1").disabled = false;
+        document.getElementById("Choice2").disabled = false;
+		document.getElementById("Choice3").disabled = false;
+	    document.getElementById("Choice1").visable = true;
+        document.getElementById("Choice2").visable = true;
+		document.getElementById("Choice3").visable = true;
+    	 $('#checkbox1').prop('checked', false);
+     	 $('#checkbox2').prop('checked', false);
+		 $('#checkbox3').prop('checked', false);
+		 $("#checkbox").buttonset();
+    }
+    else{
+    	DisableTextboxs();
+    }
+}
+function DisableTextboxs(){
+        document.getElementById("Choice1").disabled = true;
+        document.getElementById("Choice2").disabled = true;
+        document.getElementById("Choice3").disabled = true;
+        document.getElementById("Choice1").visable = false;
+        document.getElementById("Choice2").visable = false;
+		document.getElementById("Choice3").visable = false;
+ }
+ function check3Click(){
+    if (document.getElementById("checkbox3").checked == true)
+    {
+    	 $('#checkbox1').prop('checked', false);
+     	 $('#checkbox2').prop('checked', false);
+		 $('#checkbox4').prop('checked', false);
+		DisableTextboxs();
+		$("#checkbox").buttonset();
+
+
+    }
+}
+ function check2Click(){
+    if (document.getElementById("checkbox2").checked == true)
+    {
+         $('#checkbox1').prop('checked', false);
+     	 $('#checkbox3').prop('checked', false);
+		 $('#checkbox4').prop('checked', false);
+		DisableTextboxs();
+		$("#checkbox").buttonset();
+
+
+    }
+ }
+function check1Click(){
+    if (document.getElementById("checkbox1").checked == true)
+    {
+      	 $('#checkbox3').prop('checked', false);
+     	 $('#checkbox2').prop('checked', false);
+		 $('#checkbox4').prop('checked', false);
+   		DisableTextboxs();
+   		$("#checkbox").buttonset();
+
+    }
+}
+  </script>
+  <style>
+  #format { margin-top: 2em; }
+  .auto-style1 {
+	  color: #FF0000;
+  }
+  .auto-style2 {
+	  color: #339933;
+  }
+
+  </style>
+</head>
+<body>
+ 
+<form>
+  <div id="checkbox">
+    <input type="checkbox" id="checkbox1" name="checkbox1" onclick="check1Click()"><label for="checkbox1">Approve/Reject</label><br><br>
+    <input type="checkbox" id="checkbox2" name="checkbox2" onclick="check2Click()"><label for="checkbox2">Yes/No</label><br><br>
+    <input type="checkbox" id="checkbox3" name="checkbox3" onclick="check3Click()"><label for="checkbox3">Yes/No/Maybe</label><br><br>
+    <input type="checkbox" id="checkbox4" name="checkbox4" onclick="enableTextboxs()"><label for="checkbox4">Custom</label><br><br>
+    Choice 1 : <input type="text" visible="false" disabled="disabled" id="Choice1" name="Choice1" maxlength="255" value="Yes"><br>
+    Choice 2 : <input type="text" visible="false" disabled="disabled" id="Choice2" name="Choice2" maxlength="255" value="No"><br>
+    Choice 3 : <input type="text" visible="false" disabled="disabled" id="Choice3" name="Choice3" maxlength="255" value=""><br><br>
+  </div>
+</form> <div id="ChkTest"></div>
+    <button id="SaveButton" onclick="SetVotingButton()">Save</button><br><br>
+    Status : <span id="SaveStatus" class="auto-style1">Unsaved</span>    
+
+</body>
+</html>

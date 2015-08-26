@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:type="MailApp">
+  <Id>6ea3d2ba-ea60-422e-ab9e-57f679b18744</Id>
+  <Version>1.0.0.1</Version>
+  <ProviderName>DataRumble</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="OWA Voting Buttons(Test Only)" />
+  <Description DefaultValue="OWA Voting Buttons" />
+  <IconUrl DefaultValue="https://gscales.github.io/OWAVoting/vb.PNG"></IconUrl>
+  <Hosts>
+    <Host Name="Mailbox" />
+  </Hosts>
+  <Requirements>
+    <Sets DefaultMinVersion="1.3">
+      <Set MinVersion="1.3" Name="Mailbox"></Set>
+    </Sets>
+  </Requirements>
+ <FormSettings>
+    <Form xsi:type="ItemEdit">
+      <DesktopSettings>
+        <SourceLocation DefaultValue=
+          "https://gscales.github.io/OWAVoting/index.html" />
+      </DesktopSettings>
+      <TabletSettings>
+        <SourceLocation DefaultValue=
+          "https://gscales.github.io/OWAVoting/index.html" />
+      </TabletSettings>
+      <PhoneSettings>
+        <SourceLocation DefaultValue=
+          "https://gscales.github.io/OWAVoting/index.html" />
+      </PhoneSettings>
+    </Form>
+  </FormSettings>
+  <Permissions>ReadWriteMailbox</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
+  </Rule>
+</OfficeApp>
