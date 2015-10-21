@@ -1,12 +1,12 @@
-﻿var o365CorsApp = angular.module("o365CorsApp", ['ngRoute', 'AdalAngular'])
-o365CorsApp.factory("ShareData", function () {
+﻿var o365SPAApp = angular.module("o365SPAApp", ['ngRoute', 'AdalAngular'])
+o365SPAApp.factory("ShareData", function () {
     return { value: 0 }
 });
-o365CorsApp.config(['$routeProvider', '$httpProvider', 'adalAuthenticationServiceProvider', function ($routeProvider, $httpProvider, adalProvider) {
+o365SPAApp.config(['$routeProvider', '$httpProvider', 'adalAuthenticationServiceProvider', function ($routeProvider, $httpProvider, adalProvider) {
     $routeProvider
-           .when('/Contacts',
+           .when('/GetLastEmail',
            {
-               controller: 'ContactsController',
+               controller: 'SendEmailController',
                templateUrl: 'Contacts.html',
                requireADLogin: true
            })
@@ -22,21 +22,21 @@ o365CorsApp.config(['$routeProvider', '$httpProvider', 'adalAuthenticationServic
     };
     adalProvider.init(adalConfig, $httpProvider);
 }]);
-o365CorsApp.controller("ContactsController", function ($scope, $q, $location, $http, ShareData, o365CorsFactory) {
-    o365CorsFactory.getContacts().then(function (response) {
+o365SPAApp.controller("SendEmailController", function ($scope, $q, $location, $http, ShareData, o365CorsFactory) {
+    o365CorsFactory.getLastEmail().then(function (response) {
         $scope.contacts = response.data.value;
     });
 
 });
 
-o365CorsApp.factory('o365CorsFactory', ['$http' ,function ($http) {
+o365SPAApp.factory('o365SPAAppFactory', ['$http', function ($http) {
     var factory = {};
    
-    factory.getContacts = function () {
+    factory.getLastEmail = function () {
         return $http.get('https://outlook.office365.com/api/v1.0/me/contacts')
     }
 
-    factory.getContact = function (id) {
+    factory.SendEmail = function (id) {
         return $http.get('https://outlook.office365.com/api/v1.0/me/contacts/'+id)
     }
 
