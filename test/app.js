@@ -4,7 +4,7 @@ o365CorsApp.factory("ShareData", function () {
 });
 o365CorsApp.config(['$routeProvider', '$httpProvider', 'adalAuthenticationServiceProvider', function ($routeProvider, $httpProvider, adalProvider) {
     $routeProvider
-           .when('/',
+           .when('/Contacts',
            {
                controller: 'ContactsController',
                templateUrl: 'Contacts.html',
