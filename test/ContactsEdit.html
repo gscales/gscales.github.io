@@ -1,0 +1,30 @@
+﻿<div>
+    <h2>Edit Contacts</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th >FirstName</th>
+                <th >LastName</th>
+                <th >Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td align="center">
+                    <input ng-model="contact.GivenName" />
+                </td>
+                <td align="center">
+                    <input ng-model="contact.Surname" />
+                </td>
+                <td align="center">
+                    <input ng-model="contact.EmailAddresses[0].Address" />
+                </td>
+              
+            </tr>
+        </tbody>
+    </table>
+    <button ng-click="update()">Update</button>
+</div>
+   
+
+
