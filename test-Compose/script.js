@@ -1,295 +1,164 @@
-﻿// This function is called when Office.js is ready to start your Add-in
-var _mailbox;
-var _Item;
-var _AppGuid = "99429ef8-be83-4ce2-ba79-f4471f89f674";
-var _ItemGuid = "";
-var _VerOptions = "";
+// variables
+var leftchannel = [];
+var rightchannel = [];
+var recorder = null;
+var recording = false;
+var recordingLength = 0;
+var volume = null;
+var audioInput = null;
+var sampleRate = null;
+var audioContext = null;
+var context = null;
+var outputElement = document.getElementById('output');
+var outputString;
 
-Office.initialize = function () {
-    $(document).ready(function () {     
-        _ItemGuid = guid();
-        var item = Office.context.mailbox.item;
-        _Item = item;
+// feature detection 
+if (!navigator.getUserMedia)
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+                  navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+if (navigator.getUserMedia){
+    navigator.getUserMedia({audio:true}, success, function(e) {
+    alert('Error capturing audio.');
     });
-};
-function saveCallback(asyncResult) {
-    _Item.saveAsync(saveItemCallBack);
+} else alert('getUserMedia not supported in this browser.');
+
+
+function b1Click() {
+    recording = true;
+    // reset the buffers for the new recording
+    leftchannel.length = rightchannel.length = 0;
+    recordingLength = 0;
+    outputElement.innerHTML = 'Recording now...';
 }
-function SetVotingButton() {
-    var runOkay = false;
-    var VerbOptions = "";
-    if ($('#checkbox4').prop('checked')) {
-        runOkay = true;
-        var VoteButtons = new Array();
-        if (document.getElementById("Choice1").value.length > 1) {
-            VoteButtons.push(document.getElementById("Choice1").value);
-        }
-        if (document.getElementById("Choice2").value.length > 1) {
-            VoteButtons.push(document.getElementById("Choice2").value);
-        }
-        if (document.getElementById("Choice3").value.length > 1) {
-            VoteButtons.push(document.getElementById("Choice3").value);
-        }
-        _VerOptions = (getVerbStream(VoteButtons, "IPM.Note"));
+function b2Click() {
+    // we stop recording
+    recording = false;
+
+    outputElement.innerHTML = 'Building wav file...';
+
+    // we flat the left and right channels down
+    var leftBuffer = mergeBuffers(leftchannel, recordingLength);
+    var rightBuffer = mergeBuffers(rightchannel, recordingLength);
+    // we interleave both channels together
+    var interleaved = interleave(leftBuffer, rightBuffer);
+
+    // we create our wav file
+    var buffer = new ArrayBuffer(44 + interleaved.length * 2);
+    var view = new DataView(buffer);
+
+    // RIFF chunk descriptor
+    writeUTFBytes(view, 0, 'RIFF');
+    view.setUint32(4, 44 + interleaved.length * 2, true);
+    writeUTFBytes(view, 8, 'WAVE');
+    // FMT sub-chunk
+    writeUTFBytes(view, 12, 'fmt ');
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true);
+    // stereo (2 channels)
+    view.setUint16(22, 2, true);
+    view.setUint32(24, sampleRate, true);
+    view.setUint32(28, sampleRate * 4, true);
+    view.setUint16(32, 4, true);
+    view.setUint16(34, 16, true);
+    // data sub-chunk
+    writeUTFBytes(view, 36, 'data');
+    view.setUint32(40, interleaved.length * 2, true);
+
+    // write the PCM samples
+    var lng = interleaved.length;
+    var index = 44;
+    var volume = 1;
+    for (var i = 0; i < lng; i++) {
+        view.setInt16(index, interleaved[i] * (0x7FFF * volume), true);
+        index += 2;
     }
-    if ($('#checkbox3').prop('checked')) {
-        runOkay = true;
-        var VoteButtons = new Array("Yes", "No","Maybe");
-        _VerOptions = (getVerbStream(VoteButtons, "IPM.Note"));
+
+    // our final binary blob
+    var blob = new Blob([view], { type: 'audio/wav' });
+
+    // let's save it locally
+    outputElement.innerHTML = 'Handing off the file now...';
+    var url = (window.URL || window.webkitURL).createObjectURL(blob);
+    var link = window.document.createElement('a');
+    link.href = url;
+    link.download = 'output.wav';
+    var click = document.createEvent("Event");
+    click.initEvent("click", true, true);
+    link.dispatchEvent(click);
+}
+
+function interleave(leftChannel, rightChannel){
+  var length = leftChannel.length + rightChannel.length;
+  var result = new Float32Array(length);
+
+  var inputIndex = 0;
+
+  for (var index = 0; index < length; ){
+    result[index++] = leftChannel[inputIndex];
+    result[index++] = rightChannel[inputIndex];
+    inputIndex++;
+  }
+  return result;
+}
+
+function mergeBuffers(channelBuffer, recordingLength){
+  var result = new Float32Array(recordingLength);
+  var offset = 0;
+  var lng = channelBuffer.length;
+  for (var i = 0; i < lng; i++){
+    var buffer = channelBuffer[i];
+    result.set(buffer, offset);
+    offset += buffer.length;
+  }
+  return result;
+}
+
+function writeUTFBytes(view, offset, string){ 
+  var lng = string.length;
+  for (var i = 0; i < lng; i++){
+    view.setUint8(offset + i, string.charCodeAt(i));
+  }
+}
+
+function success(e){
+    // creates the audio context
+    audioContext = window.AudioContext || window.webkitAudioContext;
+    context = new audioContext();
+
+	// we query the context sample rate (varies depending on platforms)
+    sampleRate = context.sampleRate;
+
+    console.log('succcess');
+    
+    // creates a gain node
+    volume = context.createGain();
+
+    // creates an audio node from the microphone incoming stream
+    audioInput = context.createMediaStreamSource(e);
+
+    // connect the stream to the gain node
+    audioInput.connect(volume);
+
+    /* From the spec: This value controls how frequently the audioprocess event is 
+    dispatched and how many sample-frames need to be processed each call. 
+    Lower values for buffer size will result in a lower (better) latency. 
+    Higher values will be necessary to avoid audio breakup and glitches */
+    var bufferSize = 2048;
+    recorder = context.createScriptProcessor(bufferSize, 2, 2);
+
+    recorder.onaudioprocess = function(e){
+        if (!recording) return;
+        var left = e.inputBuffer.getChannelData (0);
+        var right = e.inputBuffer.getChannelData (1);
+        // we clone the samples
+        leftchannel.push (new Float32Array (left));
+        rightchannel.push (new Float32Array (right));
+        recordingLength += bufferSize;
+        console.log('recording');
     }
-    if ($('#checkbox2').prop('checked')) {
-        runOkay = true;
-        var VoteButtons = new Array("Yes", "No");
-        _VerOptions = (getVerbStream(VoteButtons, "IPM.Note"));
-    }
-    if ($('#checkbox1').prop('checked')) {
-        runOkay = true;
-        var VoteButtons = new Array("Approve", "Reject");
-        _VerOptions = (getVerbStream(VoteButtons, "IPM.Note"));
-    }
-    if (runOkay) {
-        $('#SaveStatus').text("Saving" + _VerOptions);
-        var item = Office.context.mailbox.item;
-        _Item = item;
-        _Item.loadCustomPropertiesAsync(customPropsCallback);
-    }
-    else {
-        $('#SaveStatus').text("Error no Option Selected");
-    }
-}
 
-function saveItemCallBack(asyncResult) {
-    var request = FindItemRequest();
-    var envelope = getSoapEnvelope(request);
-    //$('#ChkTest').text(request);
-    Office.context.mailbox.makeEwsRequestAsync(envelope, callbackFindItems);
-}
-function guid() {
-    function s4() {
-        return Math.floor((1 + Math.random()) * 0x10000)
-          .toString(16)
-          .substring(1);
-    }
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-      s4() + '-' + s4() + s4() + s4();
-}
-
-function callbackFindItems(asyncResult) {
-    //$('#ChkTest').text(asyncResult.value);
-    var result = asyncResult.value;
-    var context = asyncResult.context;
-    var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-    if (is_chrome) {
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(asyncResult.value, "text/xml");
-        var values = doc.childNodes[0].getElementsByTagName("ItemId");
-        var itemId = values[0].attributes['Id'].value;
-        var changeKey = values[0].attributes['ChangeKey'].value;
-        var request = UpdateVerb(itemId, changeKey, hexToBase64(_VerOptions));
-        var envelope = getSoapEnvelope(request);
-       // $('#ChkTest').text(request);
-        Office.context.mailbox.makeEwsRequestAsync(envelope, updateCallBack);
-    }
-    else {
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(asyncResult.value, "text/xml");
-        var values = doc.childNodes[0].getElementsByTagName("t:ItemId");
-        var itemId = values[0].attributes['Id'].value;
-        var changeKey = values[0].attributes['ChangeKey'].value;
-        var request = UpdateVerb(itemId, changeKey, hexToBase64(_VerOptions));
-        var envelope = getSoapEnvelope(request);
-        //$('#ChkTest').text(request);
-        Office.context.mailbox.makeEwsRequestAsync(envelope, updateCallBack);
-    }
-}
-function updateCallBack(AsyncResult){
-    $('#SaveStatus').text("Saved");
-    $('#SaveStatus').text(_VerOptions);
-    $('#SaveStatus').removeClass('auto-style1').addClass('auto-style2');
-    $('#SaveButton').prop('disabled ', true);
-
-}
-function getSoapEnvelope(request) {
-    // Wrap an Exchange Web Services request in a SOAP envelope.
-    var result =
-
-    '<?xml version="1.0" encoding="utf-8"?>' +
-    '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' +
-    '               xmlns:xsd="http://www.w3.org/2001/XMLSchema"' +
-    '               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"' +
-    '               xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages"' +
-    '               xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">' +
-    '  <soap:Header>' +
-    '    <RequestServerVersion Version="Exchange2013" xmlns="http://schemas.microsoft.com/exchange/services/2006/types" soap:mustUnderstand="0" />' +
-    '  </soap:Header>' +
-    '  <soap:Body>' +
-
-    request +
-
-    '  </soap:Body>' +
-    '</soap:Envelope>';
-
-    return result;
-}
-function FindItemRequest() {
-    // Return a GetItem operation request for the subject of the specified item. 
-    var result =
- '   <m:FindItem Traversal="Shallow">' +
- '     <m:ItemShape>' +
- '     <t:BaseShape>IdOnly</t:BaseShape>' +
- '        <t:AdditionalProperties>' +
- '           <t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName="cecp-' + _AppGuid + '" PropertyType="String" />' +
- '        </t:AdditionalProperties>' +
- '       </m:ItemShape>' +
- '       <m:IndexedPageItemView MaxEntriesReturned="100" Offset="0" BasePoint="Beginning" />' +
- '       <m:Restriction>' +
- '          <t:IsEqualTo>' +
- '              <t:ExtendedFieldURI DistinguishedPropertySetId="PublicStrings" PropertyName="cecp-' + _AppGuid + '" PropertyType="String" />' +
- '              <t:FieldURIOrConstant>' +
- '                 <t:Constant Value="{&quot;nssplugIn&quot;:&quot;' + _ItemGuid + '&quot;}" />' +
- '              </t:FieldURIOrConstant>' +
- '           </t:IsEqualTo>' +
- '       </m:Restriction>' +
- '       <m:ParentFolderIds>' +
- '         <t:DistinguishedFolderId Id="drafts" />' +
- '       </m:ParentFolderIds>' +
- '     </m:FindItem>';
-    return result;
-}
-
-function customPropsCallback(asyncResult) {
-    var customProps = asyncResult.value;
-    customProps.set("nssplugIn", _ItemGuid);
-    customProps.saveAsync(saveCallback);
-}
-
-function decimalToHexString(number) {
-    if (number < 0) {
-        number = 0xFFFFFFFF + number + 1;
-    }
-    var numberret = number.toString(16).toUpperCase();
-    if (numberret.length == 1) {
-        numberret = "0" + numberret;
-    }
-    return numberret;
-}
-function GetWordVerb(Word, Postion, MessageClass) {
-    var verbstart = "04000000";
-    var length = decimalToHexString(Word.length);
-    var HexString = convertToHex(Word);
-    var mclength = decimalToHexString(MessageClass.length);
-    var mcHexString = convertToHex(MessageClass);
-    var Option1 = "000000000000000000010000000200000002000000";
-    var Option2 = "000000FFFFFFFF";
-    return (verbstart + length + HexString + mclength + mcHexString + "00" + length + HexString + Option1 + decimalToHexString(Postion) + Option2);
-}
-
-function convertToHexUnicode(str) {
-    var hex = '';
-    for (var i = 0; i < str.length; i++) {
-        var hexval = str.charCodeAt(i).toString(16);
-        hex += hexval + "00";
-    }
-    return hex;
-}
-function convertToHex(str) {
-    var hex = '';
-    for (var i = 0; i < str.length; i++) {
-        hex += '' + str.charCodeAt(i).toString(16);
-    }
-    return hex;
-}
-function getVerbStream(VerbArray,MessageClass) {
-    var vCount = (VerbArray.length + 4);
-    var Header = "02010" + vCount + "00000000000000";
-    var ReplyToAllHeader = "055265706C790849504D2E4E6F7465074D657373616765025245050000000000000000";
-    var ReplyToAllFooter = "0000000000000002000000660000000200000001000000";
-    var ReplyToHeader = "0C5265706C7920746F20416C6C0849504D2E4E6F7465074D657373616765025245050000000000000000";
-    var ReplyToFooter = "0000000000000002000000670000000300000002000000";
-    var ForwardHeader = "07466F72776172640849504D2E4E6F7465074D657373616765024657050000000000000000";
-    var ForwardFooter = "0000000000000002000000680000000400000003000000";
-    var ReplyToFolderHeader = "0F5265706C7920746F20466F6C6465720849504D2E506F737404506F737400050000000000000000";
-    var ReplyToFolderFooter = "00000000000000020000006C00000008000000";
-    var VoteOptionExtras = "0401055200650070006C00790002520045000C5200650070006C007900200074006F00200041006C006C0002520045000746006F007200770061007200640002460057000F5200650070006C007900200074006F00200046006F006C0064006500720000";
-    var ApproveOption = "0400000007417070726F76650849504D2E4E6F74650007417070726F766500000000000000000001000000020000000200000001000000FFFFFFFF";
-    var RejectOption = "040000000652656A6563740849504D2E4E6F7465000652656A65637400000000000000000001000000020000000200000002000000FFFFFFFF";
-    var DisableReplyAllVal = "00";
-    var DisableReplyAllVal = "01";
-    var DisableReplyVal = "00";
-    var DisableReplyVal = "01";
-    var DisableForwardVal = "00";
-    var DisableForwardVal = "01";
-    var DisableReplyToFolderVal = "00";
-    var DisableReplyToFolderVal = "01";
-    var OptionsVerbs = "";
-    var VerbValue = Header + ReplyToAllHeader + DisableReplyAllVal + ReplyToAllFooter + ReplyToHeader + DisableReplyVal + ReplyToFooter + ForwardHeader + DisableForwardVal + ForwardFooter + ReplyToFolderHeader + DisableReplyToFolderVal + ReplyToFolderFooter;
-    for (index = 0; index < VerbArray.length; index++) {
-        VerbValue += GetWordVerb(VerbArray[index], (index + 1), MessageClass);
-        OptionsVerbs += decimalToHexString(VerbArray[index].length) + convertToHexUnicode(VerbArray[index]) + decimalToHexString(VerbArray[index].length) + convertToHexUnicode(VerbArray[index]);
-    }
-    VerbValue += VoteOptionExtras + OptionsVerbs;
-    return VerbValue;
-}
-
-function UpdateVerb(Id, ChangeKey, Value) {
-    var results =
-
-   ' <UpdateItem MessageDisposition="SaveOnly" ConflictResolution="AlwaysOverwrite" SendMeetingInvitationsOrCancellations="SendToNone" xmlns="http://schemas.microsoft.com/exchange/services/2006/messages">' +
-   '         <ItemChanges>' +
-   '           <t:ItemChange>' +
-   '            <t:ItemId Id="' + Id + '" ChangeKey="' + ChangeKey + '" />' +
-   '             <t:Updates>' +
-   '               <t:SetItemField>' +
-   '                 <t:ExtendedFieldURI DistinguishedPropertySetId="Common" PropertyId="34080" PropertyType="Binary" />' +
-   '                 <t:Message>' +
-   '                   <t:ExtendedProperty>' +
-   '                   <t:ExtendedFieldURI DistinguishedPropertySetId="Common" PropertyId="34080" PropertyType="Binary" />' +
-   '                   <t:Value>' + Value + '</t:Value>' +
-   '                  </t:ExtendedProperty>' +
-   '                 </t:Message>' +
-   '               </t:SetItemField>' +
-   '             </t:Updates>' +
-   '           </t:ItemChange>' +
-   '         </ItemChanges>' +
-   '</UpdateItem>';
-    return results;
-}
-
-if (!window.atob) {
-    var tableStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    var table = tableStr.split("");
-
-    window.atob = function (base64) {
-        if (/(=[^=]+|={3,})$/.test(base64)) throw new Error("String contains an invalid character");
-        base64 = base64.replace(/=/g, "");
-        var n = base64.length & 3;
-        if (n === 1) throw new Error("String contains an invalid character");
-        for (var i = 0, j = 0, len = base64.length / 4, bin = []; i < len; ++i) {
-            var a = tableStr.indexOf(base64[j++] || "A"), b = tableStr.indexOf(base64[j++] || "A");
-            var c = tableStr.indexOf(base64[j++] || "A"), d = tableStr.indexOf(base64[j++] || "A");
-            if ((a | b | c | d) < 0) throw new Error("String contains an invalid character");
-            bin[bin.length] = ((a << 2) | (b >> 4)) & 255;
-            bin[bin.length] = ((b << 4) | (c >> 2)) & 255;
-            bin[bin.length] = ((c << 6) | d) & 255;
-        };
-        return String.fromCharCode.apply(null, bin).substr(0, bin.length + n - 4);
-    };
-
-    window.btoa = function (bin) {
-        for (var i = 0, j = 0, len = bin.length / 3, base64 = []; i < len; ++i) {
-            var a = bin.charCodeAt(j++), b = bin.charCodeAt(j++), c = bin.charCodeAt(j++);
-            if ((a | b | c) > 255) throw new Error("String contains an invalid character");
-            base64[base64.length] = table[a >> 2] + table[((a << 4) & 63) | (b >> 4)] +
-                                    (isNaN(b) ? "=" : table[((b << 2) & 63) | (c >> 6)]) +
-                                    (isNaN(b + c) ? "=" : table[c & 63]);
-        }
-        return base64.join("");
-    };
-
-}
-
-function hexToBase64(str) {
-    return btoa(String.fromCharCode.apply(null,
-      str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" "))
-    );
+    // we connect the recorder
+    volume.connect (recorder);
+    recorder.connect (context.destination); 
 }
