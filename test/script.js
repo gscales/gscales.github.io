@@ -23,6 +23,8 @@ if (navigator.getUserMedia){
     });
 } else alert('getUserMedia not supported in this browser.');
 
+
+
 // when key is down
 window.onkeydown = function(e){
     
@@ -91,6 +93,14 @@ window.onkeydown = function(e){
         click.initEvent("click", true, true);
         link.dispatchEvent(click);
     }
+}
+
+function b1Click() {
+    recording = true;
+    // reset the buffers for the new recording
+    leftchannel.length = rightchannel.length = 0;
+    recordingLength = 0;
+    outputElement.innerHTML = 'Recording now...';
 }
 
 function interleave(leftChannel, rightChannel){
