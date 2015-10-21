@@ -1,0 +1,48 @@
+﻿<style type="text/css">
+    .Table {
+        display: table;
+    }
+
+    .Row {
+        display: table-row;
+    }
+
+    .Cell {
+        display: table-cell;
+        border: solid;
+        border-width: thin;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+</style>
+
+<div>
+    <h2>New Contacts</h2>
+    <div class="Table">
+        <div class="Row">
+            <div class="Cell">
+                <p>FirstName</p>
+            </div>
+            <div class="Cell">
+                <input ng-model="givenName" class="form-control" />
+            </div>
+        </div>
+        <div class="Row">
+            <div class="Cell">
+                <p>LastName</p>
+            </div>
+            <div class="Cell">
+                <input ng-model="surName" class="form-control" />
+            </div>
+        </div>
+        <div class="Row">
+            <div class="Cell">
+                <p>Email</p>
+            </div>
+            <div class="Cell">
+                <input ng-model="email" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <button ng-click="add()">Add</button>  
+</div>
