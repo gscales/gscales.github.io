@@ -31,8 +31,7 @@ function getCurrentItem(accessToken) {
     // https://msdn.microsoft.com/office/office365/APi/mail-rest-operations#get-a-message-rest
    // var getMessageUrl = Office.context.mailbox.restUrl +
    //     '/v2.0/me/messages/' + itemId;'
-     var PostURL = Office.context.mailbox.restUrl +
-         '/beta/me/getMailTips";'
+     var PostURL = "https://graph.microsoft.com/api/beta/me/getMailTips";
      var mtipRequest = "{ \"EmailAddresses\": [ \"gscales@datarumble.com\" ],\"MailTipsOptions\": \"automaticReplies, mailboxFullStatus\"}";
     //var getMessageUrl = "https://graph.microsoft.com/beta/me/messages/" + itemId;
     $.ajax({
