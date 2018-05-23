@@ -29,9 +29,9 @@ function getCurrentItem(accessToken) {
     // Construct the REST URL to the current item
     // Details for formatting the URL can be found at 
     // https://msdn.microsoft.com/office/office365/APi/mail-rest-operations#get-a-message-rest
-    //var getMessageUrl = Office.context.mailbox.restUrl +
-    //    '/v2.0/me/messages/' + itemId;
-    var getMessageUrl = "https://graph.microsoft.com/beta/me/messages/" + itemId;
+    var getMessageUrl = Office.context.mailbox.restUrl +
+        '/v2.0/me/messages/' + itemId;
+    //var getMessageUrl = "https://graph.microsoft.com/beta/me/messages/" + itemId;
     $.ajax({
         url: getMessageUrl,
         dataType: 'json',
