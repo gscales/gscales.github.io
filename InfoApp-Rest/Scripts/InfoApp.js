@@ -33,7 +33,7 @@ function getCurrentItem(accessToken) {
    //     '/v2.0/me/messages/' + itemId;'
      var PostURL = Office.context.mailbox.restUrl +
          '/beta/me/getMailTips";'
-     var mtipRequest = "{ \"EmailAddresses\": [ \"gscales@datarumble.com.com\" ],\"MailTipsOptions\": \"automaticReplies, mailboxFullStatus\"}";
+     var mtipRequest = "{ \"EmailAddresses\": [ \"gscales@datarumble.com\" ],\"MailTipsOptions\": \"automaticReplies, mailboxFullStatus\"}";
     //var getMessageUrl = "https://graph.microsoft.com/beta/me/messages/" + itemId;
     $.ajax({
         type: "POST",
