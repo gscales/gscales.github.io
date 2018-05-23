@@ -29,16 +29,21 @@ function getCurrentItem(accessToken) {
     // Construct the REST URL to the current item
     // Details for formatting the URL can be found at 
     // https://msdn.microsoft.com/office/office365/APi/mail-rest-operations#get-a-message-rest
-    var getMessageUrl = Office.context.mailbox.restUrl +
-        '/v2.0/me/messages/' + itemId;
+   // var getMessageUrl = Office.context.mailbox.restUrl +
+   //     '/v2.0/me/messages/' + itemId;'
+     var PostURL = Office.context.mailbox.restUrl +
+         '/beta/me/getMailTips";'
+     var mtipRequest = "{ \"EmailAddresses\": [ \"gscales@datarumble.com.com\" ],\"MailTipsOptions\": \"automaticReplies, mailboxFullStatus\"}";
     //var getMessageUrl = "https://graph.microsoft.com/beta/me/messages/" + itemId;
     $.ajax({
-        url: getMessageUrl,
+        type: "POST",
+        url: PostURL,
+        data: mtipRequest,
         dataType: 'json',
         headers: { 'Authorization': 'Bearer ' + accessToken }
     }).done(function (item) {
         // Message is passed in `item`
-        var subject = item.Subject;
+        var subject = item[0].emailAddress.name;
         $('#ServerName').text("Message Subject : " + subject);
     }).fail(function (error) {
         // Handle error
