@@ -43,7 +43,7 @@ function getCurrentItem(accessToken) {
         headers: { 'Authorization': 'Bearer ' + accessToken }
     }).done(function (item) {
         // Message is passed in `item`
-        var subject = item[0].emailAddress.name;
+        var subject = item.value[0].EmailAddress.name;
         $('#ServerName').text("Message Subject : " + subject);
     }).fail(function (error) {
         // Handle error
