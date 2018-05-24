@@ -36,6 +36,7 @@ function getCurrentItem(accessToken) {
     //var getMessageUrl = "https://graph.microsoft.com/beta/me/messages/" + itemId;
     $.ajax({
         type: "POST",
+        contentType: "application/json; charset=utf-8",
         url: PostURL,
         data: mtipRequest,
         dataType: 'json',
