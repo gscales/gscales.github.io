@@ -19,7 +19,7 @@
   <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
   <DisplayName DefaultValue="SenderMailTips" />
   <Description DefaultValue="SenderMailTips"/>
-  <IconUrl DefaultValue="https://gscales.github.io/SenderMailTips/Images/icon64.png"/>
+  <IconUrl DefaultValue="https://gscales.github.io/SenderMailTips/Images/Icon64.png"/>
 
   <SupportUrl DefaultValue="http://www.msgdevelop.com" />
   <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
@@ -96,9 +96,9 @@
 
     <Resources>
       <bt:Images>
-        <bt:Image id="icon16" DefaultValue="https://gscales.github.io/SenderMailTips/Images/icon16.png"/>
-        <bt:Image id="icon32" DefaultValue="https://gscales.github.io/SenderMailTips/Images/icon32.png"/>
-        <bt:Image id="icon80" DefaultValue="https://gscales.github.io/SenderMailTips/Images/icon80.png"/>
+        <bt:Image id="icon16" DefaultValue="https://gscales.github.io/SenderMailTips/Images/Icon16.png"/>
+        <bt:Image id="icon32" DefaultValue="https://gscales.github.io/SenderMailTips/Images/Icon32.png"/>
+        <bt:Image id="icon80" DefaultValue="https://gscales.github.io/SenderMailTips/Images/Icon80.png"/>
       </bt:Images>
       <bt:Urls>
         <bt:Url id="functionFile" DefaultValue="https://gscales.github.io/SenderMailTips/Functions/FunctionFile.html"/>
