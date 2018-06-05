@@ -105,9 +105,9 @@
         <bt:Url id="messageReadTaskPaneUrl" DefaultValue="https://gscales.github.io/SenderSentiment/MessageRead.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="groupLabel" DefaultValue="MSent Group"/>
-        <bt:String id="customTabLabel"  DefaultValue="MSent Tab"/>
-        <bt:String id="paneReadButtonLabel" DefaultValue=" "/>
+        <bt:String id="groupLabel" DefaultValue=" "/>
+        <bt:String id="customTabLabel"  DefaultValue=" "/>
+        <bt:String id="paneReadButtonLabel" DefaultValue="Sender Sentiment"/>
         <bt:String id="paneReadSuperTipTitle" DefaultValue=" "/>
       </bt:ShortStrings>
       <bt:LongStrings>
