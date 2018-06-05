@@ -40,68 +40,59 @@
   }
 
   function AddMailTipEntry(entry) {
-      var html = `
-              <div class="ms-Table-row">
-              <span class="ms-Table-cell">Property</span>
-              <span class="ms-Table-cell">Value</span>
-              </div>
-`;
+      var html = "<div class=\"ms-Table-row\">";
+      html = html + "<span class=\"ms-Table-cell\">Property</span>";
+      html = html + "<span class=\"ms-Table-cell\">Value</span>";
+      html = html + "</div>";
       if (entry.hasOwnProperty("EmailAddress")) {
           var EmailAddress = entry.EmailAddress.Address;
-          var html = html + `
-                  <div class="ms-Table-row">
-                  <span class="ms-Table-cell ms-fontWeight-semibold">EmailAddress</span>
-                  <span id="EmailAddress" class="ms-Table-cell">`;
+          html = html + "<div class=\"ms-Table-row\">";
+          html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">EmailAddress</span>";
+          html = html + "<span id=\"EmailAddress\" class=\"ms-Table-cell\">";
           html = html + EmailAddress + "</span ></div >";
       }
       if (entry.hasOwnProperty("MailboxFull")) {
           var MailboxFullValue = entry.MailboxFull;
-          var html = html + `
-                  <div class="ms-Table-row">
-                  <span class="ms-Table-cell ms-fontWeight-semibold">MailboxFull</span>
-                  <span id="MailboxFull" class="ms-Table-cell">`;
+          html = html + "<div class=\"ms-Table-row\">";
+          html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">MailboxFull</span>";
+          html = html + "<span id=\"MailboxFull\" class=\"ms-Table-cell\">";
           html = html + MailboxFullValue + "</span ></div >";
       }
       if (entry.hasOwnProperty("RecipientScope")) {
           var recipientScope = entry.RecipientScope;
-          var html = html + `
-                  <div class="ms-Table-row">
-                  <span class="ms-Table-cell ms-fontWeight-semibold">RecipientScope</span>
-                  <span id="recipientScope" class="ms-Table-cell">`;
+          html = html + "<div class=\"ms-Table-row\">";
+          html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">RecipientScope</span>";
+          html = html + "<span id=\"RecipientScope\" class=\"ms-Table-cell\">";
           html = html + recipientScope + "</span ></div >";
       }
       if (entry.hasOwnProperty("MaxMessageSize")) {
           var MaxMessageSize = entry.MaxMessageSize;
-          var html = html + `
-                  <div class="ms-Table-row">
-                  <span class="ms-Table-cell ms-fontWeight-semibold">MaxMessageSize</span>
-                  <span id="MaxMessageSize" class="ms-Table-cell">`;
+          html = html + "<div class=\"ms-Table-row\">";
+          html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">MaxMessageSize</span>";
+          html = html + "<span id=\"MaxMessageSize\" class=\"ms-Table-cell\">";
           html = html + MaxMessageSize + "</span ></div >";
       }
       if (entry.hasOwnProperty("IsModerated")) {
           var IsModerated = entry.IsModerated;
-          var html = html + `
-                  <div class="ms-Table-row">
-                  <span class="ms-Table-cell ms-fontWeight-semibold">IsModerated</span>
-                  <span id="IsModerated" class="ms-Table-cell">`;
+          html = html + "<div class=\"ms-Table-row\">";
+          html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">IsModerated</span>";
+          html = html + "<span id=\"IsModerated\" class=\"ms-Table-cell\">";
           html = html + IsModerated + "</span ></div >";
       }
       if (entry.hasOwnProperty("AutomaticReplies")) {
           if (entry.AutomaticReplies.hasOwnProperty("Message")) {
               var arMessage = entry.AutomaticReplies.Message;
-              var html = html + `
-                  <div class="ms-Table-row">
-                  <span class="ms-Table-cell ms-fontWeight-semibold">AutomaticReply</span>
-                  <span id="IsModerated" class="ms-Table-cell">`;
+              html = html + "<div class=\"ms-Table-row\">";
+              html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">AutomaticReply</span>";
+              html = html + "<span id=\"AutomaticReply\" class=\"ms-Table-cell\">";
               html = html + arMessage + "</span ></div >";
           }
       }
       if (entry.hasOwnProperty("CustomMailTip")) {
           var CustomMailTip = entry.CustomMailTip;
-          var html = html + `
-                  <div class="ms-Table-row">
-                  <span class="ms-Table-cell ms-fontWeight-semibold">CustomMailTip</span>
-                  <span id="IsModerated" class="ms-Table-cell">`;
+          html = html + "<div class=\"ms-Table-row\">";
+          html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">CustomMailTip</span>";
+          html = html + "<span id=\"CustomMailTip\" class=\"ms-Table-cell\">";
           html = html + CustomMailTip + "</span ></div >";
 
       } 
