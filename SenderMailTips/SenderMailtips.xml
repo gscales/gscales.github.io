@@ -105,8 +105,8 @@
         <bt:Url id="messageReadTaskPaneUrl" DefaultValue="https://gscales.github.io/SenderMailTips/MessageRead.html"/>
       </bt:Urls>
       <bt:ShortStrings>
-        <bt:String id="groupLabel" DefaultValue="MailTips Add-in Group"/>
-        <bt:String id="customTabLabel"  DefaultValue="MailTips Add-in Tab"/>
+        <bt:String id="groupLabel" DefaultValue=" "/>
+        <bt:String id="customTabLabel"  DefaultValue=" "/>
         <bt:String id="paneReadButtonLabel" DefaultValue="Display all Mailtips"/>
         <bt:String id="paneReadSuperTipTitle" DefaultValue="Get all Mailtips"/>
       </bt:ShortStrings>
