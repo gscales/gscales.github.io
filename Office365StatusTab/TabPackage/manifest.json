@@ -1,0 +1,28 @@
+﻿{
+  "$schema": "https://statics.teams.microsoft.com/sdk/v0.2/manifest/MicrosoftTeams.schema.json",
+  "manifestVersion": "0.2",
+  "id": "ManagementAPIStatus",
+  "version": "1.0",
+  "name": "Status Sample",
+  "developer": {
+    "name": "gscales@msgdevelop.com",
+    "websiteUrl": "https://gscales.github.io/Office365StatusTab/app/todo.html",
+    "privacyUrl": "https://gscales.github.io/Office365StatusTab/app/todo.html",
+    "termsOfUseUrl": "https://gscales.github.io/Office365StatusTab/app/todo.html"
+  },
+  "description": {
+    "short": "Tab to demostrate getting Status from Management API.",
+    "full": "Tab to demostrate getting Status from Management API."
+  },
+  "icons": {
+    "44": "icon44.png",
+    "88": "icon88.png"
+  },
+  "accentColor": "#333333",
+  "configUrl": "https://gscales.github.io/Office365StatusTab/app/config.html",
+  "canUpdateConfig": false,
+  "needsIdentity": false,
+  "validDomains": [
+    "gscales.github.io"
+  ]
+}
