@@ -20,7 +20,7 @@
             postLogoutRedirectUri: window.location.origin,
             cacheLocation: "localStorage",
             endpoints: {
-                "https://graph.microsoft.com": "https://graph.microsoft.com"
+                "https://manage.office.com": "https://manage.office.com"
             }
         };
 
@@ -34,7 +34,7 @@
             if (!user)
                 authContext.login(); // No cached user...force login
             else {
-                authContext.acquireToken("https://graph.microsoft.com", function(error, token) {
+                authContext.acquireToken("https://manage.office.com", function(error, token) {
                     if (error || !token) {
                         // TODO: this could cause infinite loop
                         // Should use microsoftTeams.authentication.notifyFailure after one try
