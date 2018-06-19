@@ -39,7 +39,7 @@
         var getData = function(token) {
             // Use XMLHttpRequest to call Microsoft Graph for the users data
             var req = new XMLHttpRequest();
-            req.open("GET", "https://graph.microsoft.com/v1.0/me", false);
+            req.open("GET", "https://manage.office.com/api/v1.0/1c3a18bf-da31-4f6c-a404-2c06c9cf5ae4/ServiceComms/CurrentStatus", false);
             req.setRequestHeader("Authorization", "Bearer " + token);
             req.setRequestHeader("Accept", "application/json;odata.metadata=minimal;");
             req.send();
