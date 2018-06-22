@@ -95,9 +95,9 @@
                 headers: { 'Authorization': 'Bearer ' + token }
             }).done(function (item) {
                 var html = "<div class=\"ms-Table\" style=\"border-collapse:collapse;border: 1px solid black;table-layout: auto;width:75%;\;background-color:white;\"><div class=\"ms-Table-row\">";
-                html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:50px;\"></span>";
-                html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:100px;\">User</span>";
-                html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;\">Out of Office Message</span>";
+                html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:50px;font-weight:bolder;\"></span>";
+                html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:100px;font-weight:bolder;\">User</span>";
+                html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;font-weight:bolder;\">Out of Office Message</span>";
                 html = html + "</div>";
                 var index = 0;
                 for (index = 0; index < item.value.length; ++index) {
