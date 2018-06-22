@@ -7,13 +7,9 @@
         img {
             border-radius: 50%;
         }
-        body {
-            background-color: white;
-        }
     </style>
 </head>
-<body>
-    <button onclick="refresh()">Refresh Data</button>
+<body>    
     <div id="data"></div>
     <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.min.css" />
     <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css" />
@@ -98,7 +94,7 @@
                 dataType: 'json',
                 headers: { 'Authorization': 'Bearer ' + token }
             }).done(function (item) {
-                var html = "<div class=\"ms-Table\" style=\"border-collapse:collapse;border: 1px solid black;table-layout: auto;width:75%;\"><div class=\"ms-Table-row\">";
+                var html = "<div class=\"ms-Table\" style=\"border-collapse:collapse;border: 1px solid black;table-layout: auto;width:75%;\;background-color:white;"><div class=\"ms-Table-row\">";
                 html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:50px;\"></span>";
                 html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:100px;\">User</span>";
                 html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;\">Out of Office Message</span>";
