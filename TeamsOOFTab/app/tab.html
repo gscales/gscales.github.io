@@ -98,9 +98,9 @@
                 dataType: 'json',
                 headers: { 'Authorization': 'Bearer ' + token }
             }).done(function (item) {
-                var html = "<div class=\"ms-Table-row\">";
-                html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;\"></span>";
-                html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;\">User</span>";
+                var html = "<div class=\"ms-Table\" style=\"border-collapse:collapse;border: 1px solid black;table-layout: auto;width:75%;\"><div class=\"ms-Table-row\">";
+                html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:50px;\"></span>";
+                html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:100px;\">User</span>";
                 html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;\">Out of Office Message</span>";
                 html = html + "</div>";
                 var index = 0;
@@ -116,14 +116,14 @@
                         }
 
                         if (outval) {
-                            html = html + "<div class=\"ms-Table-row\"><span class=\"ms-Table-cell\"><img id=\"img" + entry.emailAddress.address + "\" style=\"border: 2px solid red;\" src=\"\" /></span>";
+                            html = html + "<div class=\"ms-Table-row\"><span class=\"ms-Table-cell\" style=\"width:50px;\"><img id=\"img" + entry.emailAddress.address + "\" style=\"border: 2px solid red;\" src=\"\" /></span>";
                         } else {
-                            html = html + "<div class=\"ms-Table-row\"><span class=\"ms-Table-cell\"><img id=\"img" + entry.emailAddress.address + "\" style=\"border: 2px solid green;\" src=\"\" /></span>";
+                            html = html + "<div class=\"ms-Table-row\"><span class=\"ms-Table-cell\" style=\"width:50px;\"><img id=\"img" + entry.emailAddress.address + "\" style=\"border: 2px solid green;\" src=\"\" /></span>";
                         }
                     }
 
-                    html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\" style=\"vertical-align: middle;\">" + DisplayName + "</span>";
-                    html = html + "<span id=\"EmailAddress\" class=\"ms-Table-cell\" style=\"vertical-align: middle;\">";
+                    html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\" style=\"vertical-align: middle;width:120px;\">" + DisplayName + "</span>";
+                    html = html + "<span id=\"OffStatus\" class=\"ms-Table-cell\" style=\"vertical-align: middle;\">";
                     if (entry.automaticReplies.hasOwnProperty("message")) {
                         html = html + entry.automaticReplies.message + "</span ></div >";
                     } else {
@@ -131,6 +131,7 @@
                     }
 
                 }
+                html = html + "</div>";
                 $('#data').append(html);
                 var photoRequestMap = {};
                 for (index = 0; index < result.value.length; ++index) {
