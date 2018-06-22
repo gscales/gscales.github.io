@@ -6,7 +6,13 @@
 </head>
 <body>
     <button onclick="refresh()">Refresh Data</button>
-    <h1 id="LoadStatus"></h1>
+    <div id="data"></div>
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.min.css" />
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css" />
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.13/js/adal.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"
+            integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+            crossorigin="anonymous"></script>
     <script src="https://statics.teams.microsoft.com/sdk/v0.2/js/MicrosoftTeams.min.js"></script>
     <script type="text/javascript">
         // Initialize microsoft teams tab library
@@ -36,8 +42,9 @@
                 getData(token);
         };
 
-        var getData = function(token) {
-            document.getElementById("LoadStatus").innerText = "Done";
+        var getData = function (token) {
+            var html = "Done";
+            $('#data').append(html);
         };
 
         refresh();
