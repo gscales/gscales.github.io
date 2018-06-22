@@ -1,0 +1,28 @@
+﻿{
+  "$schema": "https://statics.teams.microsoft.com/sdk/v0.2/manifest/MicrosoftTeams.schema.json",
+  "manifestVersion": "0.2",
+  "id": "9d13608f-e5b1-4c34-992f-3069dd18f299",
+  "version": "1.0",
+  "name": "In Out Board Tab",
+  "developer": {
+    "name": "gscales@msgdevelop.com",
+    "websiteUrl": "https://gscales.github.io/TeamsOOFTab/app/todo.html",
+    "privacyUrl": "https://gscales.github.io/TeamsOOFTab/app/todo.html",
+    "termsOfUseUrl": "https://gscales.github.io/TeamsOOFTab/app/todo.html"
+  },
+  "description": {
+    "short": "Tab for displaying an In Out Board",
+    "full": "Tab for displaying an In Out Board"
+  },
+  "icons": {
+    "44": "icon44.png",
+    "88": "icon88.png"
+  },
+  "accentColor": "#333333",
+  "configUrl": "https://gscales.github.io/TeamsOOFTab/app/config.html",
+  "canUpdateConfig": false,
+  "needsIdentity": false,
+  "validDomains": [
+    "gscales.github.io","graph.microsoft.com"
+  ]
+}
