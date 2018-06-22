@@ -43,7 +43,7 @@
         }
 
         // getData function to perform auth flow and get user's Data
-        var refresh = function() {
+        var Authuser = function() {
             if (token == null)
             {
                 microsoftTeams.authentication.authenticate({
@@ -173,7 +173,7 @@
 
         };
 
-        refresh();
+        Authuser();
     </script>
 </body>
 </html>
