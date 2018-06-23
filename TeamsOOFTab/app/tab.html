@@ -65,7 +65,9 @@
         };
 
         var Graphex = function (token) {
-            var GroupId = "cc1b7acb-4431-4798-80b5-e64a81b4c45f";
+            microsoftTeams.Context.groupId
+            //var GroupId = "cc1b7acb-4431-4798-80b5-e64a81b4c45f";
+            var GroupId = microsoftTeams.Context.groupId;
             // Use XMLHttpRequest to call Microsoft Graph for the users data
             var req = new XMLHttpRequest();
             req.open("GET", ("https://graph.microsoft.com/v1.0/groups/" + GroupId + "/members"), false);
