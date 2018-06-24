@@ -56,7 +56,7 @@
                         Graphex(token);
                     },
                     failureCallback: function(err) {
-                        document.getElementById("auth").innerText("Failed to get authenticate and get token.");
+                        document.getElementById("data").innerText("Failed to get authenticate and get token.");
                     }
                 });
             }
@@ -65,9 +65,12 @@
         };
 
         var Graphex = function (token) {
-            microsoftTeams.Context.groupId
+            var GroupId = ""; 
+            microsoftTeams.getContext(function (context) {
+                GroupId = context.groupId;
+            });
             //var GroupId = "cc1b7acb-4431-4798-80b5-e64a81b4c45f";
-            var GroupId = microsoftTeams.Context.groupId;
+            
             // Use XMLHttpRequest to call Microsoft Graph for the users data
             var req = new XMLHttpRequest();
             req.open("GET", ("https://graph.microsoft.com/v1.0/groups/" + GroupId + "/members"), false);
