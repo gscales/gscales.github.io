@@ -47,7 +47,7 @@
             if (token == null)
             {
                 microsoftTeams.authentication.authenticate({
-                    url: "/TeamsOOFTab/app/auth.html",
+                    url: window.location.origin + "/TeamsOOFTab/app/auth.html",
                     width: 400,
                     height: 400,
                     successCallback: function(t) {
