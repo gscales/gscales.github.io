@@ -15,7 +15,7 @@
 
         // getData function to perform auth flow and get user's Data
         var refresh = function() {
-            document.getElementById("auth").innerText = "Loading...";
+            document.getElementById("auth").innerText = "";
             if (token == null)
             {
                 microsoftTeams.authentication.authenticate({
