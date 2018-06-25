@@ -9,38 +9,36 @@
     <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
     <script type="text/javascript">        
         // Initialize microsoft teams tab library
-        microsoftTeams.initialize(); 
-        microsoftTeams.getContext(function (context) {
-            window.config = {
-                instance: "https://login.microsoftonline.com/",
-                tenant: "1c3a18bf-da31-4f6c-a404-2c06c9cf5ae4",
-                clientId: "08401c36-6179-4bbe-9bcc-d34ff51d828f",
-                postLogoutRedirectUri: window.location.origin,
-                cacheLocation: "localStorage",
-                endpoints: {
-                    "https://graph.microsoft.com": "https://graph.microsoft.com"
-                }
-            };
+        microsoftTeams.initialize();        
+        window.config = {
+            instance: "https://login.microsoftonline.com/",
+            tenant: "1c3a18bf-da31-4f6c-a404-2c06c9cf5ae4",
+            clientId: "08401c36-6179-4bbe-9bcc-d34ff51d828f",
+            postLogoutRedirectUri: window.location.origin,
+            cacheLocation: "localStorage",
+            endpoints: {
+                "https://graph.microsoft.com": "https://graph.microsoft.com"
+            }
+        };
 
-            // Setup authcontext
-            var authContext = new AuthenticationContext(window.config);
-            if (authContext.isCallback(window.location.hash)) {
-                authContext.handleWindowCallback(window.location.hash);
+        // Setup authcontext
+        var authContext = new AuthenticationContext(window.config);
+        if (authContext.isCallback(window.location.hash)) {
+            authContext.handleWindowCallback(window.location.hash);
+        }
+        else {
+            var user = authContext.getCachedUser();
+            if (!user) {
+                authContext.login(); // No cached user...force login
             }
             else {
-                var user = authContext.getCachedUser();
-                if (!user) {
-                    authContext.login(); // No cached user...force login
-                }
-                else {
-                    authContext.acquireToken("https://graph.microsoft.com", function (error, token) {
-                        if (error || !token) {
-                            microsoftTeams.authentication.notifyFailure(error);
-                        }
-                        else
-                            microsoftTeams.authentication.notifySuccess(token);
-                    });
-                }
+                authContext.acquireToken("https://graph.microsoft.com", function (error, token) {
+                    if (error || !token) {
+                        microsoftTeams.authentication.notifyFailure(error);
+                    }
+                    else
+                        microsoftTeams.authentication.notifySuccess(token);
+                });
             }
         }
     </script>
