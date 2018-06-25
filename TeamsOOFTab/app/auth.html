@@ -1,4 +1,91 @@
-﻿<!DOCTYPE html>
+﻿Skip to content
+
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ @gscales Sign out
+38
+38 21 OfficeDev/microsoft-teams-sample-complete-node
+ Code  Issues 3  Pull requests 2  Projects 0  Wiki  Insights
+microsoft-teams-sample-complete-node/src/views/tab-auth/silent-start.hbs
+40f78b4  on Sep 8, 2017
+@aosolis aosolis Minor formatting fixes
+
+72 lines (66 sloc)  3.44 KB
+<!--
+// Copyright (c) Microsoft Corporation
+// All rights reserved.
+//
+// MIT License:
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+
+<html>
+<head>
+    <title>Silent Authentication Sample Login</title>
+</head>
+<body>
+    <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js" integrity="sha384-SNENyRfvDvybst1u0LawETYF6L5yMx5Ya1dIqWoG4UDTZ/5UAMB15h37ktdBbyFh" crossorigin="anonymous"></script>
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.15/js/adal.min.js" integrity="sha384-lIk8T3uMxKqXQVVfFbiw0K/Nq+kt1P3NtGt/pNexiDby2rKU6xnDY8p16gIwKqgI" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+            microsoftTeams.initialize();
+            // Get the tab context, and use the information to navigate to Azure AD login page
+            microsoftTeams.getContext(function (context) {
+                // ADAL.js configuration
+                let config = {
+                    clientId: "08401c36-6179-4bbe-9bcc-d34ff51d828f",
+                    redirectUri: window.location.origin + "/TeamsOOFTab/app/silent-end.html",       // This should be in the list of redirect uris for the AAD app
+                    cacheLocation: "localStorage",
+                    navigateToLoginRequestUrl: false,
+                };
+                // Setup extra query parameters for ADAL
+                // - openid and profile scope adds profile information to the id_token
+                // - login_hint provides the expected user name
+                if (context.upn) {
+                    config.extraQueryParameters = "scope=openid+profile&login_hint=" + encodeURIComponent(context.upn);
+                } else {
+                    config.extraQueryParameters = "scope=openid+profile";
+                }
+
+                // Use a custom displayCall function to add extra query parameters to the url before navigating to it
+                config.displayCall = function (urlNavigate) {
+                    if (urlNavigate) {
+                        if (config.extraQueryParameters) {
+                            urlNavigate += "&" + config.extraQueryParameters;
+                        }
+                        window.location.replace(urlNavigate);
+                    }
+                }
+                // Navigate to the AzureAD login page
+                let authContext = new AuthenticationContext(config);
+                authContext.login();
+            });
+    </script>
+</body>
+</html>
+
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,6 +103,7 @@
             clientId: "08401c36-6179-4bbe-9bcc-d34ff51d828f",
             postLogoutRedirectUri: window.location.origin,
             cacheLocation: "localStorage",
+            navigateToLoginRequestUrl: false,
             endpoints: {
                 "https://graph.microsoft.com": "https://graph.microsoft.com"
             }
@@ -43,4 +131,4 @@
         }
     </script>
 </body>
-</html>
+</html>-->
