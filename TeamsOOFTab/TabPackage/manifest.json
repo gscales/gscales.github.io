@@ -36,6 +36,7 @@
   ],
   "validDomains": [
      "gscales.github.io",
-     "graph.microsoft.com"     
+     "graph.microsoft.com",
+     "login.microsoftonline.com"     
   ]
 }
