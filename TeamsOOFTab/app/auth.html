@@ -29,9 +29,7 @@
         else {
             var user = authContext.getCachedUser();
             if (!user) {
-                microsoftTeams.getContext(function (context) {
-                    authContext.login(); // No cached user...force login
-                }
+                authContext.login(); // No cached user...force login
             }
             else {
                 authContext.acquireToken("https://graph.microsoft.com", function (error, token) {
