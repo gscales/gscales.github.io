@@ -55,8 +55,10 @@
                         token = t;
                         Graphex(token);
                     },
-                    failureCallback: function(err) {
-                        document.getElementById("data").innerText("Failed to get authenticate and get token.");
+                    failureCallback: function (err) {
+                        html = html + "<div>Failed to get authenticate and get token.</div>";
+                        $('#data').empty()
+                        $('#data').append(html);
                     }
                 });
             }
