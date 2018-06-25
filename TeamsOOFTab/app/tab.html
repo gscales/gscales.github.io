@@ -153,12 +153,13 @@
                             var clientRespHeader = this.getResponseHeader("client-request-id")
                             var ElemendId = "img" + photoRequestMap[clientRespHeader];
                             var uInt8Array = new Uint8Array(this.response);
-                            var i = uInt8Array.length;
-                            var binaryString = new Array(i);
-                            while (i--) {
-                                binaryString[i] = String.fromCharCode(uInt8Array[i]);
-                            }
-                            var data = binaryString.join('');
+                            //var i = uInt8Array.length;
+                            //var binaryString = new Array(i);
+                            //while (i--) {
+                            //    binaryString[i] = String.fromCharCode(uInt8Array[i]);
+                            //}
+                            //var data = binaryString.join('');
+                            var data = String.fromCharCode.apply(String, uInt8Array);
                             var base64 = window.btoa(data);
                             document.getElementById(ElemendId).src = "data:image/png;base64," + base64;
                            
@@ -166,7 +167,7 @@
                     };
 
                     xhr.send()
-
+                    $('#ShowBoard').hide();
 
 
 
