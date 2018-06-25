@@ -12,7 +12,7 @@
         microsoftTeams.initialize();        
         window.config = {
             instance: "https://login.microsoftonline.com/",
-            tenant: "common",
+            tenant: "datarumble.com",
             clientId: "08401c36-6179-4bbe-9bcc-d34ff51d828f",
             postLogoutRedirectUri: window.location.origin,
             cacheLocation: "localStorage",
@@ -30,16 +30,6 @@
             var user = authContext.getCachedUser();
             if (!user) {
                 microsoftTeams.getContext(function (context) {
-                    window.config = {
-                        instance: "https://login.microsoftonline.com/",
-                        tenant: "common",
-                        clientId: "08401c36-6179-4bbe-9bcc-d34ff51d828f",
-                        postLogoutRedirectUri: window.location.origin,
-                        cacheLocation: "localStorage",
-                        endpoints: {
-                            "https://graph.microsoft.com": "https://graph.microsoft.com"
-                        }
-                    };
                     authContext.login(); // No cached user...force login
                 }
             }
