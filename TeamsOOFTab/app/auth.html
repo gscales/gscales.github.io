@@ -16,6 +16,9 @@
                     redirectUri: window.location.origin + "/TeamsOOFTab/app/silent-end.html",       // This should be in the list of redirect uris for the AAD app
                     cacheLocation: "localStorage",
                     navigateToLoginRequestUrl: false,
+                    endpoints: {
+                        "https://graph.microsoft.com": "https://graph.microsoft.com"
+                    }
                 };
                 // Setup extra query parameters for ADAL
                 // - openid and profile scope adds profile information to the id_token
