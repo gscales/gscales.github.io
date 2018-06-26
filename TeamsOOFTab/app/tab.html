@@ -87,14 +87,14 @@
                 data: mtipRequest,
                 dataType: 'json',
                 headers: { 'Authorization': 'Bearer ' + token }
-            }).done(function (item) {
+            }).done(function (item, displayNameMap) {
                 BuildInOutBoard(item);
             }).fail(function (error) {
                 // Handle error
             });
         }
 
-        var BuildInOutBoard = function (item) {
+        var BuildInOutBoard = function (item, displayNameMap) {
             var html = "<div class=\"ms-Table\" style=\"border-collapse:collapse;border: 1px solid black;table-layout: auto;width:75%;\;background-color:white;\"><div class=\"ms-Table-row\">";
             html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:50px;font-weight:bolder;\"></span>";
             html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:100px;font-weight:bolder;\">User</span>";
