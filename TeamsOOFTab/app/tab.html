@@ -25,8 +25,7 @@
             height: 120px;
             -webkit-animation: spin 2s linear infinite; /* Safari */
             animation: spin 2s linear infinite;
-            visibility: hidden;
-        }
+         }
 
         /* Safari */
         @-webkit-keyframes spin {
@@ -63,6 +62,7 @@
     <script type="text/javascript">
         // Initialize microsoft teams tab library
         microsoftTeams.initialize();
+        $('#ProgresLoader').hide();
         var token = null;
 
         function uuidv4() {
