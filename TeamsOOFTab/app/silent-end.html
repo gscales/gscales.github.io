@@ -23,7 +23,13 @@
             if (authContext.isCallback(window.location.hash)) {
                 authContext.handleWindowCallback(window.location.hash);
                 if (authContext.getCachedUser()) {
-                    microsoftTeams.authentication.notifySuccess();
+                    authContext.acquireToken("https://graph.microsoft.com", function (error, token) {
+                        if (error || !token) {
+                            microsoftTeams.authentication.notifyFailure(error);
+                        }
+                        else
+                            microsoftTeams.authentication.notifySuccess(token);
+                    });
                 } else {
                     microsoftTeams.authentication.notifyFailure(authContext.getLoginError());
                 }
