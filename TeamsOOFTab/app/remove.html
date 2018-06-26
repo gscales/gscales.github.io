@@ -2,7 +2,7 @@
 <body>
     <form>
         <input type="radio" name="removetype" value="delete" onclick="onClick()">
-        Delete this app <br>       
+        Delete this app <br>
     </form>
 
     <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js">
@@ -11,20 +11,20 @@
     <script type="text/javascript">
 
 
-microsoftTeams.initialize();
-microsoftTeams.settings.registerOnRemoveHandler(function(removeEvent){
+        microsoftTeams.initialize();
+        microsoftTeams.settings.registerOnRemoveHandler(function (removeEvent) {
 
-    var radios = document.getElementsByName('removetype');
-    if (radios[0].checked) {
-      // Delete the map and all its data from the underlying service.
-    }
+            var radios = document.getElementsByName('removetype');
+            if (radios[0].checked) {
 
-    removeEvent.notifySuccess();
-});
+            }
 
-function onClick() {
-    microsoftTeams.settings.setValidityState(true);
-}
+            removeEvent.notifySuccess();
+        });
+
+        function onClick() {
+            microsoftTeams.settings.setValidityState(true);
+        }
 
     </script>
 </body>

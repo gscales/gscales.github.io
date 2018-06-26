@@ -19,8 +19,8 @@
     "full": "Tab for displaying an In Out Board"
   },
    "icons": {
-    "outline": "icon44.png", 
-    "color": "icon88.png" 
+    "outline": "Outline32.png", 
+    "color": "Colour192.png" 
   },
   "accentColor": "#333333",
   "configurableTabs": [
@@ -36,7 +36,6 @@
   ],
   "validDomains": [
      "gscales.github.io",
-     "graph.microsoft.com",
-     "login.microsoftonline.com"     
+   
   ]
 }
