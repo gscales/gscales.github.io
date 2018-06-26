@@ -88,8 +88,8 @@
                 data: mtipRequest,
                 dataType: 'json',
                 headers: { 'Authorization': 'Bearer ' + token }
-            }).done(function (item, displayNameMap) {
-                BuildInOutBoard(item);
+            }).done(function (item) {
+                BuildInOutBoard(item, displayNameMap);
             }).fail(function (error) {
                 // Handle error
             });
