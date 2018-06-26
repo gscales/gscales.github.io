@@ -20,10 +20,8 @@
         .loader {
             border: 16px solid #f3f3f3;
             border-radius: 50%;
-            border-top: 16px solid blue;
-            border-right: 16px solid green;
-            border-bottom: 16px solid red;
-            border-left: 16px solid pink;
+            border-top: 16px solid #5558AF;
+            border-bottom: 16px solid #5558AF;
             width: 80px;
             height: 80px;
             -webkit-animation: spin 2s linear infinite;
@@ -65,7 +63,7 @@
         // Initialize microsoft teams tab library
         microsoftTeams.initialize();
         $('#ProgresLoader').hide();
-        $("#btnAddProfile").prop('value', 'Loading...'); 
+        $("#ShowBoard").prop('value', 'Loading...'); 
         var token = null;
 
         function uuidv4() {
@@ -230,6 +228,7 @@
         };        
 
     </script>
+    <br />
     <input id="ShowBoard" type="button" class="button" value="ShowBoard" onclick="Authuser();" />
 </body>
 </html>
