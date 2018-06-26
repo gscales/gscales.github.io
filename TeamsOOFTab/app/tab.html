@@ -122,11 +122,13 @@
 
                 html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\" style=\"vertical-align: middle;width:120px;\">" + DisplayName + "</span>";
                 html = html + "<span id=\"OffStatus\" class=\"ms-Table-cell\" style=\"vertical-align: middle;\">";
-                if (entry.automaticReplies.hasOwnProperty("message")) {
-                    html = html + entry.automaticReplies.message + "</span ></div >";
-                } else {
-                    html = html + "</span ></div >";
+                if (entry.hasOwnProperty("automaticReplies")) {
+                    if (entry.automaticReplies.hasOwnProperty("message")) {
+                        html = html + entry.automaticReplies.message;
+                    }
                 }
+                html = html + "</span ></div >";              
+
 
             }
             html = html + "</div>";
