@@ -67,14 +67,14 @@
             }               
         };
 
-        var GetMailTips = function (result) {
+        var GetMailTips = function (mailTipsRequestResults) {
             var MailTipsRquest = {};
             var EmailAddresses = [];
             MailTipsRquest.EmailAddresses = EmailAddresses;
             MailTipsRquest.MailTipsOptions = "automaticReplies";
             var displayNameMap = {};
-            for (index = 0; index < result.value.length; ++index) {
-                var entry = result.value[index];
+            for (index = 0; index < mailTipsRequestResults.value.length; ++index) {
+                var entry = mailTipsRequestResults.value[index];
                 MailTipsRquest.EmailAddresses.push(entry.mail);
                 var emAddress = entry.mail;
                 displayNameMap[entry.mail] = entry.displayName;
@@ -89,13 +89,13 @@
                 dataType: 'json',
                 headers: { 'Authorization': 'Bearer ' + token }
             }).done(function (item) {
-                BuildInOutBoard(item, displayNameMap);
+                BuildInOutBoard(item, displayNameMap, mailTipsRequestResults);
             }).fail(function (error) {
                 // Handle error
             });
         }
 
-        var BuildInOutBoard = function (item, displayNameMap) {
+            var BuildInOutBoard = function (item, displayNameMap, mailTipsRequestResults) {
             var html = "<div class=\"ms-Table\" style=\"border-collapse:collapse;border: 1px solid black;table-layout: auto;width:75%;\;background-color:white;\"><div class=\"ms-Table-row\">";
             html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:50px;font-weight:bolder;\"></span>";
             html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:100px;font-weight:bolder;\">User</span>";
@@ -133,8 +133,8 @@
             $('#data').empty()
             $('#data').append(html);
             var photoRequestMap = {};
-            for (index = 0; index < result.value.length; ++index) {
-                var entry = result.value[index];
+            for (index = 0; index < mailTipsRequestResults.value.length; ++index) {
+                var entry = mailTipsRequestResults.value[index];
                 var clientid = uuidv4();
                 photoRequestMap[clientid] = entry.mail;
                 var userImageURL = "https://graph.microsoft.com/v1.0/users('" + entry.mail + "')/photos/48x48/$value";
