@@ -53,7 +53,7 @@
                     successCallback: function(t) {
                         // Note: token is only good for one hour
                         token = t;
-                        Graphex(token);
+                        GetGroupMembers(token);
                     },
                     failureCallback: function (err) {
                         html = html + "<div>Failed to get authenticate and get token.</div>";
@@ -88,76 +88,80 @@
                 dataType: 'json',
                 headers: { 'Authorization': 'Bearer ' + token }
             }).done(function (item) {
-                var html = "<div class=\"ms-Table\" style=\"border-collapse:collapse;border: 1px solid black;table-layout: auto;width:75%;\;background-color:white;\"><div class=\"ms-Table-row\">";
-                html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:50px;font-weight:bolder;\"></span>";
-                html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:100px;font-weight:bolder;\">User</span>";
-                html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;font-weight:bolder;\">Out of Office Message</span>";
-                html = html + "</div>";
-                var index = 0;
-                for (index = 0; index < item.value.length; ++index) {
-                    var entry = item.value[index];
-                    var DisplayName = displayNameMap[entry.emailAddress.address];
-                    if (entry.hasOwnProperty("automaticReplies")) {
-                        var outval = false;
-                        if (entry.automaticReplies.hasOwnProperty("message")) {
-                            if (entry.automaticReplies.message.length > 5) {
-                                outval = true;
-                            }
-                        }
-
-                        if (outval) {
-                            html = html + "<div class=\"ms-Table-row\"><span class=\"ms-Table-cell\" style=\"width:50px;\"><img id=\"img" + entry.emailAddress.address + "\" style=\"border: 2px solid red;\" src=\"\" /></span>";
-                        } else {
-                            html = html + "<div class=\"ms-Table-row\"><span class=\"ms-Table-cell\" style=\"width:50px;\"><img id=\"img" + entry.emailAddress.address + "\" style=\"border: 2px solid green;\" src=\"\" /></span>";
-                        }
-                    }
-
-                    html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\" style=\"vertical-align: middle;width:120px;\">" + DisplayName + "</span>";
-                    html = html + "<span id=\"OffStatus\" class=\"ms-Table-cell\" style=\"vertical-align: middle;\">";
-                    if (entry.automaticReplies.hasOwnProperty("message")) {
-                        html = html + entry.automaticReplies.message + "</span ></div >";
-                    } else {
-                        html = html + "</span ></div >";
-                    }
-
-                }
-                html = html + "</div>";
-                $('#data').empty()
-                $('#data').append(html);
-                var photoRequestMap = {};
-                for (index = 0; index < result.value.length; ++index) {
-                    var entry = result.value[index];
-                    var clientid = uuidv4();
-                    photoRequestMap[clientid] = entry.mail;
-                    var userImageURL = "https://graph.microsoft.com/v1.0/users('" + entry.mail + "')/photos/48x48/$value";
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('GET', userImageURL, true);
-                    xhr.setRequestHeader("Authorization", "Bearer " + token);
-                    xhr.setRequestHeader("client-request-id", clientid);
-                    xhr.responseType = 'arraybuffer';
-                    xhr.onload = function (e) {
-                        if (this.status == 200) {
-                            // get binary data as a response
-                            var blob = this.response;
-                            var clientRespHeader = this.getResponseHeader("client-request-id")
-                            var ElemendId = "img" + photoRequestMap[clientRespHeader];
-                            var uInt8Array = new Uint8Array(this.response);
-                            var data = String.fromCharCode.apply(String, uInt8Array);
-                            var base64 = window.btoa(data);
-                            document.getElementById(ElemendId).src = "data:image/png;base64," + base64;
-
-                        }
-                    };
-
-                    xhr.send()
-                    $('#ShowBoard').hide();
-                }
+                BuildInOutBoard(item);
             }).fail(function (error) {
                 // Handle error
             });
         }
 
-        var Graphex = function (token) {            
+        var BuildInOutBoard = function (item) {
+            var html = "<div class=\"ms-Table\" style=\"border-collapse:collapse;border: 1px solid black;table-layout: auto;width:75%;\;background-color:white;\"><div class=\"ms-Table-row\">";
+            html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:50px;font-weight:bolder;\"></span>";
+            html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:100px;font-weight:bolder;\">User</span>";
+            html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;font-weight:bolder;\">Out of Office Message</span>";
+            html = html + "</div>";
+            var index = 0;
+            for (index = 0; index < item.value.length; ++index) {
+                var entry = item.value[index];
+                var DisplayName = displayNameMap[entry.emailAddress.address];
+                if (entry.hasOwnProperty("automaticReplies")) {
+                    var outval = false;
+                    if (entry.automaticReplies.hasOwnProperty("message")) {
+                        if (entry.automaticReplies.message.length > 5) {
+                            outval = true;
+                        }
+                    }
+
+                    if (outval) {
+                        html = html + "<div class=\"ms-Table-row\"><span class=\"ms-Table-cell\" style=\"width:50px;\"><img id=\"img" + entry.emailAddress.address + "\" style=\"border: 2px solid red;\" src=\"\" /></span>";
+                    } else {
+                        html = html + "<div class=\"ms-Table-row\"><span class=\"ms-Table-cell\" style=\"width:50px;\"><img id=\"img" + entry.emailAddress.address + "\" style=\"border: 2px solid green;\" src=\"\" /></span>";
+                    }
+                }
+
+                html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\" style=\"vertical-align: middle;width:120px;\">" + DisplayName + "</span>";
+                html = html + "<span id=\"OffStatus\" class=\"ms-Table-cell\" style=\"vertical-align: middle;\">";
+                if (entry.automaticReplies.hasOwnProperty("message")) {
+                    html = html + entry.automaticReplies.message + "</span ></div >";
+                } else {
+                    html = html + "</span ></div >";
+                }
+
+            }
+            html = html + "</div>";
+            $('#data').empty()
+            $('#data').append(html);
+            var photoRequestMap = {};
+            for (index = 0; index < result.value.length; ++index) {
+                var entry = result.value[index];
+                var clientid = uuidv4();
+                photoRequestMap[clientid] = entry.mail;
+                var userImageURL = "https://graph.microsoft.com/v1.0/users('" + entry.mail + "')/photos/48x48/$value";
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', userImageURL, true);
+                xhr.setRequestHeader("Authorization", "Bearer " + token);
+                xhr.setRequestHeader("client-request-id", clientid);
+                xhr.responseType = 'arraybuffer';
+                xhr.onload = function (e) {
+                    if (this.status == 200) {
+                        // get binary data as a response
+                        var blob = this.response;
+                        var clientRespHeader = this.getResponseHeader("client-request-id")
+                        var ElemendId = "img" + photoRequestMap[clientRespHeader];
+                        var uInt8Array = new Uint8Array(this.response);
+                        var data = String.fromCharCode.apply(String, uInt8Array);
+                        var base64 = window.btoa(data);
+                        document.getElementById(ElemendId).src = "data:image/png;base64," + base64;
+
+                    }
+                };
+
+                xhr.send()
+                $('#ShowBoard').hide();
+            }
+        }
+
+        var GetGroupMembers = function (token) {            
             microsoftTeams.getContext(function (context) {
                 GroupId = context.groupId;
                 $.ajax({
@@ -168,17 +172,13 @@
                     headers: { 'Authorization': 'Bearer ' + token }
                 }).done(function (item) {
                     GetMailTips(item);
+                }).fail(function (error) {
+                        // Handle error
                 });
-                //var req = new XMLHttpRequest();
-                //req.open("GET", ("https://graph.microsoft.com/v1.0/groups/" + GroupId + "/members"), false);
-                //req.setRequestHeader("Authorization", "Bearer " + token);
-                //req.setRequestHeader("Accept", "application/json;odata.metadata=minimal;");
-                //req.send();
-                //var result = JSON.parse(req.responseText);
-
             });  
             
         };        
+
     </script>
     <input id="ShowBoard" type="button" value="ShowBoard" onclick="Authuser();" />
 </body>
