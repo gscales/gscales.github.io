@@ -25,6 +25,7 @@
             height: 120px;
             -webkit-animation: spin 2s linear infinite; /* Safari */
             animation: spin 2s linear infinite;
+            visibility: hidden;
         }
 
         /* Safari */
@@ -51,7 +52,7 @@
 </head>
 <body>    
     <div id="data"></div>
-    <div class="loader"></div>
+    <div id="ProgresLoader" class="loader" hidden></div>
     <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.min.css" />
     <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css" />
     <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js"></script>
@@ -85,7 +86,7 @@
 
         // getData function to perform auth flow and get user's Data
         var Authuser = function () {
-            $('#loader').show();
+            $('#ProgresLoader').show();
             if (token == null)
             {
                 microsoftTeams.authentication.authenticate({
@@ -203,7 +204,7 @@
 
                 xhr.send()
                 $('#ShowBoard').hide();
-                $('#loader').hide();
+                $('#ProgresLoader').hide();
             }
         }
 
