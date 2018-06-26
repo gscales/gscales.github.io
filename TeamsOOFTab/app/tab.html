@@ -7,10 +7,51 @@
         img {
             border-radius: 50%;
         }
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+        }
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>    
     <div id="data"></div>
+    <div class="loader" hidden="true"></div>
     <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.min.css" />
     <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css" />
     <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js"></script>
@@ -43,7 +84,8 @@
         }
 
         // getData function to perform auth flow and get user's Data
-        var Authuser = function() {
+        var Authuser = function () {
+            $('#loader').show();
             if (token == null)
             {
                 microsoftTeams.authentication.authenticate({
@@ -161,6 +203,7 @@
 
                 xhr.send()
                 $('#ShowBoard').hide();
+                $('#loader').hide();
             }
         }
 
@@ -183,6 +226,6 @@
         };        
 
     </script>
-    <input id="ShowBoard" type="button" value="ShowBoard" onclick="Authuser();" />
+    <input id="ShowBoard" type="button" class="button" value="ShowBoard" onclick="Authuser();" />
 </body>
 </html>
