@@ -266,6 +266,7 @@
                             var base64 = window.btoa(e.target.result);
                             document.getElementById(ElemendId).src = "data:image/png;base64," + base64;
                         };
+                        fred.readAsArrayBuffer(blob);
                     }
                 };
 
