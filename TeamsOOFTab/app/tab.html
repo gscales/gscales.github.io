@@ -152,7 +152,7 @@
             }
         };
 
-        var GetMailTips = function (mailTipsRequestResults) {
+        var GetMailTips = function (mailTipsRequestResults,idToken) {
             var MailTipsRquest = {};
             var EmailAddresses = [];
             MailTipsRquest.EmailAddresses = EmailAddresses;
@@ -172,9 +172,9 @@
                 url: PostURL,
                 data: mtipRequest,
                 dataType: 'json',
-                headers: { 'Authorization': 'Bearer ' + token }
+                headers: { 'Authorization': 'Bearer ' + idToken }
             }).done(function (item) {
-                BuildInOutBoard(item, displayNameMap, mailTipsRequestResults);
+                BuildInOutBoard(item, displayNameMap, mailTipsRequestResults, idToken);
             }).fail(function (error) {
                 // Handle error
             });
@@ -227,7 +227,7 @@
                 var userImageURL = "https://graph.microsoft.com/v1.0/users('" + entry.mail + "')/photos/48x48/$value";
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', userImageURL, true);
-                xhr.setRequestHeader("Authorization", "Bearer " + token);
+                xhr.setRequestHeader("Authorization", "Bearer " + idToken);
                 xhr.setRequestHeader("client-request-id", clientid);
                 xhr.responseType = 'arraybuffer';
                 xhr.onload = function (e) {
@@ -250,7 +250,7 @@
             }
         }
 
-        var GetGroupMembers = function (token) {
+        var GetGroupMembers = function (idToken) {
             microsoftTeams.getContext(function (context) {
                 GroupId = context.groupId;
                 $.ajax({
@@ -258,9 +258,9 @@
                     contentType: "application/json; charset=utf-8",
                     url: ("https://graph.microsoft.com/v1.0/groups/" + GroupId + "/members"),
                     dataType: 'json',
-                    headers: { 'Authorization': 'Bearer ' + token }
+                    headers: { 'Authorization': 'Bearer ' + idToken }
                 }).done(function (item) {
-                    GetMailTips(item);
+                    GetMailTips(item, idToken);
                 }).fail(function (error) {
                     // Handle error
                 });
@@ -270,6 +270,6 @@
 
     </script>
     <br />
-    <input id="ShowBoard" type="button" class="button" value="Show In/Out Board" onclick="Authuser();" />
+    <input id="ShowBoard" type="button" class="button" value="Show In/Out Board" onclick="ShowBoard();" />
 </body>
 </html>
