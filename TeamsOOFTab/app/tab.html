@@ -7,6 +7,7 @@
         img {
             border-radius: 50%;
         }
+
         .button {
             background-color: #008CBA;
             border: none;
@@ -17,6 +18,7 @@
             display: inline-block;
             font-size: 12px;
         }
+
         .loader {
             border: 16px solid #f3f3f3;
             border-radius: 50%;
@@ -49,7 +51,7 @@
         }
     </style>
 </head>
-<body>    
+<body>
     <div id="data"></div>
     <div id="ProgresLoader" class="loader" hidden></div>
     <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.min.css" />
@@ -85,29 +87,69 @@
         }
 
         // getData function to perform auth flow and get user's Data
-        var Authuser = function () {
+        var ShowBoard = function () {
             $('#ProgresLoader').show();
-            if (token == null)
-            {
-                microsoftTeams.authentication.authenticate({
-                    url: window.location.origin + "/TeamsOOFTab/app/auth.html",
-                    width: 400,
-                    height: 400,
-                    successCallback: function(t) {
-                        // Note: token is only good for one hour
-                        token = t;
-                        GetGroupMembers(token);
-                    },
-                    failureCallback: function (err) {
-                        html = html + "<div>Failed to get authenticate and get token.</div>";
-                        $('#data').empty()
-                        $('#data').append(html);
+            let upn = undefined;
+            microsoftTeams.getContext(function (context) {
+                upn = context.upn;
+                Authuser(upn);
+            });
+        }
+        var Authuser = function (upn) {
+           let config = {
+                clientId: "08401c36-6179-4bbe-9bcc-d34ff51d828f",
+                redirectUri: window.location.origin + "/TeamsOOFTab/app/silent-end.html",       // This should be in the list of redirect uris for the AAD app
+                cacheLocation: "localStorage",
+                navigateToLoginRequestUrl: false,
+                endpoints: {
+                    "https://graph.microsoft.com": "https://graph.microsoft.com"
+                }
+            };
+            if (upn) {
+                config.extraQueryParameters = "scope=openid+profile&login_hint=" + encodeURIComponent(upn);
+            } else {
+                config.extraQueryParameters = "scope=openid+profile";
+            }
+
+            let authContext = new AuthenticationContext(config);
+
+            // See if there's a cached user and it matches the expected user
+            let user = authContext.getCachedUser();
+            if (user) {
+                if (user.userName !== upn) {
+                    // User doesn't match, clear the cache
+                    authContext.clearCache();
+                }
+            }
+
+            // Get the id token (which is the access token for resource = clientId)
+            let token = authContext.getCachedToken(config.clientId);
+            if (token) {
+                GetGroupMembers(token);
+            } else {
+                // No token, or token is expired
+                authContext._renewIdToken(function (err, idToken) {
+                    if (err) {
+                        microsoftTeams.authentication.authenticate({
+                            url: window.location.origin + "/TeamsOOFTab/app/auth.html",
+                            width: 400,
+                            height: 400,
+                            successCallback: function (t) {
+                                // Note: token is only good for one hour
+                                token = t;
+                                GetGroupMembers(token);
+                            },
+                            failureCallback: function (err) {
+                                html = html + "<div>Failed to get authenticate and get token.</div>";
+                                $('#data').empty()
+                                $('#data').append(html);
+                            }
+                        });
+                    } else {
+                        GetGroupMembers(idToken);
                     }
                 });
             }
-            else {
-                GetGroupMembers(token);
-            }               
         };
 
         var GetMailTips = function (mailTipsRequestResults) {
@@ -138,7 +180,7 @@
             });
         }
 
-            var BuildInOutBoard = function (item, displayNameMap, mailTipsRequestResults) {
+        var BuildInOutBoard = function (item, displayNameMap, mailTipsRequestResults) {
             var html = "<div class=\"ms-Table\" style=\"border-collapse:collapse;border: 1px solid black;table-layout: auto;width:75%;\;background-color:white;\"><div class=\"ms-Table-row\">";
             html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:50px;font-weight:bolder;\"></span>";
             html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:100px;font-weight:bolder;\">User</span>";
@@ -170,7 +212,7 @@
                         html = html + entry.automaticReplies.message;
                     }
                 }
-                html = html + "</span ></div >";              
+                html = html + "</span ></div >";
 
 
             }
@@ -208,7 +250,7 @@
             }
         }
 
-        var GetGroupMembers = function (token) {            
+        var GetGroupMembers = function (token) {
             microsoftTeams.getContext(function (context) {
                 GroupId = context.groupId;
                 $.ajax({
@@ -220,11 +262,11 @@
                 }).done(function (item) {
                     GetMailTips(item);
                 }).fail(function (error) {
-                        // Handle error
+                    // Handle error
                 });
-            });  
-            
-        };        
+            });
+
+        };
 
     </script>
     <br />
