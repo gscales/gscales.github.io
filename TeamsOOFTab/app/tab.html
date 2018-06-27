@@ -89,15 +89,15 @@
         // getData function to perform auth flow and get user's Data
         var ShowBoard = function () {
             $('#ProgresLoader').show();
-            //let upn = undefined;
-            //microsoftTeams.getContext(function (context) {
-            //    upn = context.upn;
-            //    Authuser(upn);
-            //});
+            let upn = undefined;
+            microsoftTeams.getContext(function (context) {
+                upn = context.upn;
+                Authuser(upn);
+            });
             Authuser(null);
         }
         var Authuser = function (upn) {
-           let config = {
+            let config = {
                 clientId: "08401c36-6179-4bbe-9bcc-d34ff51d828f",
                 redirectUri: window.location.origin + "/TeamsOOFTab/app/silent-end.html",       // This should be in the list of redirect uris for the AAD app
                 cacheLocation: "localStorage",
@@ -124,25 +124,25 @@
             }
 
             // Get the id token (which is the access token for resource = clientId)
-            let token = authContext.getCachedToken();
+            let token = authContext.getCachedToken(config.clientId);
             if (token) {
                 GetGroupMembers(token);
             } else {
-                           microsoftTeams.authentication.authenticate({
-                            url: window.location.origin + "/TeamsOOFTab/app/auth.html",
-                            width: 400,
-                            height: 400,
-                            successCallback: function (t) {
-                                // Note: token is only good for one hour
-                                token = t;
-                                GetGroupMembers(token);
-                            },
-                            failureCallback: function (err) {
-                                html = html + "<div>Failed to get authenticate and get token.</div>";
-                                $('#data').empty()
-                                $('#data').append(html);
-                            }
-                        });
+                microsoftTeams.authentication.authenticate({
+                    url: window.location.origin + "/TeamsOOFTab/app/auth.html",
+                    width: 400,
+                    height: 400,
+                    successCallback: function (t) {
+                        // Note: token is only good for one hour
+                        token = t;
+                        GetGroupMembers(token);
+                    },
+                    failureCallback: function (err) {
+                        html = html + "<div>Failed to get authenticate and get token.</div>";
+                        $('#data').empty()
+                        $('#data').append(html);
+                    }
+                });
                 // No token, or token is expired
                 //authContext._renewIdToken(function (err, idToken) {
                 //    if (err) {
@@ -168,7 +168,7 @@
             }
         };
 
-        var GetMailTips = function (mailTipsRequestResults,idToken) {
+        var GetMailTips = function (mailTipsRequestResults, idToken) {
             var MailTipsRquest = {};
             var EmailAddresses = [];
             MailTipsRquest.EmailAddresses = EmailAddresses;
