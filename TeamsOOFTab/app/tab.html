@@ -66,10 +66,7 @@
         microsoftTeams.initialize();
         $('#ProgresLoader').hide();
         var token = null;
-        let upn = undefined;
-        microsoftTeams.getContext(function (context) {
-            upn = context.upn;           
-        });
+
         function uuidv4() {
             function hex(s, b) {
                 return s +
@@ -92,7 +89,11 @@
         // getData function to perform auth flow and get user's Data
         var ShowBoard = function () {
             $('#ProgresLoader').show();
-            Authuser(upn);
+            let upn = undefined;
+            microsoftTeams.getContext(function (context) {
+                upn = context.upn;
+                Authuser(upn);
+            });
         }
         var Authuser = function (upn) {
            let config = {
