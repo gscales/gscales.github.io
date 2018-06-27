@@ -128,10 +128,7 @@
             if (token) {
                 GetGroupMembers(token);
             } else {
-                // No token, or token is expired
-                authContext._renewIdToken(function (err, idToken) {
-                    if (err) {
-                        microsoftTeams.authentication.authenticate({
+                           microsoftTeams.authentication.authenticate({
                             url: window.location.origin + "/TeamsOOFTab/app/auth.html",
                             width: 400,
                             height: 400,
@@ -146,10 +143,28 @@
                                 $('#data').append(html);
                             }
                         });
-                    } else {
-                        GetGroupMembers(idToken);
-                    }
-                });
+                // No token, or token is expired
+                //authContext._renewIdToken(function (err, idToken) {
+                //    if (err) {
+                //        microsoftTeams.authentication.authenticate({
+                //            url: window.location.origin + "/TeamsOOFTab/app/auth.html",
+                //            width: 400,
+                //            height: 400,
+                //            successCallback: function (t) {
+                //                // Note: token is only good for one hour
+                //                token = t;
+                //                GetGroupMembers(token);
+                //            },
+                //            failureCallback: function (err) {
+                //                html = html + "<div>Failed to get authenticate and get token.</div>";
+                //                $('#data').empty()
+                //                $('#data').append(html);
+                //            }
+                //        });
+                //    } else {
+                //        GetGroupMembers(idToken);
+                //    }
+                //});
             }
         };
 
