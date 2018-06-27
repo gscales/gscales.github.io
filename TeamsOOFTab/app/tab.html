@@ -89,11 +89,12 @@
         // getData function to perform auth flow and get user's Data
         var ShowBoard = function () {
             $('#ProgresLoader').show();
-            let upn = undefined;
-            microsoftTeams.getContext(function (context) {
-                upn = context.upn;
-                Authuser(upn);
-            });
+            //let upn = undefined;
+            //microsoftTeams.getContext(function (context) {
+            //    upn = context.upn;
+            //    Authuser(upn);
+            //});
+            Authuser(null);
         }
         var Authuser = function (upn) {
            let config = {
@@ -123,7 +124,7 @@
             }
 
             // Get the id token (which is the access token for resource = clientId)
-            let token = authContext.getCachedToken(config.clientId);
+            let token = authContext.getCachedToken();
             if (token) {
                 GetGroupMembers(token);
             } else {
