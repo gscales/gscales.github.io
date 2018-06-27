@@ -125,7 +125,15 @@
             // Get the id token (which is the access token for resource = clientId)
             let token = authContext.getCachedToken(config.clientId);
             if (token) {
-                GetGroupMembers(token);
+                authContext.acquireToken("https://graph.microsoft.com", function (error, idtoken) {
+                    if (error || !idtoken) {
+                        html = html + "<div>Failed to use cached token</div>";
+                        $('#data').empty()
+                        $('#data').append(html);
+                    }
+                    else
+                        GetGroupMembers(idtoken);
+                });
             } else {
                 microsoftTeams.authentication.authenticate({
                     url: window.location.origin + "/TeamsOOFTab/app/auth.html",
