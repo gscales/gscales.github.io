@@ -260,13 +260,10 @@
                         var clientRespHeader = this.getResponseHeader("client-request-id")
                         var ElemendId = "img" + photoRequestMap[clientRespHeader];
                         var uInt8Array = new Uint8Array(this.response);
-                        var blob = new Blob([uInt8Array]);
-                        var fred = new FileReader();
-                        fred.onload = function (e) {
-                            var base64 = window.btoa(e.target.result);
-                            document.getElementById(ElemendId).src = "data:image/png;base64," + base64;
-                        };
-                        fred.readAsArrayBuffer(blob);
+                        var data = String.fromCharCode.apply(String, uInt8Array);
+                        var base64 = window.btoa(data);
+                        document.getElementById(ElemendId).src = "data:image/png;base64," + base64;
+
                     }
                 };
 
