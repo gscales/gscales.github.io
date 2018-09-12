@@ -20,9 +20,16 @@
         }
     }
 
-    module.exports.authtest = function () {
-        return authtest();
+    if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
+        module.exports.authtest = function () {
+            return authtest();
+        }
+    else {
+        window.authtest = authtest;
     }
+       
+
+
 
 }());
 
