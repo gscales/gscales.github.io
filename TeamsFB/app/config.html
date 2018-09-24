@@ -7,18 +7,19 @@
 <body>
     <p>TODO:blah</p>
     <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
+    <script src="/TeamsFB/app/Config/appconfig.js"></script>
     <script type="text/javascript">
         // Initialize microsoft teams tab library
         microsoftTeams.initialize();
-
+        appConfig = getConfig();
         // Configure the save event
         microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
             // Save the settings for the tab and notify of success
             microsoftTeams.settings.setSettings({
-                contentUrl: "https://gscales.github.io/TeamsFB/app/tab.html",
+                contentUrl: appConfig.hostRoot + "/TeamsFB/app/tab.html",
                 suggestedDisplayName: "Teams FreeBusy Tab",
-                websiteUrl: "https://gscales.github.io/TeamsFB/app/tab.html",
-                removeUrl: "https://gscales.github.io/TeamsFB/app/remove.html"
+                websiteUrl: appConfig.hostRoot + "/TeamsFB/app/tab.html",
+                removeUrl: appConfig.hostRoot + "/TeamsFB/app/remove.html"
             });
             saveEvent.notifySuccess();
         });
