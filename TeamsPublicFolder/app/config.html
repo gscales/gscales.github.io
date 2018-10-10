@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teams Public Folder Config</title>
+</head>
+<body>
+    <p>TODO:blah</p>
+    <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
+    <script src="/TeamsPublicFolder/app/Config/appconfig.js"></script>
+    <script type="text/javascript">
+        // Initialize microsoft teams tab library
+        microsoftTeams.initialize();
+        appConfig = getConfig();
+        // Configure the save event
+        microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
+            // Save the settings for the tab and notify of success
+            microsoftTeams.settings.setSettings({
+                contentUrl: appConfig.hostRoot + "/TeamsPublicFolder/app/tab.html",
+                suggestedDisplayName: "Teams PublicFolder Tab",
+                websiteUrl: appConfig.hostRoot + "/TeamsPublicFolder/app/tab.html",
+                removeUrl: appConfig.hostRoot + "/TeamsPublicFolder/app/remove.html"
+            });
+            saveEvent.notifySuccess();
+        });
+
+        // Automatically set the save state to success
+        microsoftTeams.settings.setValidityState(true);
+    </script>
+</body>
+</html>
