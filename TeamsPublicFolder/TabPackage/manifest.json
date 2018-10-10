@@ -25,7 +25,7 @@
   "accentColor": "#333333",
   "configurableTabs": [
     {
-      "configurationUrl": "https://gscales.github.io/TeamsPublicFolder/app/config.html",
+      "configurationUrl": "https://gscales.github.io/TeamsPublicFolder/app/tab-config.html",
       "canUpdateConfiguration": true,
       "scopes": [ "team" ]
     }
