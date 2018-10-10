@@ -5,7 +5,7 @@ const getConfig = () => {
         authwindow :  "/TeamsPublicFolder/app/auth.html",
 	hostRoot: "https://gscales.github.io",
 	folderpath: "\\Childfolder\\childfolder",
-	ewsproxy: "https://459e25ee.ngrok.io/FolderItems",
+	ewsproxy: "https://2d3371ad.ngrok.io/FolderItems",
    };
    return config;
 }
