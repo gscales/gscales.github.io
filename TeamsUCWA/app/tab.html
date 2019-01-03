@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Teams Skype Conversations Tab</title>
+    <style>
+        img {
+            border-radius: 50%;
+        }
+
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #5558AF;
+            border-bottom: 16px solid #5558AF;
+            width: 80px;
+            height: 80px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="data"></div>
+    <div id="ProgresLoader" class="loader" hidden></div>
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.min.css" />
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css" />
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js"></script>
+    <script src="https://unpkg.com/@microsoft/teams-js@1.3.4/dist/MicrosoftTeams.min.js" integrity="sha384-3zTjxw3msc6gKx3DseSU0lfRM129YrFjr2xgocfMIN/kBCdzJ88d+FSB1n3scUku"
+        crossorigin="anonymous"></script>
+    <script src="/TeamsUCWA/app/Modules/Authentication.js"></script>
+    <script src="/TeamsUCWA/app/Modules/Utils.js"></script>
+    <script src="/TeamsUCWA/app/Config/appconfig.js"></script>
+    <script src="/TeamsUCWA/app/Modules/Graph.js"></script>
+    <script src="/TeamsUCWA/app/Modules/Display.js"></script>
+    <script src="/TeamsUCWA/app/Modules/Ucwa.js"></script>
+    <link href="https://unpkg.com/tabulator-tables@4.0.4/dist/css/tabulator.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.0.4/dist/js/tabulator.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        // Initialize microsoft teams tab library
+        microsoftTeams.initialize();
+        $('#ProgresLoader').hide();
+        //Client object to pass around
+        var Client = {};
+        Client.token = null;
+        var teamscontext = "";
+        microsoftTeams.getContext(function (context) {
+            teamscontext = context;          
+        });
+        //
+        var getLocation = function(href) {
+            var l = document.createElement("a");
+            l.href = href;
+            return l;
+        };
+        async function ShowConversations(){
+            try {
+                console.log("**UPN" + teamscontext.upn);
+                var domain = teamscontext.upn.substring(teamscontext.upn.lastIndexOf("@") +1);
+                let Stage1 = await DiscoverUCWAEndpointStage1(domain);
+                if(Stage1._links.redirect){
+                    Stage1 = await DiscoverUCWAEndpointStage1Redirect(Stage1._links.redirect.href);
+                }
+                console.log(Stage1._links.user.href); 
+                let UCWAStage1host = await getLocation(Stage1._links.user.href).hostname;
+                document.cookie = "ucwaco=" + UCWAStage1host;                 
+                appConfig = getConfig();
+                $('#ProgresLoader').show();                
+                let Token = await Authuser(teamscontext.upn,appConfig,Stage1._links.user.href,UCWAStage1host);
+                let Stage2 = await DiscoverUCWAEndpointStage2(Stage1._links.user.href,Token);
+                console.log(Stage2._links.applications.href);
+                var Stage2loc = getLocation(Stage2._links.applications.href);
+                document.cookie = "ucwaco=" + Stage2loc.hostname; 
+                let Stage2Token = await Authuser(teamscontext.upn,appConfig,Stage1._links.user.href,Stage2loc.hostname);
+                console.log("Done Auth " + Stage2Token);                
+                UCWAHostName = getLocation(Stage2._links.applications.href).hostname;
+                let UCWAConnection = await ConnectUCWA(Stage2._links.applications.href,Stage2Token);
+                
+                let CommunicationConfig = await GetCommunicationLinks(("https://" + UCWAHostName + UCWAConnection._embedded.communication._links.self.href),Stage2Token);
+                CommunicationConfig.conversationHistory = "Enabled";
+                let ConfigChangeResult = EnableConversationHistory(("https://" + UCWAHostName + CommunicationConfig._links.self.href),Stage2Token,CommunicationConfig);
+                let nextEvent = await GetEvents(("https://" + UCWAHostName + UCWAConnection._links.events.href) ,Stage2Token);
+                //nextEvent = await GetEvents(("https://" + UCWAHostName + nextEvent._links.next.href) ,Stage2Token);
+                let updatedCommunicationConfig = await GetCommunicationLinks(("https://" + UCWAHostName + UCWAConnection._embedded.communication._links.self.href),Stage2Token);
+                let ConversationLogs = await GetConversationLogs(("https://" + UCWAHostName + updatedCommunicationConfig._links.conversationLogs.href),Stage2Token);
+                var cnvCount = 50;
+                if(ConversationLogs._links.conversationLog.length < 50){cnvCount = ConversationLogs._links.conversationLog.length;}
+                var BatchId = uuidv4();
+                var postdata = "";
+                for (i = 0; i < cnvCount; i++) { 
+                    postdata += "--" + BatchId +"\r\n";
+                    postdata += "Content-Type: application/http; msgtype=request\r\n";
+                    postdata += "\r\n";
+                    postdata += "GET " + ConversationLogs._links.conversationLog[i].href + " HTTP/1.1\r\n";
+                    postdata += "Accept: application/json\r\n";
+                    postdata += "Host:Host\r\n";
+                    postdata += "\r\n";
+                    postdata += "\r\n";
+                }
+                postdata += "--" + BatchId + "--\r\n";            
+                let Conversations = await BatchConversationPost(UCWAHostName,("https://" + UCWAHostName + UCWAConnection._links.batch.href),postdata,BatchId ,Stage2Token);
+                let Threads = {};
+                Conversations.forEach(function (conversation) { 
+                    if(!Threads.hasOwnProperty(conversation.threadId)){
+                        Threads[conversation.threadId] = [];
+                        Threads[conversation.threadId].push(conversation);
+                    }else{
+                        Threads[conversation.threadId].push(conversation);
+                    }
+
+                });
+                let ThreadDisplay = [];
+                for (var name in Threads) {
+                    var thr = {};
+                    thr.subject = Threads[name][0].subject;
+                    thr.type =  Threads[name][0].type;
+                    thr.previewMessage  = "";
+                    thr.modalities = "";
+                    thr.participants = "";
+                    let recps = {};                    
+                    thr.creationTime = (new Date(parseInt(Threads[name][0].creationTime.substr(6))));
+                    Threads[name].forEach(function(thread){
+                        thr.previewMessage += thread.previewMessage + "\n";
+                            if(thread._embedded.conversationLogRecipient){
+                                thread._embedded.conversationLogRecipient.forEach(function(recip){
+                                //console.log(JSON.stringify(recip));
+                                recps[recip.sipUri] = recip.sipUri.replace("sip:","");
+                            });
+                        }
+                    });
+                    for(var name in recps){
+                        thr.participants += name + " ";
+                    }  
+                              
+                    ThreadDisplay.push(thr);
+                }
+                var table = new Tabulator("#Conversations-table", {
+                    height: "800px",
+                    layout: "fitColumns", //fit columns to width of table (optional)
+                    columns: [ //Define Table Columns,
+                        { title: "DateTime", field: "creationTime", width: 180,formatter:"datetime",cssClass:"ms-Table" },
+                        { title: "Subject", field: "subject", width: 300,cssClass:"ms-Table" },
+                        { title: "Message", field: "previewMessage", width: 400, formatter:"textarea",cssClass:"ms-Table" },
+                        { title: "Participants", field: "participants", width: 200, formatter:"textarea",cssClass:"ms-Table" },
+                        { title: "Type", field: "type", width: 100, formatter:"textarea",cssClass:"ms-Table" },
+                    ],
+                });
+                var Trans = await GetConversationLogs(("https://" + UCWAHostName + Conversations[0]._link.conversationLogTranscripts.href),Stage2Token);
+                table.setData(ThreadDisplay);
+                table.redraw();
+            }
+            catch (error) {
+                 var html = "Error Getting data :<b> " + error + "</b></br>";
+                 $('#data').append(html);
+                 console.log(error);
+            }finally{
+                 $('#ShowConversations').hide();
+                 $('#ProgresLoader').hide();
+                  console.log("Finally");
+            }
+        };
+    </script>
+    <br />
+    <input id="ShowConversations" type="button" class="button" value="Show Skype Conversations Log" onclick="ShowConversations();" />
+    <div id="Conversations-table"></div>
+</body>
+
+</html>

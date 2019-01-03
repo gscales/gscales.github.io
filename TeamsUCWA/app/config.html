@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <p>TODO:blah</p>
+    <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
+    <script src="/TeamsUCWA/app/Config/appconfig.js"></script>
+    <script type="text/javascript">
+        // Initialize microsoft teams tab library
+        microsoftTeams.initialize();
+        appConfig = getConfig();
+        // Configure the save event
+        microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
+            // Save the settings for the tab and notify of success
+            microsoftTeams.settings.setSettings({
+                contentUrl: appConfig.hostRoot + "/TeamsUCWA/app/tab.html",
+                suggestedDisplayName: "Teams Skype Conversations Tab",
+                websiteUrl: appConfig.hostRoot + "/TeamsUCWA/app/tab.html",
+                removeUrl: appConfig.hostRoot + "/TeamsUCWA/app/remove.html"
+            });
+            saveEvent.notifySuccess();
+        });
+
+        // Automatically set the save state to success
+        microsoftTeams.settings.setValidityState(true);
+    </script>
+</body>
+</html>
