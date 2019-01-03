@@ -28,7 +28,7 @@
             let authContext = new AuthenticationContext(config);
             if (authContext.isCallback(window.location.hash)) {
                 authContext.handleWindowCallback(window.location.hash);
-                if (authContext.getCachedUser()) {                    
+                if (authContext.getCachedToken(config.clientId)) {                    
                     
                     authContext.acquireToken(lurl, function (error, token) {
                         if (error || !token) {
