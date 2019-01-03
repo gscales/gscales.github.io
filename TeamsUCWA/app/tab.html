@@ -180,7 +180,7 @@
                         { title: "Type", field: "type", width: 100, formatter:"textarea",cssClass:"ms-Table" },
                     ],
                 });
-                var Trans = await GetConversationLogs(("https://" + UCWAHostName + Conversations[0]._link.conversationLogTranscripts.href),Stage2Token);
+                var Trans = await GetConversationLogs(("https://" + UCWAHostName + Conversations[0]._links.conversationLogTranscripts.href),Stage2Token);
                 table.setData(ThreadDisplay);
                 table.redraw();
             }
