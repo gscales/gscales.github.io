@@ -9,6 +9,7 @@
     <script type="text/javascript">
             microsoftTeams.initialize();
             var appConfig = getConfig();
+            var lurl = ("https://" + getCookie('ucwaco'));
             function getCookie(name) {
                 function escape(s) { return s.replace(/([.*+?\^${}()|\[\]\/\\])/g, '\\$1'); };
                 var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
@@ -20,15 +21,15 @@
                 redirectUri: window.location.origin + appConfig.redirectUri,   
                 cacheLocation: "localStorage",
                 endpoints: {
-                    "https://graph.microsoft.com": "https://graph.microsoft.com"
+                    lurl: lurl
                 },
                 navigateToLoginRequestUrl: false,
             };
             let authContext = new AuthenticationContext(config);
             if (authContext.isCallback(window.location.hash)) {
                 authContext.handleWindowCallback(window.location.hash);
-                if (authContext.getCachedUser()) {                    
-                    var lurl = ("https://" + getCookie('ucwaco'));
+                if (authContext.getCachedToken()) {                    
+                    
                     authContext.acquireToken(lurl, function (error, token) {
                         if (error || !token) {
                             microsoftTeams.authentication.notifyFailure(error);

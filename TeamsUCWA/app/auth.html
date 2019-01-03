@@ -14,7 +14,7 @@
             }
             var appConfig = getConfig();
             microsoftTeams.initialize();
-            
+            var lurl = ("https://" + getCookie('ucwaco'));
             // Get the tab context, and use the information to navigate to Azure AD login page
             microsoftTeams.getContext(function (context) {
                 // ADAL.js configuration
@@ -24,7 +24,7 @@
                     cacheLocation: "localStorage",
                     navigateToLoginRequestUrl: false,
                     endpoints: {
-                        "https://graph.microsoft.com": "https://graph.microsoft.com"
+                        lurl: lurl
                     }
                 };
                 // Setup extra query parameters for ADAL
