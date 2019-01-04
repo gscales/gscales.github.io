@@ -94,13 +94,14 @@
             var DisplayCnv = '';
             TransScript._embedded.conversationLogTranscript.forEach(function(Log){
                 if(Log._links.me){
-                    DisplayCnv += "<br/><table><tr bgcolor=\"#95aedc\"><th>" + Log._links.me.title + "</th></tr></table>";
+                    DisplayCnv += "<br/><table><tr bgcolor=\"#95aedc\"><th><font color='white'>" + Log._links.me.title + "</font></th></tr>";
                 }else{
-                    DisplayCnv += "<br/><table><tr bgcolor=\"#95aedc\"><th>" + Log._links.contact.title + "</th></tr></table>";
+                    DisplayCnv += "<br/><table><tr bgcolor=\"#95aedc\"><th><font color='white'>" + Log._links.contact.title + "</font></th></tr>";
                 }
+                DisplayCnv += "<tr style='word-wrap: break-word'>" + decodeURI(Log._embedded.messageTranscript._links.plainmessage) + "</tr></table>";
                 
             });
-            $('#TransScript').append(JSON.stringify(DisplayCnv));
+            $('#TransScript').append(DisplayCnv);
         }
         async function ShowConversations(){
             try {
