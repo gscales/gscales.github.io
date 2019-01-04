@@ -17,7 +17,7 @@ const Authuser = (upn,appconfig,url,hostname) => {
                 config.extraQueryParameters = "scope=openid+profile";
             }           
             let authContext = new AuthenticationContext(config);
-            // let user = authContext.getCachedUser();
+            let user = authContext.getCachedUser();
             // if (user) {
             //     if (user.userName !== upn) {
             //         // User doesn't match, clear the cache
