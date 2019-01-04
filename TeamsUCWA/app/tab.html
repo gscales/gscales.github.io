@@ -183,7 +183,7 @@
                         { title: "Message", field: "previewMessage", width: 400, formatter:"textarea",cssClass:"ms-Table" },
                         { title: "Participants", field: "participants", width: 200, formatter:"textarea",cssClass:"ms-Table" },
                         { title: "Type", field: "type", width: 100, formatter:"textarea",cssClass:"ms-Table" },
-                        { title: "Transcript", field: "transcript", width: 100, formatter: transcriptformatter, cellClick:function(e, cell){alert("test"); }},
+                        { title: "Transcript", field: "transcript", width: 100,  cellClick:function(e, cell){alert("cell clicked - " + cell.getValue())}},
                     ],
                 });
                
