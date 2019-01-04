@@ -94,11 +94,11 @@
             var DisplayCnv = '';
             TransScript._embedded.conversationLogTranscript.forEach(function(Log){
                 if(Log._links.me){
-                    DisplayCnv += "<br/><table><tr bgcolor=\"#95aedc\"><th><font color='white'><b>" + Log._links.me.title + "</b></font></th></tr>";
+                    DisplayCnv += "<br/><table style='max-width:400px;'><tr bgcolor=\"#95aedc\"><th><font color='white'><b>" + Log._links.me.title + "</b></font></th></tr>";
                 }else{
-                    DisplayCnv += "<br/><table><tr bgcolor=\"#95aedc\"><th><font color='white'><b>" + Log._links.contact.title + "</b></font></th></tr>";
+                    DisplayCnv += "<br/><table style='max-width:400px;'><tr bgcolor=\"#95aedc\"><th><font color='white'><b>" + Log._links.contact.title + "</b></font></th></tr>";
                 }
-                DisplayCnv += "<tr><td style='word-wrap: break-word'>" +  decodeURIComponent(Log._embedded.messageTranscript._links.plainMessage.href) + "</td></tr></table>";
+                DisplayCnv += "<tr bgcolor=\"#ecf4dc\"><td style='word-wrap: break-word'>" +  decodeURIComponent(Log._embedded.messageTranscript._links.plainMessage.href.replace("data:text/plain;charset=utf-8","").replace("+"," ")) + "</td></tr></table>";
                 
             });
             $('#TransScript').append(DisplayCnv);
