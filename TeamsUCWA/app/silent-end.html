@@ -27,7 +27,7 @@
             let authContext = new AuthenticationContext(config);
             if (authContext.isCallback(window.location.hash)) {
                 authContext.handleWindowCallback(window.location.hash);
-                if (authContext.getCachedToken()) {                    
+                if (authContext.getCachedUser()) {                    
                     var lurl = ("https://" + getCookie('ucwaco'));
                     authContext.acquireToken(lurl, function (error, token) {
                         if (error || !token) {
