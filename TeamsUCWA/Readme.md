@@ -1,12 +1,12 @@
-# Microsoft Teams In/Out Board sample
+# Microsoft Teams Skype Conversation Log Tab Application
 
-The following as Microsoft Teams tab application that will call the Microsoft Graph API  to get the members of a particular Team, then there Out of Office MailTip to determine if they have an AutoResponse set and finally get there userphoto and render this back to Team Clients to produce in In/OutBoard that looks like
+The following is Microsoft Teams tab application that will call the UCWA API for Skype for Business Online  to get the get the Conversation History and show this in a Teams Tab application 
 
- ![](https://2.bp.blogspot.com/-78ylD2h0Gdk/WzHvFEHovHI/AAAAAAAACAk/eccUQDHDahkQxqfHsBp9X_bZd1oZgVp5wCLcBGAs/s640/teamsboard.JPG)
+![](https://2.bp.blogspot.com/-qBSNp3MzDL8/XC7qEJQGsKI/AAAAAAAACPg/AWf6gNoqMLwpA-sd1PA3fCIPeuPDus59wCLcBGAs/s1600/tabscreen1JPG.JPG) 
 
 
 
-For more details on this sample please refer to the following blog post [https://gsexdev.blogspot.com/2018/06/building-microsoft-teams-tab.html](https://gsexdev.blogspot.com/2018/06/building-microsoft-teams-tab.html)
+For more details on this sample please refer to the following blog post [https://gsexdev.blogspot.com/2019/01/using-skype-for-business-ucwa-api-in.html](https://gsexdev.blogspot.com/2019/01/using-skype-for-business-ucwa-api-in.html "https://gsexdev.blogspot.com/2019/01/using-skype-for-business-ucwa-api-in.html")
 
 
 
