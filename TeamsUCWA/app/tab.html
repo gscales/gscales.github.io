@@ -98,7 +98,7 @@
                 }else{
                     DisplayCnv += "<br/><table><tr bgcolor=\"#95aedc\"><th><font color='white'><b>" + Log._links.contact.title + "</b></font></th></tr>";
                 }
-                DisplayCnv += "<tr style='word-wrap: break-word'><td>" + decodeURI(Log._embedded.messageTranscript._links.plainMessage.href) + "</td></tr></table>";
+                DisplayCnv += "<tr><td style='word-wrap: break-word'>" +  decodeURIComponent(Log._embedded.messageTranscript._links.plainMessage.href.split(',')[2]) + "</td></tr></table>";
                 
             });
             $('#TransScript').append(DisplayCnv);
