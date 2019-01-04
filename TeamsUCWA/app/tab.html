@@ -75,10 +75,8 @@
         // Initialize microsoft teams tab library
         microsoftTeams.initialize();
         $('#ProgresLoader').hide();
-        //Client object to pass around
-        var Client = {};
-        Client.token = null;
         var teamscontext = "";
+        var ClientToken = "";
         microsoftTeams.getContext(function (context) {
             teamscontext = context;          
         });
@@ -107,6 +105,7 @@
                 var Stage2loc = getLocation(Stage2._links.applications.href);
                 document.cookie = "ucwaco=" + Stage2loc.hostname; 
                 let Stage2Token = await Authuser(teamscontext.upn,appConfig,Stage1._links.user.href,Stage2loc.hostname);
+                ClientToken = Stage2Token;
                 console.log("Done Auth " + Stage2Token);                
                 UCWAHostName = getLocation(Stage2._links.applications.href).hostname;
                 let UCWAConnection = await ConnectUCWA(Stage2._links.applications.href,Stage2Token);
@@ -149,6 +148,7 @@
                     var thr = {};
                     thr.subject = Threads[name][0].subject;
                     thr.type =  Threads[name][0].type;
+                    thr.transcript =  Threads[name][0]._links.conversationLogTranscripts.href;
                     thr.previewMessage  = "";
                     thr.modalities = "";
                     thr.participants = "";
@@ -169,6 +169,11 @@
                               
                     ThreadDisplay.push(thr);
                 }
+                var transcriptformatter = function (cell, formatterParams) {
+                    var value = cell.getValue();
+                    value = "<ahref='" + value + "'>transcript<a/>";
+                    return value;
+                }
                 var table = new Tabulator("#Conversations-table", {
                     height: "800px",
                     layout: "fitColumns", //fit columns to width of table (optional)
@@ -178,9 +183,10 @@
                         { title: "Message", field: "previewMessage", width: 400, formatter:"textarea",cssClass:"ms-Table" },
                         { title: "Participants", field: "participants", width: 200, formatter:"textarea",cssClass:"ms-Table" },
                         { title: "Type", field: "type", width: 100, formatter:"textarea",cssClass:"ms-Table" },
+                        { title: "Transcript", field: "transcript", width: 100, formatter: transcriptformatter },
                     ],
                 });
-                var Trans = await GetConversationLogs(("https://" + UCWAHostName + Conversations[0]._links.conversationLogTranscripts.href),Stage2Token);
+               
                 table.setData(ThreadDisplay);
                 table.redraw();
             }
