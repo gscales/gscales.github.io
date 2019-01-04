@@ -91,7 +91,14 @@
             var TransScript = await GetConversationLogs(("https://" + UCWAHostName + url),ClientToken);
             $('#Conversations-table').hide();
             $('#TransScript').show();
-            $('#TransScript').append(JSON.stringify(TransScript));
+            var DisplayCnv = "";
+            TransScript._embedded.conversationLogTranscript.forEach(function(Log){
+                if(Log._links.me){
+                    DisplayCnv += "<br/><table><tr><th>" + Log._links.me.title + "</th></tr></table>";
+                }
+                
+            });
+            $('#TransScript').append(JSON.stringify(DisplayCnv));
         }
         async function ShowConversations(){
             try {
