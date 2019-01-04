@@ -94,11 +94,11 @@
             var DisplayCnv = '';
             TransScript._embedded.conversationLogTranscript.forEach(function(Log){
                 if(Log._links.me){
-                    DisplayCnv += "<br/><table><tr bgcolor=\"#95aedc\"><th><font color='white'>" + Log._links.me.title + "</font></th></tr>";
+                    DisplayCnv += "<br/><table><tr bgcolor=\"#95aedc\"><th><font color='white'><b>" + Log._links.me.title + "</b></font></th></tr>";
                 }else{
-                    DisplayCnv += "<br/><table><tr bgcolor=\"#95aedc\"><th><font color='white'>" + Log._links.contact.title + "</font></th></tr>";
+                    DisplayCnv += "<br/><table><tr bgcolor=\"#95aedc\"><th><font color='white'><b>" + Log._links.contact.title + "</b></font></th></tr>";
                 }
-                DisplayCnv += "<tr style='word-wrap: break-word'>" + decodeURI(Log._embedded.messageTranscript._links.plainmessage) + "</tr></table>";
+                DisplayCnv += "<tr style='word-wrap: break-word'>" + decodeURI(Log._embedded.messageTranscript._links.plainmessage.href) + "</tr></table>";
                 
             });
             $('#TransScript').append(DisplayCnv);
