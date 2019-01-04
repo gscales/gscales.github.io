@@ -91,6 +91,7 @@
         async function GetConversationTranscript(url){
             var TransScript = await GetConversationLogs(("https://" + UCWAHostName + url),ClientToken);
             $('#Conversations-table').hide();
+            $('#BackButton').show();
             $('#TransScript').show();
             var DisplayCnv = '';
             TransScript._embedded.conversationLogTranscript.forEach(function(Log){
