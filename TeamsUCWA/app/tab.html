@@ -89,6 +89,9 @@
         };
         async function GetConversationTranscript(url){
             var TransScript = await GetConversationLogs(("https://" + UCWAHostName + url),ClientToken);
+            $('#Conversations-table').hide();
+            $('#TransScript').show();
+            $('#TransScript').append(JSON.stringify(TransScript));
         }
         async function ShowConversations(){
             try {
@@ -187,7 +190,7 @@
                         { title: "Message", field: "previewMessage", width: 400, formatter:"textarea",cssClass:"ms-Table" },
                         { title: "Participants", field: "participants", width: 200, formatter:"textarea",cssClass:"ms-Table" },
                         { title: "Type", field: "type", width: 100, formatter:"textarea",cssClass:"ms-Table" },
-                        { title: "Transcript", field: "transcript", width: 10,  cellClick:function(e, cell){
+                        { title: "Transcript", field: "transcript", width: 150,  cellClick:function(e, cell){
                             GetConversationTranscript(cell.getValue());
                         }
                     },
@@ -211,6 +214,7 @@
     <br />
     <input id="ShowConversations" type="button" class="button" value="Show Skype Conversations Log" onclick="ShowConversations();" />
     <div id="Conversations-table"></div>
+    <div id="TransScript"></div>
 </body>
 
 </html>
