@@ -99,11 +99,12 @@
                 }else{
                     DisplayCnv += "<br/><table style='max-width:400px;'><tr bgcolor=\"#95aedc\"><th><font color='white'><b>" + Log._links.contact.title + "</b></font></th></tr>";
                 }
-                DisplayCnv += "<tr bgcolor=\"#ecf4dc\"><td style='word-wrap: break-word'>" +  decodeURIComponent(Log._embedded.messageTranscript._links.plainMessage.href.replace("data:text/plain;charset=utf-8,","")).replace("+"," ") + "</td></tr></table>";
+                DisplayCnv += "<tr bgcolor=\"#ecf4dc\"><td style='word-wrap: break-word'>" +  decodeURIComponent(Log._embedded.messageTranscript._links.plainMessage.href.replace("data:text/plain;charset=utf-8,","")).replace(/\+/g, " ") + "</td></tr></table>";
                 
             });
+            $('#TransScript').empty();
             $('#TransScript').append(DisplayCnv);
-            $('#BackButton').show();
+            
         }
         async function ShowConversations(){
             try {
@@ -224,9 +225,9 @@
         };
     </script>
     <br />
-    <input id="ShowConversations" type="button" class="button" value="Show Skype Conversations Log" onclick="ShowConversations();" />
-    <div id="Conversations-table"></div>
-    <input id="BackButton" type="button" class="button" value="Back to Conversation Log" onclick="$('#BackButton').hide();$('#Conversations-table').show();" />
+    <input id="ShowConversations" type="button" class="button" value="Show Skype Conversations Log" onclick="ShowConversations();" /><br>
+    <div id="Conversations-table"></div></br></br>
+    <input id="BackButton" type="button" class="button" style="display:none" value="Back to Conversation Log" onclick="$('#BackButton').hide();$('#Conversations-table').show();" />
     <div id="TransScript"></div>
 </body>
 
