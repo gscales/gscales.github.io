@@ -77,6 +77,7 @@
         $('#ProgresLoader').hide();
         var teamscontext = "";
         var ClientToken = "";
+        var UCWAHostName = "";
         microsoftTeams.getContext(function (context) {
             teamscontext = context;          
         });
@@ -183,7 +184,10 @@
                         { title: "Message", field: "previewMessage", width: 400, formatter:"textarea",cssClass:"ms-Table" },
                         { title: "Participants", field: "participants", width: 200, formatter:"textarea",cssClass:"ms-Table" },
                         { title: "Type", field: "type", width: 100, formatter:"textarea",cssClass:"ms-Table" },
-                        { title: "Transcript", field: "transcript", width: 100,  cellClick:function(e, cell){alert("cell clicked - " + cell.getValue())}},
+                        { title: "Transcript", field: "transcript", width: 10,  cellClick:function(e, cell){
+                             var TransScript =  await GetConversationLogs(("https://" + UCWAHostName + cell.getValue()),ClientToken);
+                        }
+                    },
                     ],
                 });
                
