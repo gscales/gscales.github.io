@@ -75,7 +75,7 @@
         // Initialize microsoft teams tab library
         microsoftTeams.initialize();
         $('#ProgresLoader').hide();
-        $('#BackButton').hide();
+       
         var teamscontext = "";
         var ClientToken = "";
         var UCWAHostName = "";
@@ -227,7 +227,8 @@
     <br />
     <input id="ShowConversations" type="button" class="button" value="Show Skype Conversations Log" onclick="ShowConversations();" /><br>
     <div id="Conversations-table"></div></br></br>
-    <input id="BackButton" type="button" class="button" style="display:none" value="Back to Conversation Log" onclick="$('#BackButton').hide();$('#Conversations-table').show();" />
+    <input id="BackButton" type="button" class="button" value="Back to Conversation Log" onclick="$('#BackButton').hide();$('#Conversations-table').show();" />
+    <script type="text/javascript"> $('#BackButton').hide();</script>
     <div id="TransScript"></div>
 </body>
 
