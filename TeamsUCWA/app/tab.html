@@ -87,6 +87,9 @@
             l.href = href;
             return l;
         };
+        async function GetConversationTranscript(url){
+            var TransScript = await GetConversationLogs(("https://" + UCWAHostName + url),ClientToken);
+        }
         async function ShowConversations(){
             try {
                 console.log("**UPN" + teamscontext.upn);
@@ -185,7 +188,7 @@
                         { title: "Participants", field: "participants", width: 200, formatter:"textarea",cssClass:"ms-Table" },
                         { title: "Type", field: "type", width: 100, formatter:"textarea",cssClass:"ms-Table" },
                         { title: "Transcript", field: "transcript", width: 10,  cellClick:function(e, cell){
-                             var TransScript =  await GetConversationLogs(("https://" + UCWAHostName + cell.getValue()),ClientToken);
+                            GetConversationTranscript(cell.getValue());
                         }
                     },
                     ],
