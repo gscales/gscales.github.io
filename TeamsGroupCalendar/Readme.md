@@ -1,8 +1,8 @@
 # Microsoft Teams Group Calendar Tab sample
 
-The following sample is a Microsoft Teams tab application that will show a Group Calendar by calling the  Microsoft Graph API  to get the members of a particular Team, then the getSchedule Graph operation to get the schedule of the users involved. The Display side of the application make use of the [FullCalendar](https://fullcalendar.io/) Javascript event calendar. 
+The following sample is a Microsoft Teams tab application that will show a Group Calendar by calling the  Microsoft Graph API  to get the members of a particular Team, then the getSchedule Graph operation to get the schedule of the users involved. The Display side of the application makes use of the [FullCalendar](https://fullcalendar.io/) JavaScript event calendar. 
 
-Screen Shots in Action 
+Screen Shots of the Tab application in Action 
 
 
 
@@ -10,20 +10,41 @@ Screen Shots in Action
 
 **Prerequisites for using Teams Tab Applications**
 
-To use a Teams Tab application application side loading must be enabled in the Office365 portal see the following page for how to modify the Teams Application setting [https://docs.microsoft.com/en-us/microsoftteams/admin-settings](https://docs.microsoft.com/en-us/microsoftteams/admin-settings). 
+To use a Teams Tab application application side loading must be enabled in the Office365 portal see the following page for how to modify the Teams Org setting [https://docs.microsoft.com/en-us/microsoftteams/admin-settings](https://docs.microsoft.com/en-us/microsoftteams/admin-settings). 
 > "Sideloading is how you add an app to Teams by uploading a zip file directly to a team. Side-loading lets you test an app as it's being developed. It also lets you build an app for internal use only and share it with your team without submitting it to the Teams app catalog in the Office Store. "
 
 ![](https://gscales.github.io/TeamsGroupCalendar/docs/Sideloading.JPG)
 
 # Testing this GitHub Instance #
 
-The application files for the Teams Tab applications need to hosted on a web server for testing only you can use thus#  # hosted version on gitHub. To use this you would need to grant the following applicationId consent in your tenant using the following URL
+The application files for a Teams Tab application needs to be hosted on a web server, for testing only you can use this hosted version on gitHub. To use this you would need to grant the following applicationId consent in your tenant using the following URL
 
 [https://login.microsoftonline.com/common/adminconsent?client_id=71db5de8-6b7d-437c-b973-0e13f81619e8](https://login.microsoftonline.com/common/adminconsent?client_id=71db5de8-6b7d-437c-b973-0e13f81619e8)
 
 You then need to download the Manifest Zip file from [https://github.com/gscales/gscales.github.io/raw/master/TeamsGroupCalendar/TabPackage/app.zip
 ](https://github.com/gscales/gscales.github.io/raw/master/TeamsGroupCalendar/TabPackage/app.zip)
 then follow the Custom App installation process described below
+
+
+# **Custom App Installation Process** #
+
+Official documentation for installing Custom Apps can be found 
+[https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/apps/apps-upload](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/apps/apps-upload)
+
+Walk through
+
+Choose the Microsoft Store Icon in the Team client (don't worry you not going to purchase anything)
+![](https://gscales.github.io/TeamsGroupCalendar/docs/walkthrough1.JPG)
+
+Then select "Upload Custom Application" & "For Me and My Teams"
+
+![](https://gscales.github.io/TeamsGroupCalendar/docs/walkthrough2.JPG)
+
+Select the Teams you want to install the app into 
+
+![](https://gscales.github.io/TeamsGroupCalendar/docs/walkthrough3.JPG)
+
+Then select the Channel to install the Tab onto.
 
 # Hosting the Application yourself #
 
@@ -66,30 +87,7 @@ Modify you hosted version of the https://github.com/gscales/gscales.github.io/bl
   	 return config;
 	}
 
-
-# **Custom App Installation Process** #
-
-Official documentation for installing Custom Apps can be found 
-[https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/apps/apps-upload](https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/apps/apps-upload)
-
-Walk through
-
-Choose the Microsoft Store Icon in the Team client (don't worry you not going to purchase anything)
-![](https://gscales.github.io/TeamsGroupCalendar/docs/walkthrough1.JPG)
-
-Then select "Upload Custom Application" & "For Me and My Teams"
-
-![](https://gscales.github.io/TeamsGroupCalendar/docs/walkthrough2.JPG)
-
-Select the Teams you want to install the app into 
-
-![](https://gscales.github.io/TeamsGroupCalendar/docs/walkthrough3.JPG)
-
-Then select the Channel to install the Tab onto.
-
-
-
-
+Create a Zip file of all the files in the https://github.com/gscales/gscales.github.io/blob/master/TeamsGroupCalendar/TabPackage directory and then use that in the Custom App Installation process described above.
 
 
 
