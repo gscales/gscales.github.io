@@ -6,6 +6,10 @@ Screen Shots of the Tab application in Action
 
 
 
+# User Permission requirements #
+
+As this app runs as the currently logged on user that user must have a least the Calendar Details (Free/Busy time, subject, location) Freebusy permission to be able to view calendar events from Team members mailboxes.
+
 # **Installation** #
 
 **Prerequisites for using Teams Tab Applications**

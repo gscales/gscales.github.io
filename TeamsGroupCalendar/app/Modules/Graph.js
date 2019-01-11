@@ -26,6 +26,14 @@ const GetSchedule = (idToken, GroupMembers, displayNameMap) => {
                 SchPost.schedules.push(entry.mail);
                 var dnMapValue = {};
                 dnMapValue.displayName = entry.displayName;
+                var initials = "";
+                if(entry.givenName.length > 0){
+                    initials = entry.givenName.slice(0,1);
+                }
+                if(entry.surname.length > 0){
+                    initials = initials + entry.surname.slice(0,1);
+                }
+                dnMapValue.initials = initials;
                 dnMapValue.colorEntry =  "hsl(" + (360 / (Math.random()+Math.random())) + ',' + (25 + 70 * Math.random()) + '%,' + (60 + 10 * Math.random()) + '%)';            
                 displayNameMap[entry.mail] = dnMapValue;
             }
