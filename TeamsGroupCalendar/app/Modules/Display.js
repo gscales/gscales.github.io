@@ -4,11 +4,10 @@ const buildScheduleTable = (Schedules,displayNameMap) => {
         var entry = Schedules.value[index].scheduleItems;
         entry.forEach(function (CalendarEntry) { 
             calEntry ={};
-            calEntry.title = CalendarEntry.subject
-            var LengthInSeconds = (CalendarEntry.end.dateTime.getTime() - CalendarEntry.start.dateTime.getTime()) / 1000;
-            if(LengthInSeconds >= 86400){
-                calEntry.start = CalendarEntry.start.dateTime.toISOString().slice(0,11);
-                calEntry.end = CalendarEntry.end.dateTime.toISOString().slice(0,11);    
+            calEntry.title = CalendarEntry.subject;            
+            if(CalendarEntry.start.dateTime.slice(12,8) == "00:00:00"){ 
+                calEntry.start = CalendarEntry.start.dateTime.slice(0,11);
+                calEntry.end = CalendarEntry.end.dateTime.slice(0,11);    
             }else{
                 calEntry.start = CalendarEntry.start.dateTime;
                 calEntry.end = CalendarEntry.end.dateTime;    
