@@ -4,7 +4,21 @@ The following sample is a Microsoft Teams tab application that will show a Group
 
 Screen Shots of the Tab application in Action 
 
+Month View
 
+![](https://gscales.github.io/TeamsGroupCalendar/docs/gcScreen1.JPG)
+
+Week View
+
+![](https://gscales.github.io/TeamsGroupCalendar/docs/gcscren3.JPG)
+
+Day View 
+
+![](https://gscales.github.io/TeamsGroupCalendar/docs/gcscren2.JPG)
+
+List View
+
+![](https://gscales.github.io/TeamsGroupCalendar/docs/gcscren4.JPG)
 
 # User Permission requirements #
 
