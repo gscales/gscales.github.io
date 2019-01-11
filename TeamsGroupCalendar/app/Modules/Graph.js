@@ -26,7 +26,7 @@ const GetSchedule = (idToken, GroupMembers, displayNameMap) => {
                 SchPost.schedules.push(entry.mail);
                 var dnMapValue = {};
                 dnMapValue.displayName = entry.displayName;
-                dnMapValue.colorEntry =  "hsl(" + (360 / (Math.random()+index)) + ',' + (25 + 70 * Math.random()) + '%,' + (60 + 10 * Math.random()) + '%)';            
+                dnMapValue.colorEntry =  "hsl(" + (360 / (index+2)) + ',' + (25 + 70 * Math.random()) + '%,' + (60 + 10 * Math.random()) + '%)';            
                 displayNameMap[entry.mail] = dnMapValue;
             }
             var Start = new Date();
