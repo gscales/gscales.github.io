@@ -4,7 +4,7 @@ const buildScheduleTable = (Schedules,displayNameMap) => {
         var entry = Schedules.value[index].scheduleItems;
         entry.forEach(function (CalendarEntry) { 
             calEntry ={};
-            calEntry.title = CalendarEntry.subject;            
+            calEntry.title = CalendarEntry.subject + " (" + displayNameMap[Schedules.value[index].scheduleId].initials + ")";            
             if(CalendarEntry.start.dateTime.slice(12,8) == "00:00:00"){ 
                 calEntry.start = CalendarEntry.start.dateTime.slice(0,11);
                 calEntry.end = CalendarEntry.end.dateTime.slice(0,11);    
