@@ -34,7 +34,7 @@ const GetSchedule = (idToken, GroupMembers, displayNameMap) => {
                     initials = initials + entry.surname.slice(0,1);
                 }
                 dnMapValue.initials = initials;
-                dnMapValue.colorEntry =  randomColor({luminosity: 'light',format: 'hsla'});            
+                dnMapValue.colorEntry =  randomColor({luminosity: 'bright',format: 'hsla'});            
                 displayNameMap[entry.mail] = dnMapValue;
             }
             var Start = new Date();
