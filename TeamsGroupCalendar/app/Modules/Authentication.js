@@ -65,31 +65,6 @@ const Authuser = (upn,appconfig) => {
 
 
 
-            // // Get the id token (which is the access token for resource = clientId)
-            // let token = authContext.getCachedToken(config.clientId);
-            // if (token) {
-            //     authContext.acquireToken("https://graph.microsoft.com", function (error, idtoken) {
-            //         if (error || !idtoken) {
-            //            reject(error);
-            //         }
-            //         else
-            //             resolve(idtoken);
-            //     });
-            // } else {
-            //     microsoftTeams.authentication.authenticate({
-            //         url: window.location.origin + appConfig.authwindow,
-            //         width: 400,
-            //         height: 400,
-            //         successCallback: function (t) {
-            //             // Note: token is only good for one hour
-            //             token = t;
-            //             resolve(token);
-            //         },
-            //         failureCallback: function (err) {
-            //               reject(err);
-            //         }
-            //     });
-            // }
         }
         );
 }

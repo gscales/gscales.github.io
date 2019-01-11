@@ -5,8 +5,14 @@ const buildScheduleTable = (Schedules,displayNameMap) => {
         entry.forEach(function (CalendarEntry) { 
             calEntry ={};
             calEntry.title = CalendarEntry.subject
-            calEntry.start = CalendarEntry.start.dateTime;
-            calEntry.end = CalendarEntry.end.dateTime;            
+            var LengthInSeconds = (CalendarEntry.end.dateTime.getTime() - CalendarEntry.start.dateTime.getTime()) / 1000;
+            if(LengthInSeconds >= 86400){
+                calEntry.start = CalendarEntry.start.dateTime.toISOString().slice(0,11);
+                calEntry.end = CalendarEntry.end.dateTime.toISOString().slice(0,11);    
+            }else{
+                calEntry.start = CalendarEntry.start.dateTime;
+                calEntry.end = CalendarEntry.end.dateTime;    
+            }        
             calEntry.color =  displayNameMap[Schedules.value[index].scheduleId].colorEntry;
             JSONData.push(calEntry);
         });  
