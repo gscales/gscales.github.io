@@ -15,6 +15,8 @@ To use a Teams Tab application application side loading must be enabled in the O
 
 ![](https://gscales.github.io/TeamsGroupCalendar/docs/Sideloading.JPG)
 
+**Note**: Make sure you use the https://admin.microsoft.com/AdminPortal/Home#/Settings/ServicesAndAddIns and not the Teams Admin portal as you won't be able to finding this setting in the later.
+
 # Testing this GitHub Instance #
 
 The application files for a Teams Tab application needs to be hosted on a web server, for testing only you can use this hosted version on gitHub. To use this you would need to grant the following applicationId consent in your tenant using the following URL
