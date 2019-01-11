@@ -1,6 +1,6 @@
 # Microsoft Teams Group Calendar Tab sample
 
-The following as Microsoft Teams tab application that will show a Group Calendar by calling the  Microsoft Graph API  to get the members of a particular Team, then the getSchedule Graph operation to get the schedule of the users involved. The Display side of the application make use of the [FullCalendar](https://fullcalendar.io/) Javascript event calendar. 
+The following sample is a Microsoft Teams tab application that will show a Group Calendar by calling the  Microsoft Graph API  to get the members of a particular Team, then the getSchedule Graph operation to get the schedule of the users involved. The Display side of the application make use of the [FullCalendar](https://fullcalendar.io/) Javascript event calendar. 
 
 Screen Shots in Action 
 
