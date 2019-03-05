@@ -17,8 +17,8 @@
   <ProviderName>MSGDevelop Glen Scales - gscales@msgdevelop.com</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
-  <DisplayName DefaultValue="Teams Private Chat Messages" />
-  <Description DefaultValue="Teams Private Chat Messages"/>
+  <DisplayName DefaultValue="Teams Chat History" />
+  <Description DefaultValue="Teams Chat History"/>
   <IconUrl DefaultValue="https://gscales.github.io/TeamsChatMessages/Images/Icon64.png"/>
 
   <SupportUrl DefaultValue="http://www.msgdevelop.com" />
@@ -107,8 +107,8 @@
       <bt:ShortStrings>
         <bt:String id="groupLabel" DefaultValue=" "/>
         <bt:String id="customTabLabel"  DefaultValue=" "/>
-        <bt:String id="paneReadButtonLabel" DefaultValue="Get Private Teams Chat Messages from Sender"/>
-        <bt:String id="paneReadSuperTipTitle" DefaultValue="Get Private Teams Chat Messages from Sender"/>
+        <bt:String id="paneReadButtonLabel" DefaultValue="Teams Chat History"/>
+        <bt:String id="paneReadSuperTipTitle" DefaultValue="Teams Chat History"/>
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="paneReadSuperTipDescription" DefaultValue="Opens a pane "/>
