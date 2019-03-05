@@ -47,9 +47,9 @@
         console.log(Message);
         var rcvDate = Date(Date.parse(Message.ReceivedDateTime));
         html = html + "<div class=\"ms-Table-row\">";
-        html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">" +  moment(rcvDate).format("YYYY-MM-DD HH:mm") + "</span>";
-        html = html + "<span id=\"Subject\" class=\"ms-Table-cell\"><a target='_blank' href='" + Message.WebLink + "'>";
-        html = html + Message.BodyPreview + "</a></span ></div >";
+        html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">" +  moment(rcvDate).format("D-MMM HH:mm") + "</span>";
+        html = html + "<span id=\"Subject\" class=\"ms-Table-cell\">";
+        html = html + Message.BodyPreview + " <a target='_blank' href='" + Message.WebLink + "'> Link</a></span ></div >"
       });
       $('#mTchatTable').append(html);
     }
