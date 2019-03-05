@@ -24,7 +24,7 @@
 
     function getChatMessages(accessToken) {
         var filterString = "SingleValueExtendedProperties/Any(ep: ep/PropertyId eq 'String 0x001a' and ep/Value eq 'IPM.SkypeTeams.Message') and from/emailAddress/address eq '" + Office.context.mailbox.item.sender.emailAddress + "'";
-        var GetURL = "https://outlook.office.com/api/v2.0/me/MailFolders/AllItems/messages?$Top=100&$Select=ReceivedDateTime,bodyPreview,webLink&$filter=" + filterString + "&$orderby=ReceivedDateTime+desc";
+        var GetURL = "https://outlook.office.com/api/v2.0/me/MailFolders/AllItems/messages?$Top=100&$Select=ReceivedDateTime,bodyPreview,webLink&$filter=" + filterString;
         $.ajax({
             type: "Get",
             contentType: "application/json; charset=utf-8",
@@ -44,6 +44,7 @@
             html = html + "<span class=\"ms-Table-cell\" >ReceivedDateTime</span>";
             html = html + "<span class=\"ms-Table-cell\">BodyPreview</span>";
             html = html + "</div>";
+            var msgTable = ""
             Messages.forEach(function (Message) {
                 var rcvDate = Date(Date.parse(Message.ReceivedDateTime));
                 var rcvDateString = rcvDate.toLocaleString('GB', {
@@ -53,12 +54,13 @@
                     'hour12': false,
                     'month': 'long'
                 });
-                html = html + "<div class=\"ms-Table-row\">";
-                html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">" + rcvDateString + "</span>";
-                html = html + "<span id=\"Subject\" class=\"ms-Table-cell\">";
-                html = html + Message.BodyPreview + " <a target='_blank' href='" + Message.WebLink + "'> Link</a></span ></div >"
+                var tablerow = "<div class=\"ms-Table-row\">";
+                tablerow =  tablerow + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">" + rcvDateString + "</span>";
+                tablerow =  tablerow + "<span id=\"Subject\" class=\"ms-Table-cell\">"+ html;
+                tablerow =  tablerow + Message.BodyPreview + " <a target='_blank' href='" + Message.WebLink + "'> Link</a></span ></div >";
+                msgTable = tablerow + msgTable;
             });
-            $('#mTchatTable').append(html);
+            $('#mTchatTable').append((html + msgTable));
         } catch (error) {
             $('#mTchatTable').html("Error displaying table " + error);
         }
