@@ -19,7 +19,7 @@
   <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
   <DisplayName DefaultValue="Teams Chat History" />
   <Description DefaultValue="Teams Chat History"/>
-  <IconUrl DefaultValue="https://gscales.github.io/TeamsChatMessages/Images/Icon64.png"/>
+  <IconUrl DefaultValue="https://gscales.github.io/TeamsChatHistory/Images/Icon64.png"/>
 
   <SupportUrl DefaultValue="http://www.msgdevelop.com" />
   <!-- Domains that will be allowed when navigating. For example, if you use ShowTaskpane and then have an href link, navigation will only be allowed if the domain is on this list. -->
@@ -37,7 +37,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://gscales.github.io/TeamsChatMessages/MessageRead.html"/>
+        <SourceLocation DefaultValue="https://gscales.github.io/TeamsChatHistory/MessageRead.html"/>
         <RequestedHeight>450</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -96,13 +96,13 @@
 
     <Resources>
       <bt:Images>
-        <bt:Image id="icon16" DefaultValue="https://gscales.github.io/TeamsChatMessages/Images/Icon16.png"/>
-        <bt:Image id="icon32" DefaultValue="https://gscales.github.io/TeamsChatMessages/Images/Icon32.png"/>
-        <bt:Image id="icon80" DefaultValue="https://gscales.github.io/TeamsChatMessages/Images/Icon80.png"/>
+        <bt:Image id="icon16" DefaultValue="https://gscales.github.io/TeamsChatHistory/Images/Icon16.png"/>
+        <bt:Image id="icon32" DefaultValue="https://gscales.github.io/TeamsChatHistory/Images/Icon32.png"/>
+        <bt:Image id="icon80" DefaultValue="https://gscales.github.io/TeamsChatHistory/Images/Icon80.png"/>
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="functionFile" DefaultValue="https://gscales.github.io/TeamsChatMessages/Functions/FunctionFile.html"/>
-        <bt:Url id="messageReadTaskPaneUrl" DefaultValue="https://gscales.github.io/TeamsChatMessages/MessageRead.html"/>
+        <bt:Url id="functionFile" DefaultValue="https://gscales.github.io/TeamsChatHistory/Functions/FunctionFile.html"/>
+        <bt:Url id="messageReadTaskPaneUrl" DefaultValue="https://gscales.github.io/TeamsChatHistory/MessageRead.html"/>
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="groupLabel" DefaultValue=" "/>

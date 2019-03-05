@@ -1,0 +1,298 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teams In/Out Board</title>
+    <style>
+        img {
+            border-radius: 50%;
+        }
+
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #5558AF;
+            border-bottom: 16px solid #5558AF;
+            width: 80px;
+            height: 80px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="data"></div>
+    <div id="ProgresLoader" class="loader" hidden></div>
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.min.css" />
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css" />
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"
+            integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+            crossorigin="anonymous"></script>
+    <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
+    <script type="text/javascript">
+        // Initialize microsoft teams tab library
+        microsoftTeams.initialize();
+        $('#ProgresLoader').hide();
+        var token = null;
+
+        function uuidv4() {
+            function hex(s, b) {
+                return s +
+                    (b >>> 4).toString(16) +  // high nibble
+                    (b & 0b1111).toString(16);   // low nibble
+            }
+
+            let r = crypto.getRandomValues(new Uint8Array(16));
+
+            r[6] = r[6] >>> 4 | 0b01000000; // Set type 4: 0100
+            r[8] = r[8] >>> 3 | 0b10000000; // Set variant: 100
+
+            return r.slice(0, 4).reduce(hex, '') +
+                r.slice(4, 6).reduce(hex, '-') +
+                r.slice(6, 8).reduce(hex, '-') +
+                r.slice(8, 10).reduce(hex, '-') +
+                r.slice(10, 16).reduce(hex, '-');
+        }
+
+        // getData function to perform auth flow and get user's Data
+        var ShowBoard = function () {
+            $('#ProgresLoader').show();
+            let upn = undefined;
+            microsoftTeams.getContext(function (context) {
+                upn = context.upn;
+                Authuser(upn);
+            });
+        }
+        var Authuser = function (upn) {
+            let config = {
+                clientId: "08401c36-6179-4bbe-9bcc-d34ff51d828f",
+                redirectUri: window.location.origin + "/TeamsOOFTab/app/silent-end.html",       // This should be in the list of redirect uris for the AAD app
+                cacheLocation: "localStorage",
+                navigateToLoginRequestUrl: false,
+                endpoints: {
+                    "https://graph.microsoft.com": "https://graph.microsoft.com"
+                }
+            };
+            if (upn) {
+                config.extraQueryParameters = "scope=openid+profile&login_hint=" + encodeURIComponent(upn);
+            } else {
+                config.extraQueryParameters = "scope=openid+profile";
+            }
+
+            let authContext = new AuthenticationContext(config);
+
+            // See if there's a cached user and it matches the expected user
+            let user = authContext.getCachedUser();
+            if (user) {
+                if (user.userName !== upn) {
+                    // User doesn't match, clear the cache
+                    authContext.clearCache();
+                }
+            }
+
+            // Get the id token (which is the access token for resource = clientId)
+            let token = authContext.getCachedToken(config.clientId);
+            if (token) {
+                authContext.acquireToken("https://graph.microsoft.com", function (error, idtoken) {
+                    if (error || !idtoken) {
+                        html = html + "<div>Failed to use cached token</div>";
+                        $('#data').empty()
+                        $('#data').append(html);
+                    }
+                    else
+                        GetGroupMembers(idtoken);
+                });
+            } else {
+                microsoftTeams.authentication.authenticate({
+                    url: window.location.origin + "/TeamsOOFTab/app/auth.html",
+                    width: 400,
+                    height: 400,
+                    successCallback: function (t) {
+                        // Note: token is only good for one hour
+                        token = t;
+                        GetGroupMembers(token);
+                    },
+                    failureCallback: function (err) {
+                        html = html + "<div>Failed to get authenticate and get token.</div>";
+                        $('#data').empty()
+                        $('#data').append(html);
+                    }
+                });
+                // No token, or token is expired
+                //authContext._renewIdToken(function (err, idToken) {
+                //    if (err) {
+                //        microsoftTeams.authentication.authenticate({
+                //            url: window.location.origin + "/TeamsOOFTab/app/auth.html",
+                //            width: 400,
+                //            height: 400,
+                //            successCallback: function (t) {
+                //                // Note: token is only good for one hour
+                //                token = t;
+                //                GetGroupMembers(token);
+                //            },
+                //            failureCallback: function (err) {
+                //                html = html + "<div>Failed to get authenticate and get token.</div>";
+                //                $('#data').empty()
+                //                $('#data').append(html);
+                //            }
+                //        });
+                //    } else {
+                //        GetGroupMembers(idToken);
+                //    }
+                //});
+            }
+        };
+
+        var GetMailTips = function (mailTipsRequestResults, idToken) {
+            var MailTipsRquest = {};
+            var EmailAddresses = [];
+            MailTipsRquest.EmailAddresses = EmailAddresses;
+            MailTipsRquest.MailTipsOptions = "automaticReplies";
+            var displayNameMap = {};
+            for (index = 0; index < mailTipsRequestResults.value.length; ++index) {
+                var entry = mailTipsRequestResults.value[index];
+                MailTipsRquest.EmailAddresses.push(entry.mail);
+                var emAddress = entry.mail;
+                displayNameMap[entry.mail] = entry.displayName;
+            }
+            var PostURL = "https://graph.microsoft.com/beta/me/getMailTips";
+            var mtipRequest = JSON.stringify(MailTipsRquest);
+            $.ajax({
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                url: PostURL,
+                data: mtipRequest,
+                dataType: 'json',
+                headers: { 'Authorization': 'Bearer ' + idToken }
+            }).done(function (item) {
+                BuildInOutBoard(item, displayNameMap, mailTipsRequestResults, idToken);
+            }).fail(function (error) {
+                // Handle error
+            });
+        }
+
+        var BuildInOutBoard = function (item, displayNameMap, mailTipsRequestResults, idToken) {
+            var html = "<div class=\"ms-Table\" style=\"border-collapse:collapse;border: 1px solid black;table-layout: auto;width:75%;\;background-color:white;\"><div class=\"ms-Table-row\">";
+            html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:50px;font-weight:bolder;\"></span>";
+            html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;width:100px;font-weight:bolder;\">User</span>";
+            html = html + "<span class=\"ms-Table-cell\" style=\"background-color: #EEEEEE;font-size: large;font-weight:bolder;\">Out of Office Message</span>";
+            html = html + "</div>";
+            var index = 0;
+            for (index = 0; index < item.value.length; ++index) {
+                var entry = item.value[index];
+                var DisplayName = displayNameMap[entry.emailAddress.address];
+                if (entry.hasOwnProperty("automaticReplies")) {
+                    var outval = false;
+                    if (entry.automaticReplies.hasOwnProperty("message")) {
+                        if (entry.automaticReplies.message.length > 5) {
+                            outval = true;
+                        }
+                    }
+
+                    if (outval) {
+                        html = html + "<div class=\"ms-Table-row\"><span class=\"ms-Table-cell\" style=\"width:50px;\"><img id=\"img" + entry.emailAddress.address + "\" style=\"border: 2px solid red;\" src=\"\" /></span>";
+                    } else {
+                        html = html + "<div class=\"ms-Table-row\"><span class=\"ms-Table-cell\" style=\"width:50px;\"><img id=\"img" + entry.emailAddress.address + "\" style=\"border: 2px solid green;\" src=\"\" /></span>";
+                    }
+                }
+
+                html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\" style=\"vertical-align: middle;width:120px;\">" + DisplayName + "</span>";
+                html = html + "<span id=\"OffStatus\" class=\"ms-Table-cell\" style=\"vertical-align: middle;\">";
+                if (entry.hasOwnProperty("automaticReplies")) {
+                    if (entry.automaticReplies.hasOwnProperty("message")) {
+                        html = html + entry.automaticReplies.message;
+                    }
+                }
+                html = html + "</span ></div >";
+
+
+            }
+            html = html + "</div>";
+            $('#data').empty()
+            $('#data').append(html);
+            var photoRequestMap = {};
+            for (index = 0; index < mailTipsRequestResults.value.length; ++index) {
+                var entry = mailTipsRequestResults.value[index];
+                var clientid = uuidv4();
+                photoRequestMap[clientid] = entry.mail;
+                var userImageURL = "https://graph.microsoft.com/v1.0/users('" + entry.mail + "')/photos/48x48/$value";
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', userImageURL, true);
+                xhr.setRequestHeader("Authorization", "Bearer " + idToken);
+                xhr.setRequestHeader("client-request-id", clientid);
+                xhr.responseType = 'arraybuffer';
+                xhr.onload = function (e) {
+                    if (this.status == 200) {
+                        // get binary data as a response
+                        var blob = this.response;
+                        var clientRespHeader = this.getResponseHeader("client-request-id")
+                        var ElemendId = "img" + photoRequestMap[clientRespHeader];
+                        var uInt8Array = new Uint8Array(this.response);
+                        var data = String.fromCharCode.apply(String, uInt8Array);
+                        var base64 = window.btoa(data);
+                        document.getElementById(ElemendId).src = "data:image/png;base64," + base64;
+
+                    }
+                };
+
+                xhr.send()
+                $('#ShowBoard').hide();
+                $('#ProgresLoader').hide();
+            }
+        }
+
+        var GetGroupMembers = function (idToken) {
+            microsoftTeams.getContext(function (context) {
+                GroupId = context.groupId;
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    url: ("https://graph.microsoft.com/v1.0/groups/" + GroupId + "/members"),
+                    dataType: 'json',
+                    headers: { 'Authorization': 'Bearer ' + idToken }
+                }).done(function (item) {
+                    GetMailTips(item, idToken);
+                }).fail(function (error) {
+                    // Handle error
+                });
+            });
+
+        };
+
+    </script>
+    <br />
+    <input id="ShowBoard" type="button" class="button" value="Show In/Out Board" onclick="ShowBoard();" />
+</body>
+</html>
