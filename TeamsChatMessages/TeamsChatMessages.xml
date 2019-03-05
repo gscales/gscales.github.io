@@ -17,8 +17,8 @@
   <ProviderName>MSGDevelop Glen Scales - gscales@msgdevelop.com</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <!-- The display name of your add-in. Used on the store and various places of the Office UI such as the add-ins dialog. -->
-  <DisplayName DefaultValue="TeamsChatMessages" />
-  <Description DefaultValue="TeamsChatMessages"/>
+  <DisplayName DefaultValue="Teams Private Chat Messages" />
+  <Description DefaultValue="Teams Private Chat Messages"/>
   <IconUrl DefaultValue="https://gscales.github.io/TeamsChatMessages/Images/Icon64.png"/>
 
   <SupportUrl DefaultValue="http://www.msgdevelop.com" />
