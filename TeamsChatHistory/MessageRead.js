@@ -45,10 +45,16 @@
             html = html + "<span class=\"ms-Table-cell\">BodyPreview</span>";
             html = html + "</div>";
             Messages.forEach(function (Message) {
-                console.log(Message);
                 var rcvDate = Date(Date.parse(Message.ReceivedDateTime));
+                var rcvDateString = rcvDate.toLocaleString('GB', {
+                    'day': 'numeric',
+                    'hour': '2-digit',
+                    'minute': '2-digit',
+                    'hour12': false,
+                    'month': 'long'
+                });
                 html = html + "<div class=\"ms-Table-row\">";
-                html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">" + rcvDate.toLocaleString('en-GB') + "</span>";
+                html = html + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">" + rcvDateString + "</span>";
                 html = html + "<span id=\"Subject\" class=\"ms-Table-cell\">";
                 html = html + Message.BodyPreview + " <a target='_blank' href='" + Message.WebLink + "'> Link</a></span ></div >"
             });
