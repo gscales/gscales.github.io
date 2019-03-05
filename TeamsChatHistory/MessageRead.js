@@ -44,23 +44,14 @@
             html = html + "<span class=\"ms-Table-cell\" >ReceivedDateTime</span>";
             html = html + "<span class=\"ms-Table-cell\">BodyPreview</span>";
             html = html + "</div>";
-            var msgTable = ""
             Messages.forEach(function (Message) {
                 var rcvDate = Date(Date.parse(Message.ReceivedDateTime));
-                var rcvDateString = rcvDate.toLocaleString('GB', {
-                    'day': 'numeric',
-                    'hour': '2-digit',
-                    'minute': '2-digit',
-                    'hour12': false,
-                    'month': 'long'
-                });
-                var tablerow = "<div class=\"ms-Table-row\">";
-                tablerow =  tablerow + "<span class=\"ms-Table-cell ms-fontWeight-semibold\">" + rcvDateString + "</span>";
-                tablerow =  tablerow + "<span id=\"Subject\" class=\"ms-Table-cell\">"+ html;
-                tablerow =  tablerow + Message.BodyPreview + " <a target='_blank' href='" + Message.WebLink + "'> Link</a></span ></div >";
-                msgTable = tablerow + msgTable;
+                html = "<div class=\"ms-Table-row\">" + html;
+                html = "<span class=\"ms-Table-cell ms-fontWeight-semibold\">" + rcvDate.toString('dd-MMM HH:mm') + "</span>" + html;
+                html = "<span id=\"Subject\" class=\"ms-Table-cell\">"+ html;
+                html = Message.BodyPreview + " <a target='_blank' href='" + Message.WebLink + "'> Link</a></span ></div >" + html;
             });
-            $('#mTchatTable').append((html + msgTable));
+            $('#mTchatTable').append(html);
         } catch (error) {
             $('#mTchatTable').html("Error displaying table " + error);
         }
