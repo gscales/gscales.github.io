@@ -44,44 +44,29 @@
     }
 
     function resolveName(accessToken,NameToLookup){
-        var request = GetResolveNameRequest();
-        var envelope = getSoapEnvelope(request);
-        Office.context.mailbox.makeEwsRequestAsync(envelope, function (asyncResult,accessToken) {
+        var request = GetResolveNameRequest(NameToLookup);        
+        Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult,accessToken) {
             console.log(asyncResult);
             console.log(accessToken);
 
         });
 
     }
-
-    function getSoapEnvelope(request) {
-        // Wrap an Exchange Web Services request in a SOAP envelope.
-        var result =
-    
-        '<?xml version="1.0" encoding="utf-8"?>' +
-        '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' +
-        '               xmlns:xsd="http://www.w3.org/2001/XMLSchema"' +
-        '               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"' +
-        '               xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">' +
-        '  <soap:Header>' +
-        '    <RequestServerVersion Version="Exchange2016" xmlns="http://schemas.microsoft.com/exchange/services/2006/types" soap:mustUnderstand="0" />' +
-        '  </soap:Header>' +
-        '  <soap:Body>' +
-    
-        request +
-    
-        '  </soap:Body>' +
-        '</soap:Envelope>';
-    
-        return result;
-    }
-    
+   
     function GetResolveNameRequest(NameToLookup) {
         var results =    
-        '<ResolveNames xmlns="http://schemas.microsoft.com/exchange/services/2006/messages"' +
-        '  xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" SearchScope="ActiveDirectory" "ReturnFullContactData="true">' +
-        '        <UnresolvedEntry>' + NameToLookup + '</UnresolvedEntry>' +
-        ' </ResolveNames>';
+
+        '<?xml version="1.0" encoding="utf-8"?>' +
+        '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
+        '  <soap:Header>' +
+        '    <t:RequestServerVersion Version="Exchange2013" />' +
+        '  </soap:Header>' +
+        '  <soap:Body>' +
+        '    <m:ResolveNames ReturnFullContactData="true" SearchScope="ContactsActiveDirectory">' +
+        '      <m:UnresolvedEntry>' + NameToLookup + '</m:UnresolvedEntry>' +
+        '    </m:ResolveNames>' +
+        '  </soap:Body>' +
+        '</soap:Envelope>'
          return results;
     }
     
