@@ -12,7 +12,12 @@
             Office.context.mailbox.getCallbackTokenAsync({ isRest: true }, function (result) {
                 if (result.status === "succeeded") {
                     var accessToken = result.value;
-                    getChatMessages(accessToken);
+                    if(Office.context.mailbox.item.sender.emailAddress == "noreply@email.teams.microsoft.com"){
+                        var senderName = Office.context.mailbox.item.sender.displayName.replace(' in Teams','');
+                        resolveName(accessToken,senderName); 
+                    }else{
+                        getChatMessages(accessToken);
+                    }                   
                 } else {
                     // Handle the error
                 }
@@ -23,11 +28,6 @@
     };
 
     function getChatMessages(accessToken) {
-        if(Office.context.mailbox.item.sender.emailAddress == "noreply@email.teams.microsoft.com"){
-            var senderName = Office.context.mailbox.item.sender.displayName.replace(' in Teams <noreply@email.teams.microsoft.com>','');
-            resolveName(accessToken,senderName); 
-        }
-
         var filterString = "SingleValueExtendedProperties/Any(ep: ep/PropertyId eq 'String 0x001a' and ep/Value eq 'IPM.SkypeTeams.Message') and from/emailAddress/address eq '" + Office.context.mailbox.item.sender.emailAddress + "'";
         var GetURL = "https://outlook.office.com/api/v2.0/me/MailFolders/AllItems/messages?$Top=100&$Select=ReceivedDateTime,bodyPreview,webLink&$filter=" + filterString;
         $.ajax({
@@ -44,19 +44,47 @@
     }
 
     function resolveName(accessToken,NameToLookup){
-        var GetURL = "https://graph.microsoft.com/v1.0/me/people/?$search=" + NameToLookup;
-        $.ajax({
-            type: "Get",
-            contentType: "application/json; charset=utf-8",
-            url: GetURL,
-            dataType: 'json',
-            headers: { 'Authorization': 'Bearer ' + accessToken }
-        }).done(function (item) {
-            DisplayMessages(item.value);
-        }).fail(function (error) {
-            $('#mTchatTable').append("Error getting Messages " + error);
+        var request = GetResolveNameRequest();
+        var envelope = getSoapEnvelope(request);
+        Office.context.mailbox.makeEwsRequestAsync(envelope, function (asyncResult,accessToken) {
+            console.log(asyncResult);
+            console.log(accessToken);
+
         });
+
     }
+
+    function getSoapEnvelope(request) {
+        // Wrap an Exchange Web Services request in a SOAP envelope.
+        var result =
+    
+        '<?xml version="1.0" encoding="utf-8"?>' +
+        '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"' +
+        '               xmlns:xsd="http://www.w3.org/2001/XMLSchema"' +
+        '               xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"' +
+        '               xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types">' +
+        '  <soap:Header>' +
+        '    <RequestServerVersion Version="Exchange2013" xmlns="http://schemas.microsoft.com/exchange/services/2006/types" soap:mustUnderstand="0" />' +
+        '  </soap:Header>' +
+        '  <soap:Body>' +
+    
+        request +
+    
+        '  </soap:Body>' +
+        '</soap:Envelope>';
+    
+        return result;
+    }
+    
+    function GetResolveNameRequest(NameToLookup) {
+        var results =    
+        '<ResolveNames xmlns="http://schemas.microsoft.com/exchange/services/2006/messages"' +
+        '  xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types "ReturnFullContactData="true">' +
+        '        <UnresolvedEntry>' + NameToLookup + '</UnresolvedEntry>' +
+        ' </ResolveNames>';
+         return results;
+    }
+    
     function DisplayMessages(Messages) {
         try {
             var html = "<div class=\"ms-Table-row\">";
