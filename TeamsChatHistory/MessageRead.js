@@ -44,10 +44,23 @@
     }
 
     function resolveName(accessToken,NameToLookup){
-        var request = GetResolveNameRequest(NameToLookup);        
-        Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult,accessToken) {
-            console.log(asyncResult);
-            console.log(accessToken);
+        var request = GetResolveNameRequest(NameToLookup);
+        var Token = accessToken;        
+        Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult,Token) {
+            var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+            if (is_chrome) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(asyncResult.value, "text/xml");
+                var values = doc.getElementsByTagName("t:EmailAddress");
+                console.log(values[0].textContent);
+            }
+            else {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(asyncResult.value, "text/xml");
+                var values = doc.getElementsByTagName("t:EmailAddress");
+                console.log(values[0].textContent);
+            }            
+            console.log(Token);
 
         });
 
@@ -62,7 +75,7 @@
         '    <t:RequestServerVersion Version="Exchange2013" />' +
         '  </soap:Header>' +
         '  <soap:Body>' +
-        '    <m:ResolveNames ReturnFullContactData="true" SearchScope="ContactsActiveDirectory">' +
+        '    <m:ResolveNames ReturnFullContactData="true" SearchScope="ActiveDirectory">' +
         '      <m:UnresolvedEntry>' + NameToLookup + '</m:UnresolvedEntry>' +
         '    </m:ResolveNames>' +
         '  </soap:Body>' +
