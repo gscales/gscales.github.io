@@ -46,10 +46,10 @@
             html = html + "</div>";
             Messages.forEach(function (Message) {
                 var rcvDate = Date(Date.parse(Message.ReceivedDateTime));
-                html = "<div class=\"ms-Table-row\">" + html;
-                html = "<span class=\"ms-Table-cell ms-fontWeight-semibold\">" + rcvDate.toString('dd-MMM HH:mm') + "</span>" + html;
+                html = "<div class=\"ms-Table-row\">";
+                html = "<span class=\"ms-Table-cell ms-fontWeight-semibold\">" + rcvDate.toString('dd-MMM HH:mm') + "</span>";
                 html = "<span id=\"Subject\" class=\"ms-Table-cell\">"+ html;
-                html = Message.BodyPreview + " <a target='_blank' href='" + Message.WebLink + "'> Link</a></span ></div >" + html;
+                html = Message.BodyPreview + " <a target='_blank' href='" + Message.WebLink + "'> Link</a></span ></div >";
             });
             $('#mTchatTable').append(html);
         } catch (error) {
