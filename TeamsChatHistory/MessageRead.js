@@ -46,7 +46,7 @@
             html = html + "</div>";
             var i;
             for (i = (Messages.length-1); i >= 0 ; i--) { 
-                var rcvDate = Date(Date.parse(Messages[i].ReceivedDateTime));
+                var rcvDate = Date.parse(Messages[i].ReceivedDateTime);
                 html = html + "<div class=\"ms-Table-row\">";
                 html = html +"<span class=\"ms-Table-cell ms-fontWeight-semibold\">" + rcvDate.toString('dd-MMM HH:mm') + "</span>";
                 html = html +"<span id=\"Subject\" class=\"ms-Table-cell\">";
