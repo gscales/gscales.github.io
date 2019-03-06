@@ -25,7 +25,7 @@
     function getChatMessages(accessToken) {
         if(Office.context.mailbox.item.sender.emailAddress == "noreply@email.teams.microsoft.com"){
             var senderName = Office.context.mailbox.item.sender.displayName.replace(' in Teams <noreply@email.teams.microsoft.com>','');
-            resolveName(senderName); 
+            resolveName(accessToken,senderName); 
         }
 
         var filterString = "SingleValueExtendedProperties/Any(ep: ep/PropertyId eq 'String 0x001a' and ep/Value eq 'IPM.SkypeTeams.Message') and from/emailAddress/address eq '" + Office.context.mailbox.item.sender.emailAddress + "'";
@@ -43,7 +43,7 @@
         });
     }
 
-    function resolveName(NameToLookup){
+    function resolveName(accessToken,NameToLookup){
         var GetURL = "https://graph.microsoft.com/v1.0/me/people/?$search=" + NameToLookup;
         $.ajax({
             type: "Get",
