@@ -23,6 +23,11 @@
     };
 
     function getChatMessages(accessToken) {
+        if(Office.context.mailbox.item.sender.emailAddress == "noreply@email.teams.microsoft.com"){
+            var senderName = Office.context.mailbox.item.sender.displayName.replace(' in Teams <noreply@email.teams.microsoft.com>','');
+            resolveName(senderName); 
+        }
+
         var filterString = "SingleValueExtendedProperties/Any(ep: ep/PropertyId eq 'String 0x001a' and ep/Value eq 'IPM.SkypeTeams.Message') and from/emailAddress/address eq '" + Office.context.mailbox.item.sender.emailAddress + "'";
         var GetURL = "https://outlook.office.com/api/v2.0/me/MailFolders/AllItems/messages?$Top=100&$Select=ReceivedDateTime,bodyPreview,webLink&$filter=" + filterString;
         $.ajax({
@@ -38,6 +43,20 @@
         });
     }
 
+    function resolveName(NameToLookup){
+        var GetURL = "https://graph.microsoft.com/v1.0/me/people/?$search=" + NameToLookup;
+        $.ajax({
+            type: "Get",
+            contentType: "application/json; charset=utf-8",
+            url: GetURL,
+            dataType: 'json',
+            headers: { 'Authorization': 'Bearer ' + accessToken }
+        }).done(function (item) {
+            DisplayMessages(item.value);
+        }).fail(function (error) {
+            $('#mTchatTable').append("Error getting Messages " + error);
+        });
+    }
     function DisplayMessages(Messages) {
         try {
             var html = "<div class=\"ms-Table-row\">";
