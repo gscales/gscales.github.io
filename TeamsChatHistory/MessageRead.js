@@ -9,26 +9,28 @@
             var element = document.querySelector('.ms-MessageBanner');
             messageBanner = new fabric.MessageBanner(element);
             messageBanner.hideBanner();
-            Office.context.mailbox.getCallbackTokenAsync({ isRest: true }, function (result) {
-                if (result.status === "succeeded") {
-                    var accessToken = result.value;
-                    if(Office.context.mailbox.item.sender.emailAddress == "noreply@email.teams.microsoft.com"){
-                        var senderName = Office.context.mailbox.item.sender.displayName.replace(' in Teams','');
-                        resolveName(accessToken,senderName); 
-                    }else{
-                        getChatMessages(accessToken);
-                    }                   
-                } else {
-                    // Handle the error
-                }
-            });
+            if(Office.context.mailbox.item.sender.emailAddress == "noreply@email.teams.microsoft.com"){
+                resolveName(Office.context.mailbox.item.sender.emailAddress);
+            }else{
+                getRestAccessToken(Office.context.mailbox.item.sender.emailAddress);
+            }
 
         });
 
     };
 
-    function getChatMessages(accessToken) {
-        var filterString = "SingleValueExtendedProperties/Any(ep: ep/PropertyId eq 'String 0x001a' and ep/Value eq 'IPM.SkypeTeams.Message') and from/emailAddress/address eq '" + Office.context.mailbox.item.sender.emailAddress + "'";
+    function getRestAccessToken(EmailAddress){
+        Office.context.mailbox.getCallbackTokenAsync({ isRest: true }, function (result) {
+            if (result.status === "succeeded") {
+                var accessToken = result.value;
+                getChatMessages(accessToken,EmailAddress);                
+            } else {
+                // Handle the error
+            }
+        });
+    }
+    function getChatMessages(accessToken,emailAddress) {
+        var filterString = "SingleValueExtendedProperties/Any(ep: ep/PropertyId eq 'String 0x001a' and ep/Value eq 'IPM.SkypeTeams.Message') and from/emailAddress/address eq '" + emailAddress  + "'";
         var GetURL = "https://outlook.office.com/api/v2.0/me/MailFolders/AllItems/messages?$Top=100&$Select=ReceivedDateTime,bodyPreview,webLink&$filter=" + filterString;
         $.ajax({
             type: "Get",
@@ -45,22 +47,30 @@
 
     function resolveName(accessToken,NameToLookup){
         var request = GetResolveNameRequest(NameToLookup);
-        var Token = accessToken;        
+        var Token = accessToken;
+        var EmailAddress = "";        
         Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult,Token) {
             var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
             if (is_chrome) {
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(asyncResult.value, "text/xml");
-                var values = doc.getElementsByTagName("t:EmailAddress");
-                console.log(values[0].textContent);
+                var values = doc.getElementsByTagName("EmailAddress");
+                if(values.length != 0){
+                    EmailAddress = values[0].textContent;
+                    getRestAccessToken(EmailAddress);
+                }
+               
             }
             else {
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(asyncResult.value, "text/xml");
                 var values = doc.getElementsByTagName("t:EmailAddress");
-                console.log(values[0].textContent);
+                if(values.length != 0){
+                    EmailAddress = values[0].textContent;
+                    getRestAccessToken(EmailAddress);
+                }
             }            
-            console.log(Token);
+            
 
         });
 
@@ -98,9 +108,6 @@
                 html = html + Messages[i].BodyPreview + " <a target='_blank' href='" + Messages[i].WebLink + "'> Link</a></span ></div >";
             }
 
-            //Messages.forEach(function (Message) {
-
-            //});
             $('#mTchatTable').append(html);
         } catch (error) {
             $('#mTchatTable').html("Error displaying table " + error);
