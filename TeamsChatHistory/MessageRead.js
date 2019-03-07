@@ -10,7 +10,7 @@
             messageBanner = new fabric.MessageBanner(element);
             messageBanner.hideBanner();
             if(Office.context.mailbox.item.sender.emailAddress == "noreply@email.teams.microsoft.com"){
-                resolveName(Office.context.mailbox.item.sender.emailAddress);
+                resolveName(Office.context.mailbox.item.sender.emailAddress.replace(" in Teams",""));
             }else{
                 getRestAccessToken(Office.context.mailbox.item.sender.emailAddress);
             }
@@ -45,7 +45,7 @@
         });
     }
 
-    function resolveName(accessToken,NameToLookup){
+    function resolveName(NameToLookup){
         var request = GetResolveNameRequest(NameToLookup);
         var Token = accessToken;
         var EmailAddress = "";        
