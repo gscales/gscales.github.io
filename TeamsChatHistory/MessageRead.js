@@ -47,9 +47,8 @@
 
     function resolveName(NameToLookup){
         var request = GetResolveNameRequest(NameToLookup);
-        var Token = accessToken;
         var EmailAddress = "";        
-        Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult,Token) {
+        Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult) {
             var parser = new DOMParser();
             var doc = parser.parseFromString(asyncResult.value, "text/xml");
             var values = doc.getElementsByTagName("t:EmailAddress");
