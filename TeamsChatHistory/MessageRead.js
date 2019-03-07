@@ -50,26 +50,13 @@
         var Token = accessToken;
         var EmailAddress = "";        
         Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult,Token) {
-            var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-            if (is_chrome) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(asyncResult.value, "text/xml");
-                var values = doc.getElementsByTagName("EmailAddress");
-                if(values.length != 0){
-                    EmailAddress = values[0].textContent;
-                    getRestAccessToken(EmailAddress);
-                }
-               
-            }
-            else {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(asyncResult.value, "text/xml");
-                var values = doc.getElementsByTagName("t:EmailAddress");
-                if(values.length != 0){
-                    EmailAddress = values[0].textContent;
-                    getRestAccessToken(EmailAddress);
-                }
-            }            
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(asyncResult.value, "text/xml");
+            var values = doc.getElementsByTagName("t:EmailAddress");
+            if(values.length != 0){
+                EmailAddress = values[0].textContent;
+                getRestAccessToken(EmailAddress);
+            } 
             
 
         });
