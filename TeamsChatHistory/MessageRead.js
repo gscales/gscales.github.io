@@ -31,7 +31,7 @@
     }
     function getChatMessages(accessToken,emailAddress) {
         var filterString = "SingleValueExtendedProperties/Any(ep: ep/PropertyId eq 'String 0x001a' and ep/Value eq 'IPM.SkypeTeams.Message') and from/emailAddress/address eq '" + emailAddress  + "'";
-        var GetURL = "https://outlook.office.com/api/v2.0/me/MailFolders/AllItems/messages?$Top=100&$Select=ReceivedDateTime,bodyPreview,webLink&$filter=" + filterString;
+        var GetURL = "https://outlook.office.com/api/v2.0/me/MailFolders/AllItems/messages?$OrderyBy=ReceivedDateTime desc&$Top=30&$Select=ReceivedDateTime,bodyPreview,webLink&$filter=" + filterString;
         $.ajax({
             type: "Get",
             contentType: "application/json; charset=utf-8",
@@ -85,15 +85,13 @@
             html = html + "<span class=\"ms-Table-cell\" >ReceivedDateTime</span>";
             html = html + "<span class=\"ms-Table-cell\">BodyPreview</span>";
             html = html + "</div>";
-            var i;
-            for (i = (Messages.length-1); i >= 0 ; i--) { 
-                var rcvDate = Date.parse(Messages[i].ReceivedDateTime);
+            Messages.forEach(function (Message) {
+                var rcvDate = Date.parse(Message.ReceivedDateTime);
                 html = html + "<div class=\"ms-Table-row\">";
                 html = html +"<span class=\"ms-Table-cell\">" + rcvDate.toString('dd-MMM-yy HH:mm') + "</span>";
                 html = html +"<span id=\"Subject\" class=\"ms-Table-cell\">";
-                html = html + Messages[i].BodyPreview + " <a target='_blank' href='" + Messages[i].WebLink + "'> Link</a></span ></div >";
-            }
-
+                html = html + Message.BodyPreview + " <a target='_blank' href='" + Message.WebLink + "'> Link</a></span ></div >";
+            });
             $('#mTchatTable').append(html);
         } catch (error) {
             $('#mTchatTable').html("Error displaying table " + error);
