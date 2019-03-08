@@ -30,7 +30,7 @@
         });
     }
     function getChatMessages(accessToken,emailAddress) {
-        var filterString = "SingleValueExtendedProperties/Any(ep: ep/PropertyId eq 'String 0x001a' and ep/Value eq 'IPM.SkypeTeams.Message') and from/emailAddress/address eq '" + emailAddress  + "'";
+        var filterString = "SingleValueExtendedProperties/Any(ep: ep/PropertyId eq 'String 0x001a' and ep/Value eq 'IPM.SkypeTeams.Message') and SingleValueExtendedProperties/Any(ep: ep/PropertyId eq 'String 0x5d01' and ep/Value eq '" + emailAddress  + "')";
         var GetURL = "https://outlook.office.com/api/v2.0/me/MailFolders/AllItems/messages?$OrderyBy=ReceivedDateTime desc&$Top=30&$Select=ReceivedDateTime,bodyPreview,webLink&$filter=" + filterString;
         $.ajax({
             type: "Get",
