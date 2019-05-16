@@ -81,8 +81,11 @@ function GetItem() {
     var results =
   '  <GetItem xmlns="http://schemas.microsoft.com/exchange/services/2006/messages">' +
   '    <ItemShape>' +
-  '      <t:BaseShape>AllProperties</t:BaseShape>' +
+  '      <t:BaseShape>IdOnly</t:BaseShape>' +
   '      <t:IncludeMimeContent>true</t:IncludeMimeContent>' +
+  '      <AdditionalProperties xmlns="http://schemas.microsoft.com/exchange/services/2006/types">' +
+  '        <FieldURI FieldURI="item:Subject" />' +
+  '      </AdditionalProperties>' +
   '    </ItemShape>' +
   '    <ItemIds>' +
   '      <t:ItemId Id="' + Office.context.mailbox.item.itemId + '" />' +
