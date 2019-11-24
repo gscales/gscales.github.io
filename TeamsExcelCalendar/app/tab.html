@@ -169,7 +169,7 @@ html, body {
                 }else{
                     console.log("Calendar not configured");
                     var html = "<br><b>No calendars configuration file ExcelCalendarConfig.json has been created in this Channels File directory</b></br>";
-                     html = "<br><b>See the Github repo for an example of what this file should look like and then upload it in to this Channel files area</b></br>";
+                    html += "<br><b>See the Github repo for an example of what this file should look like and then upload it in to this Channel files area</b></br>";
                     $('#preloader').fadeOut('slow',function(){$(this).remove();});  
                     $('#calendarErrors').append(html);
                 }
