@@ -11,7 +11,6 @@ async function GetCalendarDataYearlyAg(CalendarMap, Token, CalendarEmailAddress,
     do {
         CalendarData = await GenericGraphGet(Token, calendarURL);
         CalendarData.value.forEach(function (element) {
-           // console.log(element);
             var StartTime = new Date(element.start.dateTime);
             var EndTime = new Date(element.end.dateTime);
             var MonthString = monthNames[StartTime.getMonth()];

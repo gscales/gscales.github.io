@@ -73,11 +73,10 @@ async function UpdateRangeData(Token,CalendarJson,ItemId,workBookSession){
         PostData["values"] = [];
         if (CalendarJson.has(MonthTest)) {
             var MonthMap = CalendarJson.get(MonthTest);
-            var d;
-            for (d = 1; d <= 32; d++) {
-                if (MonthMap.has(d)) { 
-                    
-                    var DayMap = MonthMap.get(d);
+            var dcount;
+            for (dcount = 1; dcount <= 32; dcount++) {
+                if (MonthMap.has(dcount)) {                    
+                    var DayMap = MonthMap.get(dcount);
                     DayMap.forEach(function (arrayValue) {
                         RowCount++;
                         PostData["values"].push(arrayValue);             
