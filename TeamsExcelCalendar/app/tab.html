@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" class="js">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Excel Calendar</title>
+    <style>
+        img {
+            border-radius: 50%;
+        }
+
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #5558AF;
+            border-bottom: 16px solid #5558AF;
+            width: 80px;
+            height: 80px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .js div#preloader {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  background: #333 url('/TeamsExcelCalendar/app/images/loading.gif') no-repeat center center;
+}
+        
+ 
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+  font-size: 14px;
+}
+
+
+</style>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.min.css" />
+    <link rel="stylesheet" href="https://appsforoffice.microsoft.com/fabric/2.1.0/fabric.components.min.css" />
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js"></script>
+    <script src="https://statics.teams.microsoft.com/sdk/v1.5.2/js/MicrosoftTeams.min.js" integrity="sha384-TJ2M0tW5fxu25/LwZie10M5O53iP1Q5FweiXk5rvfTHmvA7x2a6I9+KKi2pjAk6k" crossorigin="anonymous"></script>
+    <script src="/TeamsExcelCalendar/app/Modules/Authentication.js"></script>
+    <script src="/TeamsExcelCalendar/app/Modules/Utils.js"></script>
+    <script src="/TeamsExcelCalendar/app/Config/appconfig.js"></script>
+    <script src="/TeamsExcelCalendar/app/Modules/Graph.js"></script>
+    <script src="/TeamsExcelCalendar/app/Modules/Calendar.js"></script>
+    <script src="/TeamsExcelCalendar/app/Modules/Excel.js"></script>
+</head>
+
+<body>
+    <div id="preloader"></div>
+    <div id="calendarErrors"></div>
+    <iframe id="ExcelFrame" width="100" height="346" frameborder="0" scrolling="no"></iframe>
+    <script type="text/javascript">
+        // Initialize microsoft teams tab library
+        microsoftTeams.initialize();
+        $('#ProgresLoader').hide();
+        //Client object to pass around
+        var Client = {};
+        Client.token = null;
+        var teamscontext = "";
+        var HostClientType = "";
+            
+        microsoftTeams.getContext(function (context) {
+            teamscontext = context;
+            HostClientType = context.hostClientType;
+            channelName  = context.channelName;        
+            GetExcelCalendar(HostClientType,context.channelName,context.groupId);
+        });
+        //
+        function LoadiFrame(iframeName, url) {
+          var $iframe = $('#' + iframeName);
+         if ( $iframe.length ) {
+         $iframe.attr('src',url);
+         $iframe.attr('width','100%');
+         $iframe.attr('height',window.innerHeight)     
+         return false;
+         }
+            return true;
+        }
+        async function GetExcelCalendar(HostClientType,channelName,GroupId) {
+            var CalendarConfigURL =  "https://graph.microsoft.com/v1.0/groups/" + GroupId + "/drive/root:/" + channelName + "/ExcelCalendarConfig.json";
+            try {               
+                appConfig = getConfig();
+                $('#ProgresLoader').show();
+                let Token = await Authuser(teamscontext.upn, appConfig);                
+                var CalendarsConfig;
+                try{
+                    CalendarsConfigDriveItem = await GenericGraphGet(Token,CalendarConfigURL);        
+                    var CalendarConfigFetchResponse = await fetch(CalendarsConfigDriveItem["@microsoft.graph.downloadUrl"]);
+                    CalendarsConfig = await CalendarConfigFetchResponse.json(); 
+                    CalendarsConfig["configured"] = true;
+                }catch(error){
+                    console.log(error);
+                    CalendarsConfig = {};
+                    CalendarsConfig["configured"] = false;
+                }
+                if(CalendarsConfig["configured"]){                
+                    let AppDrive = await GenericGraphGet(Token,"https://graph.microsoft.com/v1.0/me/drive/special/approot");
+                    let FileData = await ReadTemplate();
+                    var fileName = "Calendars.xlsx";
+                    var UploadURL = "https://graph.microsoft.com/v1.0/me/drive/special/approot:/" + fileName + ":/content";
+                    let NewFile = await CreateOneDriveFile(Token,UploadURL,FileData);                
+                    var CalendarData = new Map();
+                    var cLoop;
+                    for (cLoop = 0; cLoop < CalendarsConfig.Calendars.length; cLoop++) {
+                        var calendarToSearch = "https://graph.microsoft.com/v1.0/users/" + CalendarsConfig.Calendars[cLoop].CalendarEmailAddress + "/calendars?filter=name eq '" + CalendarsConfig.Calendars[cLoop].CalendarName + "'";
+                        let CalendarFolder = await GenericGraphGet(Token,calendarToSearch);
+                        CalendarData = await GetCalendarDataYearlyAg(CalendarData, Token, CalendarsConfig.Calendars[cLoop].CalendarEmailAddress, CalendarFolder.value[0].id,CalendarsConfig.Calendars[cLoop].CalendarDisplayName);
+                    }
+                    let workBookSession = await GenericGraphPOST(Token, ("https://graph.microsoft.com/v1.0/me/drive/items/" + NewFile.id + "/workbook/createSession"),"{\"persistChanges\": true }");
+                    try{
+                        await CreateSheetTitles(Token,NewFile.id,workBookSession);
+                        await UpdateRangeData(Token,CalendarData,NewFile.id,workBookSession);
+                    }catch(error){
+                        console.log(error);
+                    }finally{
+                        await WorkBookPOST(Token,("https://graph.microsoft.com/v1.0/me/drive/items/" + NewFile.id + "/workbook/closeSession"),workBookSession.id,"");
+                    }
+                    let SharePointIds = await GenericGraphGet(Token,("https://graph.microsoft.com/v1.0/me/drive/items/" + NewFile.id + "/?select=sharepointIds"));
+                    var FrameSrc =  SharePointIds.sharepointIds.siteUrl + "/_layouts/15/Doc.aspx?sourcedoc={" + SharePointIds.sharepointIds.listItemUniqueId + "}&action=embedview&wdAllowInteractivity=True&wdHideGridlines=False&wdHideHeaders=False&wdDownloadButton=True&wdInConfigurator=True"
+                    $('#preloader').fadeOut('slow',function(){$(this).remove();});                
+                    if(HostClientType == 'desktop'){
+                        window.open(FrameSrc, '_blank');
+                    }else{
+                        LoadiFrame("ExcelFrame",FrameSrc);
+                    }      
+                }else{
+                    console.log("Calendar not configured");
+                    var html = "No calendars configuration file in Teams Channel ExcelCalendarConfig.json";
+                    $('#preloader').fadeOut('slow',function(){$(this).remove();});  
+                    $('#calendarErrors').text = html;
+
+                }
+            }
+            catch (error) {
+                var html = "Error Getting Excel Calendar :<b> " + error + "</b></br>";
+                $('#preloader').fadeOut('slow',function(){$(this).remove();});
+                console.log(error);
+            } finally {
+                console.log("Finally");
+
+            }
+
+           
+
+        };
+    </script>
+
+</body>
+
+</html>

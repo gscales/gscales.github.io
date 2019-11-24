@@ -1,0 +1,41 @@
+﻿{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json", 
+  "manifestVersion": "1.5",
+  "version": "1.0.0",
+  "id": "749e9a57-fbc5-4364-a01b-d93a68a640ce",
+  "packageName": "TeamsExcelCalendar.io.github.gscales",
+  "developer": {
+    "name": "gscales@msgdevelop.com",
+    "websiteUrl": "https://gscales.github.io/TeamsExcelCalendar/app/todo.html",
+    "privacyUrl": "https://gscales.github.io/TeamsExcelCalendar/app/todo.html",
+    "termsOfUseUrl": "https://gscales.github.io/TeamsExcelCalendar/app/todo.html"
+  },
+  "name": {
+    "short": "Excel Calendar",
+    "full": "Excel Calendar"
+  },
+  "description": {
+    "short": "Tab for displaying an Calendar in an Excel SpreedSheet",
+    "full": "Tab for displaying an Calendar in an Excel SpreedSheet"
+  },
+   "icons": {
+    "outline": "Outline32.png", 
+    "color": "Colour192.png" 
+  },
+  "accentColor": "#333333",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://gscales.github.io/TeamsExcelCalendar/app/config.html",
+      "canUpdateConfiguration": true,
+      "scopes": [ "team" ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+     "gscales.github.io"
+   
+  ]
+}

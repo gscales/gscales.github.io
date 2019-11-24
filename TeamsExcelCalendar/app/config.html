@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <p>Configuring the Excel Calendar Tab</p>
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.17/js/adal.min.js"></script>
+    <script src="https://statics.teams.microsoft.com/sdk/v1.5.2/js/MicrosoftTeams.min.js" integrity="sha384-TJ2M0tW5fxu25/LwZie10M5O53iP1Q5FweiXk5rvfTHmvA7x2a6I9+KKi2pjAk6k" crossorigin="anonymous"></script>
+    <script src="/TeamsExcelCalendar/app/Modules/Authentication.js"></script>
+    <script src="/TeamsExcelCalendar/app/Modules/Utils.js"></script>
+    <script src="/TeamsExcelCalendar/app/Config/appconfig.js"></script>
+    <script type="text/javascript">
+        // Initialize microsoft teams tab library
+        microsoftTeams.initialize();
+        appConfig = getConfig();
+        // Configure the save event
+        microsoftTeams.settings.registerOnSaveHandler(function (saveEvent) {
+            // Save the settings for the tab and notify of success
+            microsoftTeams.settings.setSettings({
+                contentUrl: appConfig.hostRoot + "/TeamsExcelCalendar/app/tab.html",
+                suggestedDisplayName: "Excel Calendar",
+                websiteUrl: appConfig.hostRoot + "/TeamsExcelCalendar/app/tab.html",
+                removeUrl: appConfig.hostRoot + "/TeamsExcelCalendar/app/remove.html"
+            });
+            saveEvent.notifySuccess();
+        });
+
+        // Automatically set the save state to success
+        microsoftTeams.settings.setValidityState(true);
+    </script>
+</body>
+</html>
