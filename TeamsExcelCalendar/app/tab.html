@@ -89,8 +89,8 @@ html, body {
 </head>
 
 <body>
-    <div id="preloader"></div>
-    <div id="calendarErrors"></div>
+     <div id="calendarErrors"></div>
+    <div id="preloader"></div>   
     <iframe id="ExcelFrame" width="100" height="346" frameborder="0" scrolling="no"></iframe>
     <script type="text/javascript">
         // Initialize microsoft teams tab library
@@ -168,10 +168,9 @@ html, body {
                     }      
                 }else{
                     console.log("Calendar not configured");
-                    var html = "No calendars configuration file in Teams Channel ExcelCalendarConfig.json";
+                    var html = "<br><b>No calendars configuration file in Teams Channel ExcelCalendarConfig.json</b></br>";
                     $('#preloader').fadeOut('slow',function(){$(this).remove();});  
-                    $('#calendarErrors').text = html;
-
+                    $('#calendarErrors').append(html);
                 }
             }
             catch (error) {
