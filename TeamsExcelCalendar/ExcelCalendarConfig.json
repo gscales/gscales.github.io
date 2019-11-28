@@ -9,6 +9,11 @@
             "CalendarEmailAddress": "MRouteTest@datarumble.com",
             "CalendarName": "United States holidays",
             "CalendarDisplayName": "United States"
+        },
+        {
+            "CalendarEmailAddress": "MRouteTest@datarumble.com",
+            "CalendarName": "United Kingdom holidays",
+            "CalendarDisplayName": "UK"
         }
     ]
 }
