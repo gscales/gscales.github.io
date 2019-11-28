@@ -75,7 +75,7 @@ Then select the Channel to install the Tab onto.
 # Hosting the Application yourself #
 
 Create an Azure AD Application Registration that has the following grants
-
+![enter image description here](https://gscales.github.io/TeamsExcelCalendar/app/Docs/permsforce.JPG)
 
 
 Modify the manifest of the Application registration to enable the Implicit authentication flow 
@@ -89,9 +89,9 @@ Change the tab application m** Manifest** (your version of [https://github.com/g
 You need to change the Id,PackageName and configurationURL setting in the manifest to your own unique ApplicationId and URL where the config.html page is hosted
 
       "$schema": "https://statics.teams.microsoft.com/sdk/v1.2/manifest/MicrosoftTeams.schema.json", 
-  	  "manifestVersion": "1.3",
+  	  "manifestVersion": "1.5",
       "version": "1.0.0",
-      "id": "71db5de8-6b7d-437c-b973-0e13f81619e8",
+      "id": "749e9a57-fbc5-4364-a01b-d93a68a640ce",
       "packageName": "TeamsExcelCalendar.io.github.gscales",
     configurableTabs": [
     {
@@ -105,7 +105,7 @@ Modify you hosted version of the https://github.com/gscales/gscales.github.io/bl
 
      const getConfig = () => {
   	 var config = {
-        clientId : "71db5de8-6b7d-437c-b973-0e13f81619e8",
+        clientId : "749e9a57-fbc5-4364-a01b-d93a68a640ce",
         redirectUri : "/TeamsExcelCalendar/app/silent-end.html",
         authwindow :  "/TeamsExcelCalendar/app/auth.html",
 	 hostRoot: "https://gscales.github.io",
