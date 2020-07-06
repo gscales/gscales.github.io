@@ -1,4 +1,9 @@
 function FindProxyForURL(url, host)
 {
- return "PROXY 127.0.0.1:8888";
+    if(host == "fs.gsxclients.com"){
+	return "DIRECT";
+    }else{
+	return "PROXY 127.0.0.1:8888";
+    }
+ 
 }
