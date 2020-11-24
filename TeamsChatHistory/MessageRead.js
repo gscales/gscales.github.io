@@ -186,7 +186,7 @@
                 html = html +"<span id=\"Subject\" class=\"ms-Table-cell\">";
                 html = html + Message.childNodes[3].textContent + " <a target='_blank' href='" +  Message.childNodes[2].textContent + "'> Link</a></span ></div >";
             }
-            $('#mTchatTable').append(html);
+            $('#mTchatTable').empty().append(html);
         } catch (error) {
             $('#mTchatTable').html("Error displaying table " + error);
         }
