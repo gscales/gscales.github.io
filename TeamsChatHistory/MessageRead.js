@@ -159,6 +159,8 @@
     
 
     function ConvertIdRequest(IdToConvert){
+        var RequestString =  
+
         '<?xml version="1.0" encoding="utf-8"?>' +
         '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
         '  <soap:Header>' +
@@ -172,6 +174,7 @@
         '</m:ConvertId>' +
         '  </soap:Body>' +
         '</soap:Envelope>'
+        return RequestString;
   
     }
     function DisplayMessages(Messages) {
