@@ -236,7 +236,7 @@
           '  <t:BaseShape>IdOnly</t:BaseShape>' +
           '  <t:AdditionalProperties>' +  
           '  <t:FieldURI FieldURI="item:Preview" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />' +
-          '  <t:FieldURI FieldURI="item:ReceivedDateTime" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />' +
+          '  <t:FieldURI FieldURI="item:DateTimeReceived" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />' +
           '  <t:FieldURI FieldURI="item:WebClientReadFormQueryString" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />' +          
           '  </t:AdditionalProperties>' +  
           '</m:ItemShape>' +
