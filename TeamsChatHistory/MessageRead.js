@@ -91,12 +91,12 @@
     }
 
     function FindItems(FolderId){
-        var request = FindItemsRequest(FolderId);
-  
+        var request = FindItemsRequest(FolderId);  
         Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult) {
             var parser = new DOMParser();
             var doc = parser.parseFromString(asyncResult.value, "text/xml");
-            console.log(asyncResult.value);
+            var Items = doc.getElementsByTagName("t:Message");
+            DisplayMessages(Items);
 
         });
     }
@@ -236,6 +236,8 @@
           '  <t:BaseShape>IdOnly</t:BaseShape>' +
           '  <t:AdditionalProperties>' +  
           '  <t:FieldURI FieldURI="item:Preview" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />' +
+          '  <t:FieldURI FieldURI="item:ReceivedDateTime" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />' +
+          '  <t:FieldURI FieldURI="item:WebClientReadFormQueryString" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />' +          
           '  </t:AdditionalProperties>' +  
           '</m:ItemShape>' +
           '<m:IndexedPageItemView MaxEntriesReturned="1000" Offset="0" BasePoint="Beginning" />' +
@@ -266,15 +268,15 @@
     function DisplayMessages(Messages) {
         try {
             var html = "<div class=\"ms-Table-row\">";
-            html = html + "<span class=\"ms-Table-cell\" >ReceivedDateTime</span>";
+            html = html + "<span class=\"ms-Table-cell\">ReceivedDateTime</span>";
             html = html + "<span class=\"ms-Table-cell\">BodyPreview</span>";
             html = html + "</div>";
             Messages.forEach(function (Message) {
-                var rcvDate = Date.parse(Message.ReceivedDateTime);
+                var rcvDate = new Date();
                 html = html + "<div class=\"ms-Table-row\">";
                 html = html +"<span class=\"ms-Table-cell\">" + rcvDate.toString('dd-MMM-yy HH:mm') + "</span>";
                 html = html +"<span id=\"Subject\" class=\"ms-Table-cell\">";
-                html = html + Message.BodyPreview + " <a target='_blank' href='" + Message.WebLink + "'> Link</a></span ></div >";
+                html = html + Message[0].textContent + " <a target='_blank' href='" +  Message[2].textContent + "'> Link</a></span ></div >";
             });
             $('#mTchatTable').append(html);
         } catch (error) {
