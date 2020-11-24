@@ -12,7 +12,7 @@
             if(Office.context.mailbox.item.sender.emailAddress == "noreply@email.teams.microsoft.com"){
                 resolveName(Office.context.mailbox.item.sender.displayName.replace(" in Teams",""));
             }else{
-                getRestAccessToken(Office.context.mailbox.item.sender.emailAddress);
+                getFolderIdFromProperty();
             }
 
         });
@@ -45,6 +45,20 @@
         });
     }
 
+    function getFolderId(accessToken){
+        var GetURL = "https://outlook.office.com/api/v2.0/me/MailFolders/Inbox/" + filterString;
+        $.ajax({
+            type: "Get",
+            contentType: "application/json; charset=utf-8",
+            url: GetURL,
+            dataType: 'json',
+            headers: { 'Authorization': 'Bearer ' + accessToken }
+        }).done(function (item) {
+            console.log(item.value);
+        }).fail(function (error) {
+            $('#mTchatTable').append("Error getting Messages " + error);
+        });
+    }
     function resolveName(NameToLookup){
         var request = GetResolveNameRequest(NameToLookup);
         var EmailAddress = "";        
@@ -55,8 +69,22 @@
             if(values.length != 0){
                 EmailAddress = values[0].textContent;
                 getRestAccessToken(EmailAddress);
-            } 
-            
+            }        
+
+        });
+
+    }
+
+    function getFolderIdFromProperty(){
+        var request = GetChatMessagesFolderIdRequest(NameToLookup);
+        var EmailAddress = "";        
+        Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult) {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(asyncResult.value, "text/xml");
+            var exProp = doc.getElementsByTagName("t:ExtendedProperty");
+            if(exProp.length != 0){
+                console.log(exProp[0]);
+            }        
 
         });
 
@@ -77,6 +105,32 @@
         '  </soap:Body>' +
         '</soap:Envelope>'
          return results;
+    }
+
+    function GetChatMessagesFolderIdRequest(){
+        var RequestString =    
+
+        '<?xml version="1.0" encoding="utf-8"?>' +
+        '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
+        '  <soap:Header>' +
+        '    <t:RequestServerVersion Version="Exchange2016" />' +
+        '  </soap:Header>' +
+        '  <soap:Body>' +
+        '<m:GetFolder>' +
+        '<m:FolderShape>' +
+        '  <t:BaseShape>AllProperties</t:BaseShape>' +
+        '  <t:AdditionalProperties>' +
+        '    <t:ExtendedFieldURI PropertySetId="e49d64da-9f3b-41ac-9684-c6e01f30cdfa" PropertyName="TeamsMessagesDataFolderEntryId" PropertyType="Binary" />' +
+        '  </t:AdditionalProperties>' +
+        '</m:FolderShape>' +
+        '<m:FolderIds>' +
+        '   <t:DistinguishedFolderId Id="inbox">' +
+        '  </t:DistinguishedFolderId>' +
+        '</m:FolderIds>' +
+        '</m:GetFolder>' +
+        '  </soap:Body>' +
+        '</soap:Envelope>'
+         return RequestString;
     }
     
     function DisplayMessages(Messages) {
