@@ -77,20 +77,43 @@
 
     function getFolderIdFromProperty(){
         var request = GetChatMessagesFolderIdRequest();
-        var EmailAddress = "";        
+  
         Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult) {
             var parser = new DOMParser();
             var doc = parser.parseFromString(asyncResult.value, "text/xml");
             var exProp = doc.getElementsByTagName("t:ExtendedProperty");
             if(exProp.length != 0){
-                console.log(exProp[0].textContent);
-                console.log(exProp[0][1].textContent);
+                ConvertEWSId(base64ToHex(exProp[0].textContent));
             }        
 
         });
 
     }
-   
+    function ConvertEWSId(IdToConvert){
+        var request = ConvertIdRequest(IdToConvert);
+     
+        Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult) {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(asyncResult.value, "text/xml");
+            var aId = doc.getElementsByTagName("m:AlternateId");
+            if(aId.length != 0){
+               console.log(aId);
+            }        
+
+        });
+
+    }
+
+    function base64ToHex(str) {
+        const raw = atob(str);
+        let result = '';
+        for (let i = 0; i < raw.length; i++) {
+          const hex = raw.charCodeAt(i).toString(16);
+          result += (hex.length === 2 ? hex : '0' + hex);
+        }
+        return result.toUpperCase();
+      } 
+
     function GetResolveNameRequest(NameToLookup) {
         var results =    
 
@@ -134,6 +157,23 @@
          return RequestString;
     }
     
+
+    function ConvertIdRequest(IdToConvert){
+        '<?xml version="1.0" encoding="utf-8"?>' +
+        '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
+        '  <soap:Header>' +
+        '    <t:RequestServerVersion Version="Exchange2016" />' +
+        '  </soap:Header>' +
+        '  <soap:Body>' +
+        '<m:ConvertId DestinationFormat="EwsId">' +
+        '<m:SourceIds>' +
+        '  <t:AlternateId Format="HexEntryId" Id="' + IdToConvert + '" Mailbox="blah@blah.com" />'+
+        ' </m:SourceIds>' +
+        '</m:ConvertId>' +
+        '  </soap:Body>' +
+        '</soap:Envelope>'
+  
+    }
     function DisplayMessages(Messages) {
         try {
             var html = "<div class=\"ms-Table-row\">";
