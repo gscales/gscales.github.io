@@ -83,11 +83,22 @@
             var doc = parser.parseFromString(asyncResult.value, "text/xml");
             var folderid = doc.getElementsByTagName("t:FolderId");
             if(folderid.length != 0){
-                console.log(folderid[0].getAttribute('Id'));
+                FindItems(folderid[0].getAttribute('Id'));
             }        
 
         });
 
+    }
+
+    function FindItems(FolderId){
+        var request = FindItemsRequest(FolderId);
+  
+        Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult) {
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(asyncResult.value, "text/xml");
+            console.log(asyncResult.value);
+
+        });
     }
     function ConvertEWSId(IdToConvert){
         var ConvertIdRequestString = ConvertIdRequest(IdToConvert);
@@ -208,6 +219,47 @@
         return RequestString;
   
     }
+
+    function FindItemsRequest(FolderId) {
+        var StartDate = new Date();
+        StartDate.setMonth(StartDate.getMonth() - 1);
+        var EndDate = new Date();
+        var RequestString =
+          '<?xml version="1.0" encoding="utf-8"?>' +
+          '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
+          '  <soap:Header>' +
+          '    <t:RequestServerVersion Version="Exchange2016" />' +
+          '  </soap:Header>' +
+          '  <soap:Body>' +
+          '<m:FindItem Traversal="Shallow">' +
+          '<m:ItemShape>' +
+          '  <t:BaseShape>AllProperties</t:BaseShape>' +
+          '</m:ItemShape>' +
+          '<m:IndexedPageItemView MaxEntriesReturned="1000" Offset="0" BasePoint="Beginning" />' +
+          '<m:Restriction>' +
+          '  <t:And>' +
+          '    <t:IsGreaterThan>' +
+          '      <t:FieldURI FieldURI="item:DateTimeReceived" />' +
+          '      <t:FieldURIOrConstant>' +
+          '        <t:Constant Value="' + StartDate.toISOString() + '" />' +
+          '      </t:FieldURIOrConstant>' +
+          '    </t:IsGreaterThan>' +
+          '    <t:IsLessThan>' +
+          '      <t:FieldURI FieldURI="item:DateTimeReceived" />' +
+          '      <t:FieldURIOrConstant>' +
+          '        <t:Constant Value="' + EndDate.toISOString() + '" />' +
+          '      </t:FieldURIOrConstant>' +
+          '    </t:IsLessThan>' +
+          ' </t:And>' +
+          '</m:Restriction>' +
+          '<m:ParentFolderIds>' +
+          ' <t:FolderId Id="' + FolderId + '" />' +
+          '</m:ParentFolderIds>' +
+          '</m:FindItem>' +
+          '  </soap:Body>' +
+          '</soap:Envelope>'
+        return RequestString;
+      }
     function DisplayMessages(Messages) {
         try {
             var html = "<div class=\"ms-Table-row\">";
