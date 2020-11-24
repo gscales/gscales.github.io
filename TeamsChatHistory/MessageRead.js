@@ -12,53 +12,13 @@
             if(Office.context.mailbox.item.sender.emailAddress == "noreply@email.teams.microsoft.com"){
                 resolveName(Office.context.mailbox.item.sender.displayName.replace(" in Teams",""));
             }else{
-                getFolderIdFromProperty();
+                getTeamsMessagesFolder(Office.context.mailbox.item.sender.emailAddress);
             }
 
         });
 
     };
 
-    function getRestAccessToken(EmailAddress){
-        Office.context.mailbox.getCallbackTokenAsync({ isRest: true }, function (result) {
-            if (result.status === "succeeded") {
-                var accessToken = result.value;
-                getChatMessages(accessToken,EmailAddress);                
-            } else {
-                // Handle the error
-            }
-        });
-    }
-    function getChatMessages(accessToken,emailAddress) {
-        var filterString = "SingleValueExtendedProperties/Any(ep: ep/PropertyId eq 'String 0x001a' and ep/Value eq 'IPM.SkypeTeams.Message') and SingleValueExtendedProperties/Any(ep: ep/PropertyId eq 'String 0x5d01' and ep/Value eq '" + emailAddress  + "')";
-        var GetURL = "https://outlook.office.com/api/v2.0/me/MailFolders/AllItems/messages?$OrderyBy=ReceivedDateTime desc&$Top=30&$Select=ReceivedDateTime,bodyPreview,webLink&$filter=" + filterString;
-        $.ajax({
-            type: "Get",
-            contentType: "application/json; charset=utf-8",
-            url: GetURL,
-            dataType: 'json',
-            headers: { 'Authorization': 'Bearer ' + accessToken }
-        }).done(function (item) {
-            DisplayMessages(item.value);
-        }).fail(function (error) {
-            $('#mTchatTable').append("Error getting Messages " + error);
-        });
-    }
-
-    function getFolderId(accessToken){
-        var GetURL = "https://outlook.office.com/api/v2.0/me/MailFolders/Inbox/" + filterString;
-        $.ajax({
-            type: "Get",
-            contentType: "application/json; charset=utf-8",
-            url: GetURL,
-            dataType: 'json',
-            headers: { 'Authorization': 'Bearer ' + accessToken }
-        }).done(function (item) {
-            console.log(item.value);
-        }).fail(function (error) {
-            $('#mTchatTable').append("Error getting Messages " + error);
-        });
-    }
     function resolveName(NameToLookup){
         var request = GetResolveNameRequest(NameToLookup);
         var EmailAddress = "";        
@@ -68,14 +28,14 @@
             var values = doc.getElementsByTagName("t:EmailAddress");
             if(values.length != 0){
                 EmailAddress = values[0].textContent;
-                getRestAccessToken(EmailAddress);
+                getTeamsMessagesFolder(EmailAddress);
             }        
 
         });
 
     }
 
-    function getFolderIdFromProperty(){
+    function getTeamsMessagesFolder(EmailAddress){
         var request = FindFolderRequest();
   
         Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult) {
@@ -83,15 +43,15 @@
             var doc = parser.parseFromString(asyncResult.value, "text/xml");
             var folderid = doc.getElementsByTagName("t:FolderId");
             if(folderid.length != 0){
-                FindItems(folderid[0].getAttribute('Id'));
+                FindItems(folderid[0].getAttribute('Id'),EmailAddress);
             }        
 
         });
 
     }
 
-    function FindItems(FolderId){
-        var request = FindItemsRequest(FolderId,Office.context.mailbox.item.sender.emailAddress);  
+    function FindItems(FolderId,EmailAddress){
+        var request = FindItemsRequest(FolderId,EmailAddress);  
         Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult) {
             var parser = new DOMParser();
             var doc = parser.parseFromString(asyncResult.value, "text/xml");
