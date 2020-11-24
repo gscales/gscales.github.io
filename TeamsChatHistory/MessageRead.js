@@ -271,13 +271,13 @@
             html = html + "<span class=\"ms-Table-cell\">ReceivedDateTime</span>";
             html = html + "<span class=\"ms-Table-cell\">BodyPreview</span>";
             html = html + "</div>";
-            Messages.forEach(function (Message) {
+            for (let Message of Messages) {              
                 var rcvDate = new Date();
                 html = html + "<div class=\"ms-Table-row\">";
                 html = html +"<span class=\"ms-Table-cell\">" + rcvDate.toString('dd-MMM-yy HH:mm') + "</span>";
                 html = html +"<span id=\"Subject\" class=\"ms-Table-cell\">";
-                html = html + Message[0].textContent + " <a target='_blank' href='" +  Message[2].textContent + "'> Link</a></span ></div >";
-            });
+                html = html + Message[3].textContent + " <a target='_blank' href='" +  Message[2].textContent + "'> Link</a></span ></div >";
+            }
             $('#mTchatTable').append(html);
         } catch (error) {
             $('#mTchatTable').html("Error displaying table " + error);
