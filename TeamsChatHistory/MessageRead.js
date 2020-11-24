@@ -83,7 +83,8 @@
             var doc = parser.parseFromString(asyncResult.value, "text/xml");
             var exProp = doc.getElementsByTagName("t:ExtendedProperty");
             if(exProp.length != 0){
-                console.log(exProp[0]);
+                console.log(exProp[0].textContent);
+                console.log(exProp[0][1].textContent);
             }        
 
         });
