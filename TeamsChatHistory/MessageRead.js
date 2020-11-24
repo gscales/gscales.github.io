@@ -76,14 +76,14 @@
     }
 
     function getFolderIdFromProperty(){
-        var request = GetChatMessagesFolderIdRequest();
+        var request = FindFolderRequest();
   
         Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult) {
             var parser = new DOMParser();
             var doc = parser.parseFromString(asyncResult.value, "text/xml");
-            var exProp = doc.getElementsByTagName("t:ExtendedProperty");
-            if(exProp.length != 0){
-                ConvertEWSId(base64ToHex(exProp[0].textContent));
+            var folderid = doc.getElementsByTagName("t:FolderId");
+            if(folderid.length != 0){
+                console.log(folderid.attributes["Id"].value)
             }        
 
         });
@@ -174,6 +174,29 @@
         '</m:ConvertId>' +
         '  </soap:Body>' +
         '</soap:Envelope>'
+        return RequestString;
+  
+    }
+
+    function FindFolderRequest(){
+        var RequestString =
+        '<m:FindFolder Traversal="Shallow">' +
+        '<m:FolderShape>' +
+        '  <t:BaseShape>AllProperties</t:BaseShape>' +
+        '</m:FolderShape>' +
+        '<m:IndexedPageFolderView MaxEntriesReturned="1" Offset="0" BasePoint="Beginning" />' +
+        '<m:Restriction>' +
+        '  <t:IsEqualTo>' +
+        '    <t:FieldURI FieldURI="folder:DisplayName" />' +
+        '    <t:FieldURIOrConstant>' +
+        '      <t:Constant Value="TeamsMessagesData" />' +
+        '    </t:FieldURIOrConstant>' +
+        '  </t:IsEqualTo>' +
+        '</m:Restriction>' +
+        '<m:ParentFolderIds>' +
+        '  <t:DistinguishedFolderId Id="root" />' +
+        '</m:ParentFolderIds>' +
+        '</m:FindFolder>'
         return RequestString;
   
     }
