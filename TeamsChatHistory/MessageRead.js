@@ -83,7 +83,7 @@
             var doc = parser.parseFromString(asyncResult.value, "text/xml");
             var folderid = doc.getElementsByTagName("t:FolderId");
             if(folderid.length != 0){
-                console.log(folderid.attributes["Id"].value)
+                console.log(folderid[0].getAttribute('Id'));
             }        
 
         });
