@@ -91,7 +91,7 @@
     }
 
     function FindItems(FolderId){
-        var request = FindItemsRequest(FolderId);  
+        var request = FindItemsRequest(FolderId,Office.context.mailbox.item.sender.emailAddress);  
         Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult) {
             var parser = new DOMParser();
             var doc = parser.parseFromString(asyncResult.value, "text/xml");
@@ -100,20 +100,7 @@
 
         });
     }
-    function ConvertEWSId(IdToConvert){
-        var ConvertIdRequestString = ConvertIdRequest(IdToConvert);
-     
-        Office.context.mailbox.makeEwsRequestAsync(ConvertIdRequestString, function (asyncResult) {
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(asyncResult.value, "text/xml");
-            var aId = doc.getElementsByTagName("m:AlternateId");
-            if(aId.length != 0){
-               console.log(aId);
-            }        
 
-        });
-
-    }
 
     function base64ToHex(str) {
         const raw = atob(str);
@@ -142,52 +129,6 @@
          return results;
     }
 
-    function GetChatMessagesFolderIdRequest(){
-        var RequestString =    
-
-        '<?xml version="1.0" encoding="utf-8"?>' +
-        '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
-        '  <soap:Header>' +
-        '    <t:RequestServerVersion Version="Exchange2016" />' +
-        '  </soap:Header>' +
-        '  <soap:Body>' +
-        '<m:GetFolder>' +
-        '<m:FolderShape>' +
-        '  <t:BaseShape>AllProperties</t:BaseShape>' +
-        '  <t:AdditionalProperties>' +
-        '    <t:ExtendedFieldURI PropertySetId="e49d64da-9f3b-41ac-9684-c6e01f30cdfa" PropertyName="TeamsMessagesDataFolderEntryId" PropertyType="Binary" />' +
-        '  </t:AdditionalProperties>' +
-        '</m:FolderShape>' +
-        '<m:FolderIds>' +
-        '   <t:DistinguishedFolderId Id="inbox">' +
-        '  </t:DistinguishedFolderId>' +
-        '</m:FolderIds>' +
-        '</m:GetFolder>' +
-        '  </soap:Body>' +
-        '</soap:Envelope>'
-         return RequestString;
-    }
-    
-
-    function ConvertIdRequest(IdToConvert){
-        var RequestString =  
-
-        '<?xml version="1.0" encoding="utf-8"?>' +
-        '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
-        '  <soap:Header>' +
-        '    <t:RequestServerVersion Version="Exchange2016" />' +
-        '  </soap:Header>' +
-        '  <soap:Body>' +
-        '<m:ConvertId DestinationFormat="EwsId">' +
-        '<m:SourceIds>' +
-        '  <t:AlternateId Format="HexEntryId" Id="' + IdToConvert + '" Mailbox="' + Office.context.mailbox.userProfile.emailAddress + '" />'+
-        ' </m:SourceIds>' +
-        '</m:ConvertId>' +
-        '  </soap:Body>' +
-        '</soap:Envelope>'
-        return RequestString;
-  
-    }
 
     function FindFolderRequest(){
         var RequestString =
@@ -220,9 +161,9 @@
   
     }
 
-    function FindItemsRequest(FolderId) {
+    function FindItemsRequest(FolderId,EmailAddress) {
         var StartDate = new Date();
-        StartDate.setMonth(StartDate.getMonth() - 1);
+        StartDate.setMonth(StartDate.getMonth() - 2);
         var EndDate = new Date();
         var RequestString =
           '<?xml version="1.0" encoding="utf-8"?>' +
@@ -255,6 +196,12 @@
           '        <t:Constant Value="' + EndDate.toISOString() + '" />' +
           '      </t:FieldURIOrConstant>' +
           '    </t:IsLessThan>' +
+          '   <t:IsEqualTo>' +
+          '   <t:ExtendedFieldURI PropertyTag="23809" PropertyType="String" />' +
+          '    <t:FieldURIOrConstant>' +
+          '     <t:Constant Value="' + emailAddress + '" />' +
+          '   </t:FieldURIOrConstant>' +
+          '   </t:IsEqualTo>' +
           ' </t:And>' +
           '</m:Restriction>' +
           '<m:ParentFolderIds>' +
