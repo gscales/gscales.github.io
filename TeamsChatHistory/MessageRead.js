@@ -122,8 +122,9 @@
     }
 
     function FindItemsRequest(FolderId,EmailAddress) {
+        var DaysToSubtrace = $( "#lbts" ).val();
         var StartDate = new Date();
-        StartDate.setMonth(StartDate.getMonth() - 2);
+        StartDate.setDate(StartDate.getDate()-DaysToSubtrace);
         var EndDate = new Date();
         var RequestString =
           '<?xml version="1.0" encoding="utf-8"?>' +
