@@ -233,7 +233,10 @@
           '  <soap:Body>' +
           '<m:FindItem Traversal="Shallow">' +
           '<m:ItemShape>' +
-          '  <t:BaseShape>AllProperties</t:BaseShape>' +
+          '  <t:BaseShape>IdOnly</t:BaseShape>' +
+          '  <t:AdditionalProperties>' +  
+          '  <t:FieldURI FieldURI="item:Preview" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />' +
+          '  </t:AdditionalProperties>' +  
           '</m:ItemShape>' +
           '<m:IndexedPageItemView MaxEntriesReturned="1000" Offset="0" BasePoint="Beginning" />' +
           '<m:Restriction>' +
