@@ -76,7 +76,7 @@
     }
 
     function getFolderIdFromProperty(){
-        var request = GetChatMessagesFolderIdRequest(NameToLookup);
+        var request = GetChatMessagesFolderIdRequest();
         var EmailAddress = "";        
         Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult) {
             var parser = new DOMParser();
