@@ -1,7 +1,4 @@
-﻿(function () {
-    "use strict";
-
-    var messageBanner;
+﻿    var messageBanner;
 
     // The Office initialize function must be run each time a new page is loaded.
     Office.initialize = function (reason) {
@@ -203,4 +200,3 @@
         messageBanner.showBanner();
         messageBanner.toggleExpansion();
     }
-})();
