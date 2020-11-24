@@ -276,7 +276,7 @@
                 html = html + "<div class=\"ms-Table-row\">";
                 html = html +"<span class=\"ms-Table-cell\">" + rcvDate.toString('dd-MMM-yy HH:mm') + "</span>";
                 html = html +"<span id=\"Subject\" class=\"ms-Table-cell\">";
-                html = html + Message[3].textContent + " <a target='_blank' href='" +  Message[2].textContent + "'> Link</a></span ></div >";
+                html = html + Message.childNodes[3].textContent + " <a target='_blank' href='" +  Message.childNodes[2].textContent + "'> Link</a></span ></div >";
             }
             $('#mTchatTable').append(html);
         } catch (error) {
