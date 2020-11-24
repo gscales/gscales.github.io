@@ -199,7 +199,7 @@
           '   <t:IsEqualTo>' +
           '   <t:ExtendedFieldURI PropertyTag="23809" PropertyType="String" />' +
           '    <t:FieldURIOrConstant>' +
-          '     <t:Constant Value="' + emailAddress + '" />' +
+          '     <t:Constant Value="' + EmailAddress + '" />' +
           '   </t:FieldURIOrConstant>' +
           '   </t:IsEqualTo>' +
           ' </t:And>' +
