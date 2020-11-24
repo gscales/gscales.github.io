@@ -202,7 +202,7 @@
         '<m:ParentFolderIds>' +
         '  <t:DistinguishedFolderId Id="root" />' +
         '</m:ParentFolderIds>' +
-        '</m:FindFolder>'
+        '</m:FindFolder>' +
         '  </soap:Body>' +
         '</soap:Envelope>'
         return RequestString;
