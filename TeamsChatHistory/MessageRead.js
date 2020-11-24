@@ -90,9 +90,9 @@
 
     }
     function ConvertEWSId(IdToConvert){
-        var request = ConvertIdRequest(IdToConvert);
+        var ConvertIdRequestString = ConvertIdRequest(IdToConvert);
      
-        Office.context.mailbox.makeEwsRequestAsync(request, function (asyncResult) {
+        Office.context.mailbox.makeEwsRequestAsync(ConvertIdRequestString, function (asyncResult) {
             var parser = new DOMParser();
             var doc = parser.parseFromString(asyncResult.value, "text/xml");
             var aId = doc.getElementsByTagName("m:AlternateId");
@@ -169,7 +169,7 @@
         '  <soap:Body>' +
         '<m:ConvertId DestinationFormat="EwsId">' +
         '<m:SourceIds>' +
-        '  <t:AlternateId Format="HexEntryId" Id="' + IdToConvert + '" Mailbox="blah@blah.com" />'+
+        '  <t:AlternateId Format="HexEntryId" Id="' + IdToConvert + '" Mailbox="' + Office.context.mailbox.userProfile.emailAddress + '" />'+
         ' </m:SourceIds>' +
         '</m:ConvertId>' +
         '  </soap:Body>' +
