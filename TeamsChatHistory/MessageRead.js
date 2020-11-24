@@ -272,7 +272,7 @@
             html = html + "<span class=\"ms-Table-cell\">BodyPreview</span>";
             html = html + "</div>";
             for (let Message of Messages) {              
-                var rcvDate = new Date();
+                var rcvDate = new Date(Message.childNodes[1].textContent);
                 html = html + "<div class=\"ms-Table-row\">";
                 html = html +"<span class=\"ms-Table-cell\">" + rcvDate.toString('dd-MMM-yy HH:mm') + "</span>";
                 html = html +"<span id=\"Subject\" class=\"ms-Table-cell\">";
