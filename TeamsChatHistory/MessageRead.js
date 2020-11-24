@@ -9,16 +9,19 @@
             var element = document.querySelector('.ms-MessageBanner');
             messageBanner = new fabric.MessageBanner(element);
             messageBanner.hideBanner();
-            if(Office.context.mailbox.item.sender.emailAddress == "noreply@email.teams.microsoft.com"){
-                resolveName(Office.context.mailbox.item.sender.displayName.replace(" in Teams",""));
-            }else{
-                getTeamsMessagesFolder(Office.context.mailbox.item.sender.emailAddress);
-            }
+            ExecuteSearch();
 
         });
 
     };
 
+    function ExecuteSearch(){
+        if(Office.context.mailbox.item.sender.emailAddress == "noreply@email.teams.microsoft.com"){
+            resolveName(Office.context.mailbox.item.sender.displayName.replace(" in Teams",""));
+        }else{
+            getTeamsMessagesFolder(Office.context.mailbox.item.sender.emailAddress);
+        }
+    }
     function resolveName(NameToLookup){
         var request = GetResolveNameRequest(NameToLookup);
         var EmailAddress = "";        
