@@ -13,7 +13,7 @@ function FindProxyForURL(url, host)
             dnsDomainIs(host, "login.windows.net") ||
             dnsDomainIs(host, ".microsoftonline-p.com"))
 		    {		
-            return "PROXY 127.0.0.1:8866";
+            return "PROXY 127.0.0.1:8888";
 		    }            
             
             return "DIRECT";;
