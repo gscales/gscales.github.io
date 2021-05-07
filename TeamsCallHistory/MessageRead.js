@@ -137,9 +137,10 @@
           '<m:ItemShape>' +
           '  <t:BaseShape>IdOnly</t:BaseShape>' +
           '  <t:AdditionalProperties>' +  
-          '  <t:FieldURI FieldURI="item:Preview" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />' +
-          '  <t:FieldURI FieldURI="item:DateTimeReceived" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />' +
-          '  <t:FieldURI FieldURI="item:WebClientReadFormQueryString" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />' +          
+          '  <t:FieldURI FieldURI="item:ItemClass" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" />' +
+          '  <t:ExtendedFieldURI PropertyTag="96" PropertyType="SystemTime" />' +    
+          '  <t:ExtendedFieldURI PropertyTag="97" PropertyType="SystemTime" />' + 
+          '  <t:ExtendedFieldURI PropertyTag="23809" PropertyType="String" />' + 
           '  </t:AdditionalProperties>' +  
           '</m:ItemShape>' +
           '<m:IndexedPageItemView MaxEntriesReturned="1000" Offset="0" BasePoint="Beginning" />' +
