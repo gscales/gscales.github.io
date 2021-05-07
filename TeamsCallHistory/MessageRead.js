@@ -155,17 +155,30 @@
       }
     function DisplayMessages(Messages) {
         try {
+            var TeamsEventType = Message.childNodes[1].textContent.substring(Message.childNodes[1].textContent.lastIndexOf(".") + 1);
             var html = "<div class=\"ms-Table-row\">";
+            html = html + "<span class=\"ms-Table-cell\"></span>";
             html = html + "<span class=\"ms-Table-cell\">Details</span>";
             html = html + "</div>";
             for (let Message of Messages) {              
-                var rcvDate = new Date(Message.childNodes[2].textContent);
+                var eStartDate = new Date(Message.childNodes[2].textContent);
+                var eEndDate = new Date(Message.childNodes[3].textContent);
                 html = html + "<div class=\"ms-Table-row\">";
-                html = html +"<span class=\"ms-Table-cell\">" + Message.childNodes[1].textContent.substring(Message.childNodes[1].textContent.lastIndexOf(".") + 1) + "</span>";
+                html = html + "<span class=\"ms-Table-cell\">Type</span>";
+                html = html +"<span class=\"ms-Table-cell\">" + TeamsEventType + "</span>";
                 html = html + "</div><div class=\"ms-Table-row\">";
-                html = html +"<span class=\"ms-Table-cell\">" + rcvDate.toString('dd-MMM-yy HH:mm') + "</span>";
+                html = html + "<span class=\"ms-Table-cell\">Start Time</span>";
+                html = html + "<span class=\"ms-Table-cell\">" + eStartDate.toString('dd-MMM-yy HH:mm') + "</span>";
                 html = html + "</div><div class=\"ms-Table-row\">";
-                html = html + Message.childNodes[4].textContent + "'</div >";
+                html = html + "<span class=\"ms-Table-cell\">End Time</span>";
+                html = html + "<span class=\"ms-Table-cell\">" + eEndDate.toString('dd-MMM-yy HH:mm') + "</span>";
+                html = html + "</div><div class=\"ms-Table-row\">";
+                if(TeamsEventType == "Meeting"){
+                    html = html + "<span class=\"ms-Table-cell\">Organizer</span>";
+                }else{
+                    html = html + "<span class=\"ms-Table-cell\">Caller</span>";
+                }
+                html = html + "<span class=\"ms-Table-cell\">" +  Message.childNodes[4].textContent + "'</span></div >";
                 html = html + "<div class=\"ms-Table-row\"></div>";
             }
             $('#mTchatTable').empty().append(html);
