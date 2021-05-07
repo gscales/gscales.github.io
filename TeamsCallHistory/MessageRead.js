@@ -98,7 +98,7 @@
         '    <t:RequestServerVersion Version="Exchange2016" />' +
         '  </soap:Header>' +
         '  <soap:Body>' +
-        '<m:FindFolder Traversal="Shallow">' +
+        '<m:FindFolder Traversal="Deep">' +
         '<m:FolderShape>' +
         '  <t:BaseShape>AllProperties</t:BaseShape>' +
         '</m:FolderShape>' +
