@@ -155,12 +155,13 @@
       }
     function DisplayMessages(Messages) {
         try {
-            var TeamsEventType = Message.childNodes[1].textContent.substring(Message.childNodes[1].textContent.lastIndexOf(".") + 1);
+            
             var html = "<div class=\"ms-Table-row\">";
             html = html + "<span class=\"ms-Table-cell\"></span>";
             html = html + "<span class=\"ms-Table-cell\">Details</span>";
             html = html + "</div>";
-            for (let Message of Messages) {              
+            for (let Message of Messages) {    
+                var TeamsEventType = Message.childNodes[1].textContent.substring(Message.childNodes[1].textContent.lastIndexOf(".") + 1);          
                 var eStartDate = new Date(Message.childNodes[2].textContent);
                 var eEndDate = new Date(Message.childNodes[3].textContent);
                 html = html + "<div class=\"ms-Table-row\">";
