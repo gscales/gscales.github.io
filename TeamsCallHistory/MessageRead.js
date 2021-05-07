@@ -146,7 +146,7 @@
           '<m:ParentFolderIds>' +
           ' <t:FolderId Id="' + FolderId + '" />' +
           '</m:ParentFolderIds>' +
-          '<m:QueryString>participants:"' + emailAddress + '"</m:QueryString>'
+          '<m:QueryString>participants:"' + EmailAddress + '"</m:QueryString>'
           '</m:FindItem>' +
           '  </soap:Body>' +
           '</soap:Envelope>'
