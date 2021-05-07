@@ -122,10 +122,6 @@
     }
 
     function FindItemsRequest(FolderId,EmailAddress) {
-        var DaysToSubtrace = $( "#lbts" ).val();
-        var StartDate = new Date();
-        StartDate.setDate(StartDate.getDate()-DaysToSubtrace);
-        var EndDate = new Date();
         var RequestString =
           '<?xml version="1.0" encoding="utf-8"?>' +
           '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
@@ -143,7 +139,7 @@
           '  <t:ExtendedFieldURI PropertyTag="23809" PropertyType="String" />' + 
           '  </t:AdditionalProperties>' +  
           '</m:ItemShape>' +
-          '<m:IndexedPageItemView MaxEntriesReturned="1000" Offset="0" BasePoint="Beginning" />' +
+          '<m:IndexedPageItemView MaxEntriesReturned="40" Offset="0" BasePoint="Beginning" />' +
           '<m:ParentFolderIds>' +
           ' <t:FolderId Id="' + FolderId + '" />' +
           '</m:ParentFolderIds>' +
@@ -179,7 +175,7 @@
                 }else{
                     html = html + "<span class=\"ms-Table-cell\">Caller</span>";
                 }
-                html = html + "<span class=\"ms-Table-cell\">" +  Message.childNodes[4].textContent + "'</span></div >";
+                html = html + "<span class=\"ms-Table-cell\">" +  Message.childNodes[4].textContent + "</span></div >";
                 html = html + "<div class=\"ms-Table-row\"></div>";
             }
             $('#mTchatTable').empty().append(html);
