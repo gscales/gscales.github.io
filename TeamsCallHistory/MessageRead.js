@@ -156,15 +156,17 @@
     function DisplayMessages(Messages) {
         try {
             var html = "<div class=\"ms-Table-row\">";
-            html = html + "<span class=\"ms-Table-cell\">ReceivedDateTime</span>";
-            html = html + "<span class=\"ms-Table-cell\">BodyPreview</span>";
+            html = html + "<span class=\"ms-Table-cell\">Type</span>";
+            html = html + "<span class=\"ms-Table-cell\">Time Of Call</span>";
+            html = html + "<span class=\"ms-Table-cell\">Duration</span>";
             html = html + "</div>";
             for (let Message of Messages) {              
-                var rcvDate = new Date(Message.childNodes[1].textContent);
+                var rcvDate = new Date(Message.childNodes[2].textContent);
                 html = html + "<div class=\"ms-Table-row\">";
+                html = html +"<span class=\"ms-Table-cell\">" + Message.childNodes[1].textContent + "</span>";
                 html = html +"<span class=\"ms-Table-cell\">" + rcvDate.toString('dd-MMM-yy HH:mm') + "</span>";
                 html = html +"<span id=\"Subject\" class=\"ms-Table-cell\">";
-                html = html + Message.childNodes[3].textContent + " <a target='_blank' href='" +  Message.childNodes[2].textContent + "'> Link</a></span ></div >";
+                html = html + Message.childNodes[3].textContent + "'> Link</a></span ></div >";
             }
             $('#mTchatTable').empty().append(html);
         } catch (error) {
