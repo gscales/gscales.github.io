@@ -107,7 +107,7 @@
         '  <t:IsEqualTo>' +
         '    <t:FieldURI FieldURI="folder:DisplayName" />' +
         '    <t:FieldURIOrConstant>' +
-        '      <t:Constant Value="TeamsMessagesData" />' +
+        '      <t:Constant Value="TeamsMeetings" />' +
         '    </t:FieldURIOrConstant>' +
         '  </t:IsEqualTo>' +
         '</m:Restriction>' +
@@ -143,31 +143,10 @@
           '  </t:AdditionalProperties>' +  
           '</m:ItemShape>' +
           '<m:IndexedPageItemView MaxEntriesReturned="1000" Offset="0" BasePoint="Beginning" />' +
-          '<m:Restriction>' +
-          '  <t:And>' +
-          '    <t:IsGreaterThan>' +
-          '      <t:FieldURI FieldURI="item:DateTimeReceived" />' +
-          '      <t:FieldURIOrConstant>' +
-          '        <t:Constant Value="' + StartDate.toISOString() + '" />' +
-          '      </t:FieldURIOrConstant>' +
-          '    </t:IsGreaterThan>' +
-          '    <t:IsLessThan>' +
-          '      <t:FieldURI FieldURI="item:DateTimeReceived" />' +
-          '      <t:FieldURIOrConstant>' +
-          '        <t:Constant Value="' + EndDate.toISOString() + '" />' +
-          '      </t:FieldURIOrConstant>' +
-          '    </t:IsLessThan>' +
-          '   <t:IsEqualTo>' +
-          '   <t:ExtendedFieldURI PropertyTag="23809" PropertyType="String" />' +
-          '    <t:FieldURIOrConstant>' +
-          '     <t:Constant Value="' + EmailAddress + '" />' +
-          '   </t:FieldURIOrConstant>' +
-          '   </t:IsEqualTo>' +
-          ' </t:And>' +
-          '</m:Restriction>' +
           '<m:ParentFolderIds>' +
           ' <t:FolderId Id="' + FolderId + '" />' +
           '</m:ParentFolderIds>' +
+          '<m:QueryString>participants:"' + emailAddress + '"</m:QueryString>'
           '</m:FindItem>' +
           '  </soap:Body>' +
           '</soap:Envelope>'
