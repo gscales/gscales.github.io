@@ -13,7 +13,7 @@
   <HighResolutionIconUrl DefaultValue="https://gscales.github.io/SSO-Outlook-HelloWorld/assets/icon-64.png"/>
   <SupportUrl DefaultValue="https://docs.microsoft.com/office/dev/add-ins/overview/office-add-in-code-samples"/>
   <AppDomains>
-    <AppDomain>https://www.contoso.com</AppDomain>
+    <AppDomain>https://login.microsoftonline.com</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox"/>
@@ -37,11 +37,11 @@
     <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
   </Rule>
   <DisableEntityHighlighting>false</DisableEntityHighlighting>
-  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
     <Requirements>
-       <bt:Sets DefaultMinVersion="1.5">
+      <bt:Sets DefaultMinVersion="1.5">
         <bt:Set Name="Mailbox" />
-       </bt:Sets>
+      </bt:Sets>
     </Requirements>
     <Hosts>
       <Host xsi:type="MailHost">
@@ -76,7 +76,61 @@
     <Resources>
       <bt:Images>
         <bt:Image id="Icon.16x16" DefaultValue="https://gscales.github.io/SSO-Outlook-HelloWorld/assets/icon-16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://gscales.github.io/SSO-Outlook-HelloWorld//assets/icon-32.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://gscales.github.io/SSO-Outlook-HelloWorld/assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://gscales.github.io/SSO-Outlook-HelloWorld/assets/icon-80.png"/>
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://gscales.github.io/SSO-Outlook-HelloWorld/taskpane.html"/>
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="CommandsGroup.Label" DefaultValue="Contoso Add-in"/>
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Hello world"/>
+        <bt:String id="TaskpaneButton.SupertipTitle" DefaultValue="Hello world"/>
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="TaskpaneButton.SupertipText" DefaultValue="Open the Hello world add-in"/>
+      </bt:LongStrings>
+    </Resources>
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_1">
+    <Requirements>
+      <bt:Sets DefaultMinVersion="1.5">
+        <bt:Set Name="Mailbox" />
+      </bt:Sets>
+    </Requirements>
+    <Hosts>
+      <Host xsi:type="MailHost">
+        <DesktopFormFactor>
+
+          <!-- Message Compose -->
+          <ExtensionPoint xsi:type="MessageComposeCommandSurface">
+            <OfficeTab id="TabDefault">
+              <Group id="msgComposeCmdGroup">
+                <Label resid="CommandsGroup.Label"/>
+                <Control xsi:type="Button" id="msgComposeInsertGist">
+                  <Label resid="TaskpaneButton.Label"/>
+                  <Supertip>
+                    <Title resid="TaskpaneButton.SupertipTitle"/>
+                    <Description resid="TaskpaneButton.SupertipText"/>
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16x16"/>
+                    <bt:Image size="32" resid="Icon.32x32"/>
+                    <bt:Image size="80" resid="Icon.80x80"/>
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="Taskpane.Url"/>
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16x16" DefaultValue="https://gscales.github.io/SSO-Outlook-HelloWorld/assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://gscales.github.io/SSO-Outlook-HelloWorld/assets/icon-32.png"/>
         <bt:Image id="Icon.80x80" DefaultValue="https://gscales.github.io/SSO-Outlook-HelloWorld/assets/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
@@ -99,5 +153,6 @@
           <Scope>profile</Scope>
         </Scopes>  
     </WebApplicationInfo> 
+    </VersionOverrides>
   </VersionOverrides>
 </OfficeApp>
