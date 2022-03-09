@@ -91,5 +91,13 @@
         <bt:String id="TaskpaneButton.SupertipText" DefaultValue="Open the Hello world add-in"/>
       </bt:LongStrings>
     </Resources>
+    <WebApplicationInfo>  
+        <Id>adfdc196-3a5d-4f57-a822-8aafb954360d</Id>
+        <Resource>api://gscales.github.io/adfdc196-3a5d-4f57-a822-8aafb954360d</Resource>
+        <Scopes>  
+          <Scope>User.Read</Scope>
+          <Scope>profile</Scope>
+        </Scopes>  
+    </WebApplicationInfo> 
   </VersionOverrides>
 </OfficeApp>
