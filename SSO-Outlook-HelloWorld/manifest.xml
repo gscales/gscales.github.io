@@ -37,11 +37,11 @@
     <Rule xsi:type="ItemIs" ItemType="Message" FormType="Edit"/>
   </Rule>
   <DisableEntityHighlighting>false</DisableEntityHighlighting>
-  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
     <Requirements>
-      <bt:Sets DefaultMinVersion="1.5">
-        <bt:Set Name="Mailbox"/>
-      </bt:Sets>
+       <bt:Sets DefaultMinVersion="1.5">
+        <bt:Set Name="Mailbox" />
+       </bt:Sets>
     </Requirements>
     <Hosts>
       <Host xsi:type="MailHost">
@@ -91,12 +91,6 @@
         <bt:String id="TaskpaneButton.SupertipText" DefaultValue="Open the Hello world add-in"/>
       </bt:LongStrings>
     </Resources>
-    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
-      <Requirements>
-        <bt:Sets DefaultMinVersion="1.5">
-          <bt:Set Name="Mailbox" />
-        </bt:Sets>
-      </Requirements>
     <WebApplicationInfo>  
         <Id>adfdc196-3a5d-4f57-a822-8aafb954360d</Id>
         <Resource>api://gscales.github.io/adfdc196-3a5d-4f57-a822-8aafb954360d</Resource>
@@ -105,6 +99,5 @@
           <Scope>profile</Scope>
         </Scopes>  
     </WebApplicationInfo> 
-   </VersionOverrides>
   </VersionOverrides>
 </OfficeApp>
