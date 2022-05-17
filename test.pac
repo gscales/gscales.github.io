@@ -15,6 +15,7 @@ function FindProxyForURL(url, host)
 	    dnsDomainIs(host, "outlook.office.com") ||
 	    dnsDomainIs(host, "teams.microsoft.com") ||
 	    dnsDomainIs(host, "microsoft.com") ||
+	    dnsDomainIs(host, "sharepoint.com") ||
             dnsDomainIs(host, ".microsoftonline-p.com"))
 		    {		
             return "PROXY 127.0.0.1:8888";
